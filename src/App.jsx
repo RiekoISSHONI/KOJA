@@ -126,15 +126,14 @@ const CYCLE_PHASES = {
     emoji: '🌙',
     description: 'Rest & Reset Phase',
     forHer: {
-      title: 'Power Phase Begins',
+      title: 'Rest & Reset Phase',
       tips: [
         'Your body is shedding - honor this natural cleansing process',
-        'Great time to start fasting (13-72 hours possible)',
         'Estrogen is at its lowest - you may feel more introspective',
         'Light movement like yoga or walking is ideal',
         'Iron-rich foods help replenish what you lose',
+        'Rest and self-care are especially important now',
       ],
-      fasting: '13-72 hours recommended',
       exercise: 'Light movement, yoga, walking',
       foods: ['Iron-rich foods', 'Leafy greens', 'Bone broth', 'Dark chocolate'],
     },
@@ -147,7 +146,6 @@ const CYCLE_PHASES = {
         'Warm comfort foods and heating pads are appreciated',
         'This is not the time to plan big activities or make major decisions',
       ],
-      dateIdeas: ['Cozy movie night at home', 'Prepare a warm meal together', 'Gentle evening walk'],
     },
   },
   follicular: {
@@ -163,24 +161,22 @@ const CYCLE_PHASES = {
       tips: [
         'Estrogen is building - energy and mood are rising',
         'Best time for challenging workouts and new fitness goals',
-        'Perfect for longer fasts (15-72 hours)',
         'Great time to start new projects or tackle hard tasks',
         'Your brain is sharp - learning and creativity peak',
+        'Social energy is increasing - connect with friends',
       ],
-      fasting: '15-72 hours - your body handles stress well',
       exercise: 'HIIT, strength training, cardio - push yourself!',
       foods: ['Fermented foods', 'Lean proteins', 'Fresh vegetables', 'Complex carbs'],
     },
     forHim: {
       title: 'Adventure & Activity Phase',
       tips: [
-        'Her energy is high - plan active dates!',
+        'Her energy is high - plan active activities!',
         'She is more social and adventurous now',
         'Great time for trying new restaurants or activities',
         'Support her new projects and ideas',
         'Physical intimacy drive may increase',
       ],
-      dateIdeas: ['Try a new workout class together', 'Hiking or outdoor adventure', 'Dancing night out'],
     },
   },
   ovulation: {
@@ -195,12 +191,11 @@ const CYCLE_PHASES = {
       title: 'Superpower Phase',
       tips: [
         'Estrogen, testosterone, and progesterone all peak - you\'re at your best!',
-        'Only do intermittent fasting (13-15 hours max)',
         'You look and feel your best - confidence is high',
         'Communication skills peak - great for important conversations',
         'Fertility window - be mindful if avoiding pregnancy',
+        'Great time for social events and networking',
       ],
-      fasting: '13-15 hours max - hormones need support',
       exercise: 'Moderate to high intensity, group classes',
       foods: ['Anti-inflammatory foods', 'Fiber-rich vegetables', 'Light proteins', 'Antioxidant fruits'],
     },
@@ -208,12 +203,11 @@ const CYCLE_PHASES = {
       title: 'Connection & Romance Phase',
       tips: [
         'She is at her most confident and attractive',
-        'Plan romantic dates - she\'s feeling social',
+        'Plan romantic activities - she\'s feeling social',
         'Great time for important relationship talks',
         'Physical attraction and intimacy peak',
         'Be aware: this is her fertile window',
       ],
-      dateIdeas: ['Romantic dinner out', 'Special date night', 'Social events with friends'],
     },
   },
   earlyLuteal: {
@@ -228,12 +222,11 @@ const CYCLE_PHASES = {
       title: 'Transition Phase',
       tips: [
         'Hormones start to dip - energy may fluctuate',
-        'Can still fast 15 hours, but listen to your body',
         'Good time to wrap up projects before the nurture phase',
         'You may start to feel more inward-focused',
         'Prioritize sleep and stress management',
+        'Listen to your body and adjust activity as needed',
       ],
-      fasting: '15 hours - moderate fasting still OK',
       exercise: 'Moderate intensity, steady-state cardio',
       foods: ['Complex carbohydrates', 'Magnesium-rich foods', 'Root vegetables', 'Healthy fats'],
     },
@@ -246,7 +239,6 @@ const CYCLE_PHASES = {
         'Be understanding if mood shifts slightly',
         'Quality time at home becomes more appealing',
       ],
-      dateIdeas: ['Cook a nice meal together', 'Board game night', 'Casual coffee date'],
     },
   },
   lateLuteal: {
@@ -258,15 +250,14 @@ const CYCLE_PHASES = {
     emoji: '🦋',
     description: 'Rest & Nurture',
     forHer: {
-      title: 'Nurture Phase - No Fasting!',
+      title: 'Nurture Phase',
       tips: [
-        'AVOID FASTING this week - progesterone needs glucose!',
         'Carb cravings are NORMAL - your body needs them for progesterone',
         'This is NOT a lack of discipline - it\'s biology',
         'Focus on rest, self-care, and gentle movement',
-        'Stress reduction is critical - cortisol kills progesterone',
+        'Stress reduction is critical - cortisol affects progesterone',
+        'Be gentle with yourself - this is a time for nurturing',
       ],
-      fasting: 'NO FASTING - eat regular meals with carbs',
       exercise: 'Yoga, pilates, walking, stretching only',
       foods: ['Complex carbs (sweet potato, rice)', 'Comfort foods in moderation', 'Magnesium-rich foods', 'Warm, cooked meals'],
     },
@@ -279,7 +270,6 @@ const CYCLE_PHASES = {
         'Reduce stress and conflict where possible',
         'Small acts of care mean everything right now',
       ],
-      dateIdeas: ['Spa day at home', 'Comfort food and cozy movie', 'Relaxing bath together', 'Gentle evening stroll'],
     },
   },
 }
@@ -2325,16 +2315,10 @@ END:VEVENT
                 ))}
               </div>
 
-              {/* Fasting & Exercise */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-xs font-medium text-gray-500 mb-1">Fasting</p>
-                  <p className="text-sm text-gray-800">{todayPhase.forHer.fasting}</p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-xs font-medium text-gray-500 mb-1">Exercise</p>
-                  <p className="text-sm text-gray-800">{todayPhase.forHer.exercise}</p>
-                </div>
+              {/* Exercise */}
+              <div className="bg-gray-50 rounded-xl p-3">
+                <p className="text-xs font-medium text-gray-500 mb-1">Recommended Exercise</p>
+                <p className="text-sm text-gray-800">{todayPhase.forHer.exercise}</p>
               </div>
 
               {/* Recommended Foods */}
@@ -2352,26 +2336,13 @@ END:VEVENT
           ) : (
             <>
               {/* For Him Tips */}
-              <div className="space-y-2 mb-4">
+              <div className="space-y-2">
                 {todayPhase.forHim.tips.map((tip, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <CheckIcon className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-gray-600">{tip}</p>
                   </div>
                 ))}
-              </div>
-
-              {/* Date Ideas for Him */}
-              <div className="mt-3">
-                <p className="text-xs font-medium text-gray-500 mb-2">Date Ideas for This Phase</p>
-                <div className="space-y-2">
-                  {todayPhase.forHim.dateIdeas.map((idea, i) => (
-                    <div key={i} className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg">
-                      <HeartIcon filled className="w-4 h-4 text-blue-500" />
-                      <span className="text-sm text-gray-700">{idea}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
             </>
           )}
@@ -2381,9 +2352,7 @@ END:VEVENT
       {/* Dr. Mindy Pelz Attribution */}
       <div className="mx-4 mt-4 mb-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
         <p className="text-xs text-gray-500 text-center">
-          Tips based on Dr. Mindy Pelz's research on fasting and hormones.
-          <br />
-          <span className="font-medium">Fast Like a Girl</span> methodology.
+          Tips based on Dr. Mindy Pelz's research on women's hormonal cycles.
         </p>
       </div>
 
