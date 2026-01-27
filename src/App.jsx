@@ -1331,67 +1331,89 @@ function SubscriptionScreen({ onSelectPlan }) {
 // ============================================
 
 function LanguageGame({ onClose, onEarnPoints, currentPoints }) {
+  const { language } = useLanguage()
+  const t = useTranslation()
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [gameComplete, setGameComplete] = useState(false)
 
-  const currentQuestion = LANGUAGE_GAME_QUESTIONS[questionIndex]
+  // Get questions for the language being learned (learn Korean if user speaks English/Japanese, etc.)
+  const targetLang = language === 'en' ? 'ko' : language === 'ko' ? 'ja' : 'ko'
+  const questions = LANGUAGE_GAME_QUESTIONS[targetLang] || LANGUAGE_GAME_QUESTIONS.ko
+  const currentQuestion = questions[questionIndex]
 
   // Generate wrong answers
   const generateOptions = () => {
-    const correct = currentQuestion.english
-    const allAnswers = LANGUAGE_GAME_QUESTIONS.map(q => q.english).filter(a => a !== correct)
+    if (!currentQuestion) return []
+    const correct = currentQuestion.translations[language] || currentQuestion.translations.en
+    const allAnswers = questions.map(q => q.translations[language] || q.translations.en).filter(a => a !== correct)
     const wrongAnswers = allAnswers.sort(() => Math.random() - 0.5).slice(0, 3)
     const options = [...wrongAnswers, correct].sort(() => Math.random() - 0.5)
     return options
   }
 
-  const [options] = useState(generateOptions())
+  const [options, setOptions] = useState(() => generateOptions())
 
   const handleAnswer = (answer) => {
-    if (answered) return
+    if (answered || !currentQuestion) return
     setSelectedAnswer(answer)
     setAnswered(true)
 
-    if (answer === currentQuestion.english) {
+    const correctAnswer = currentQuestion.translations[language] || currentQuestion.translations.en
+    if (answer === correctAnswer) {
       setScore(score + 10)
     }
   }
 
   const nextQuestion = () => {
+    const correctAnswer = currentQuestion?.translations?.[language] || currentQuestion?.translations?.en
     if (questionIndex < 4) {
       setQuestionIndex(questionIndex + 1)
       setAnswered(false)
       setSelectedAnswer(null)
+      // Regenerate options for next question
+      const nextQ = questions[questionIndex + 1]
+      if (nextQ) {
+        const correct = nextQ.translations[language] || nextQ.translations.en
+        const allAnswers = questions.map(q => q.translations[language] || q.translations.en).filter(a => a !== correct)
+        const wrongAnswers = allAnswers.sort(() => Math.random() - 0.5).slice(0, 3)
+        setOptions([...wrongAnswers, correct].sort(() => Math.random() - 0.5))
+      }
     } else {
       setGameComplete(true)
-      onEarnPoints(score + (selectedAnswer === currentQuestion.english ? 10 : 0))
+      onEarnPoints(score + (selectedAnswer === correctAnswer ? 10 : 0))
     }
   }
 
+  const correctAnswer = currentQuestion?.translations?.[language] || currentQuestion?.translations?.en
+
   if (gameComplete) {
-    const finalScore = score + (selectedAnswer === currentQuestion.english ? 10 : 0)
+    const finalScore = score + (selectedAnswer === correctAnswer ? 10 : 0)
     return (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center">
           <div className="text-6xl mb-4">🎉</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Game Complete!</h2>
-          <p className="text-gray-600 mb-4">You earned {finalScore} points</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('gameComplete')}</h2>
+          <p className="text-gray-600 mb-4">{t('youEarned')} {finalScore} {t('points')}</p>
           <div className="flex items-center justify-center gap-2 text-xl font-bold text-yellow-600 mb-6">
             <CoinIcon className="w-6 h-6" />
-            <span>{currentPoints + finalScore} total points</span>
+            <span>{currentPoints + finalScore} {t('totalPoints')}</span>
           </div>
           <button
             onClick={onClose}
             className="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold"
           >
-            Done
+            {t('done')}
           </button>
         </div>
       </div>
     )
+  }
+
+  if (!currentQuestion) {
+    return null
   }
 
   return (
@@ -1409,9 +1431,9 @@ function LanguageGame({ onClose, onEarnPoints, currentPoints }) {
         </div>
 
         <div className="text-center mb-8">
-          <p className="text-sm text-gray-500 mb-2">What does this mean?</p>
-          <p className="text-4xl font-bold text-gray-900 mb-2">{currentQuestion.korean}</p>
-          <p className="text-sm text-gray-400 italic">{currentQuestion.romanization}</p>
+          <p className="text-sm text-gray-500 mb-2">{t('whatDoesThisMean')}</p>
+          <p className="text-4xl font-bold text-gray-900 mb-2">{currentQuestion.native}</p>
+          <p className="text-sm text-gray-400 italic">{currentQuestion.pronunciation?.[language] || currentQuestion.pronunciation?.en}</p>
         </div>
 
         <div className="space-y-3">
@@ -1422,7 +1444,7 @@ function LanguageGame({ onClose, onEarnPoints, currentPoints }) {
               disabled={answered}
               className={`w-full py-4 px-6 rounded-xl font-medium transition text-left ${
                 answered
-                  ? option === currentQuestion.english
+                  ? option === correctAnswer
                     ? 'bg-green-100 border-2 border-green-500 text-green-700'
                     : option === selectedAnswer
                     ? 'bg-red-100 border-2 border-red-500 text-red-700'
@@ -1440,7 +1462,7 @@ function LanguageGame({ onClose, onEarnPoints, currentPoints }) {
             onClick={nextQuestion}
             className="w-full mt-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold"
           >
-            {questionIndex < 4 ? 'Next Question' : 'See Results'}
+            {questionIndex < 4 ? t('nextQuestion') : t('seeResults')}
           </button>
         )}
       </div>
