@@ -23,7 +23,6 @@ const TRANSLATIONS = {
     getStarted: 'Get Started',
     alreadyHaveAccount: 'Already have an account?',
     signIn: 'Sign In',
-    welcomeMessage: 'Find meaningful connections with people who share your love for Asian culture',
     // Sign Up
     basicInfo: 'Basic Information',
     letsStart: "Let's start with the basics",
@@ -168,7 +167,6 @@ const TRANSLATIONS = {
     getStarted: '시작하기',
     alreadyHaveAccount: '이미 계정이 있으신가요?',
     signIn: '로그인',
-    welcomeMessage: '아시아 문화를 사랑하는 사람들과 의미 있는 연결을 찾으세요',
     basicInfo: '기본 정보',
     letsStart: '기본 정보부터 시작해요',
     fullName: '이름',
@@ -304,7 +302,6 @@ const TRANSLATIONS = {
     getStarted: '始める',
     alreadyHaveAccount: 'すでにアカウントをお持ちですか？',
     signIn: 'サインイン',
-    welcomeMessage: 'アジア文化を愛する人々と意味のあるつながりを見つけましょう',
     basicInfo: '基本情報',
     letsStart: '基本情報から始めましょう',
     fullName: '氏名',
@@ -846,10 +843,6 @@ function WelcomeScreen({ onGetStarted }) {
         <FlameIcon className="w-24 h-24 mx-auto mb-4" />
         <h1 className="text-5xl font-bold text-center">{t('appName')}</h1>
         <p className="text-pink-100 text-center mt-2">{t('tagline')}</p>
-      </div>
-
-      <div className="space-y-4 text-center mb-12">
-        <p className="text-lg">{t('welcomeMessage')}</p>
       </div>
 
       <button
