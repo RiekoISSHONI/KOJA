@@ -867,14 +867,16 @@ function WelcomeScreen({ onGetStarted }) {
 }
 
 function SignUpStep1({ data, onUpdate, onNext }) {
+  const { language, setLanguage, languages } = useLanguage()
+  const t = useTranslation()
   const [errors, setErrors] = useState({})
 
   const validate = () => {
     const newErrors = {}
-    if (!data.name?.trim()) newErrors.name = 'Name is required'
-    if (!data.email?.trim()) newErrors.email = 'Email is required'
-    if (!data.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required'
-    if (!data.gender) newErrors.gender = 'Please select your gender'
+    if (!data.name?.trim()) newErrors.name = t('fullName') + ' is required'
+    if (!data.email?.trim()) newErrors.email = t('email') + ' is required'
+    if (!data.dateOfBirth) newErrors.dateOfBirth = t('dateOfBirth') + ' is required'
+    if (!data.gender) newErrors.gender = t('gender') + ' is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -882,6 +884,12 @@ function SignUpStep1({ data, onUpdate, onNext }) {
   const handleNext = () => {
     if (validate()) onNext()
   }
+
+  const genderOptions = [
+    { key: 'male', label: t('male') },
+    { key: 'female', label: t('female') },
+    { key: 'other', label: t('other') },
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -891,25 +899,46 @@ function SignUpStep1({ data, onUpdate, onNext }) {
             <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">1</div>
             <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-1/4 bg-pink-500 rounded"></div></div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Basic Information</h1>
-          <p className="text-gray-500">Let's start with the basics</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('basicInfo')}</h1>
+          <p className="text-gray-500">{t('letsStart')}</p>
         </div>
 
         <div className="space-y-4">
+          {/* Language Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('appLanguage')}</label>
+            <div className="grid grid-cols-3 gap-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.id}
+                  onClick={() => setLanguage(lang.id)}
+                  className={`py-3 px-2 rounded-xl border-2 font-medium transition flex flex-col items-center gap-1 ${
+                    language === lang.id
+                      ? 'border-pink-500 bg-pink-50 text-pink-600'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="text-xl">{lang.flag}</span>
+                  <span className="text-xs">{lang.native}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('fullName')}</label>
             <input
               type="text"
               value={data.name || ''}
               onChange={(e) => onUpdate({ name: e.target.value })}
               className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-              placeholder="Enter your name"
+              placeholder={t('enterName')}
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('email')}</label>
             <input
               type="email"
               value={data.email || ''}
@@ -921,7 +950,7 @@ function SignUpStep1({ data, onUpdate, onNext }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('dateOfBirth')}</label>
             <input
               type="date"
               value={data.dateOfBirth || ''}
@@ -932,19 +961,19 @@ function SignUpStep1({ data, onUpdate, onNext }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('gender')}</label>
             <div className="grid grid-cols-3 gap-3">
-              {['Male', 'Female', 'Other'].map((gender) => (
+              {genderOptions.map((option) => (
                 <button
-                  key={gender}
-                  onClick={() => onUpdate({ gender })}
+                  key={option.key}
+                  onClick={() => onUpdate({ gender: option.key })}
                   className={`py-3 px-4 rounded-xl border-2 font-medium transition ${
-                    data.gender === gender
+                    data.gender === option.key
                       ? 'border-pink-500 bg-pink-50 text-pink-600'
                       : 'border-gray-200 text-gray-600 hover:border-gray-300'
                   }`}
                 >
-                  {gender}
+                  {option.label}
                 </button>
               ))}
             </div>
@@ -952,13 +981,13 @@ function SignUpStep1({ data, onUpdate, onNext }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('location')}</label>
             <input
               type="text"
               value={data.location || ''}
               onChange={(e) => onUpdate({ location: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
-              placeholder="City, Country"
+              placeholder={t('cityCountry')}
             />
           </div>
         </div>
@@ -967,7 +996,7 @@ function SignUpStep1({ data, onUpdate, onNext }) {
           onClick={handleNext}
           className="w-full mt-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-bold text-lg hover:shadow-lg transition"
         >
-          Continue
+          {t('continue')}
         </button>
       </div>
     </div>
@@ -975,6 +1004,8 @@ function SignUpStep1({ data, onUpdate, onNext }) {
 }
 
 function SignUpStep2({ data, onUpdate, onNext, onBack }) {
+  const t = useTranslation()
+
   const handleImageUpload = () => {
     // Simulated - in real app would use file input
     onUpdate({ profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400' })
@@ -997,14 +1028,14 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
             <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">2</div>
             <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-2/4 bg-pink-500 rounded"></div></div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Add Photos & Video</h1>
-          <p className="text-gray-500">Show off your personality</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('addPhotos')}</h1>
+          <p className="text-gray-500">{t('showPersonality')}</p>
         </div>
 
         <div className="space-y-6">
           {/* Profile Image */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Profile Photo</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">{t('profilePhoto')}</label>
             <div
               onClick={handleImageUpload}
               className="w-40 h-40 mx-auto rounded-full border-4 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100"
@@ -1014,7 +1045,7 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
               ) : (
                 <>
                   <CameraIcon className="w-10 h-10 text-gray-400" />
-                  <span className="text-sm text-gray-500 mt-2">Add Photo</span>
+                  <span className="text-sm text-gray-500 mt-2">{t('addPhoto')}</span>
                 </>
               )}
             </div>
@@ -1022,7 +1053,7 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
 
           {/* Profile Video */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Introduction Video (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">{t('introVideo')}</label>
             <div
               onClick={handleVideoUpload}
               className="w-full h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100"
@@ -1030,26 +1061,26 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
               {data.profileVideo ? (
                 <div className="text-center">
                   <CheckIcon className="w-10 h-10 text-green-500 mx-auto" />
-                  <span className="text-sm text-green-600 mt-2">Video uploaded!</span>
+                  <span className="text-sm text-green-600 mt-2">{t('videoUploaded')}</span>
                 </div>
               ) : (
                 <>
                   <VideoIcon className="w-10 h-10 text-gray-400" />
-                  <span className="text-sm text-gray-500 mt-2">Add a short video (max 30 sec)</span>
+                  <span className="text-sm text-gray-500 mt-2">{t('addVideo')}</span>
                 </>
               )}
             </div>
-            <p className="text-xs text-gray-400 mt-2">A video helps you stand out and get 3x more matches!</p>
+            <p className="text-xs text-gray-400 mt-2">{t('videoHelp')}</p>
           </div>
 
           {/* Bio */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('bio')}</label>
             <textarea
               value={data.bio || ''}
               onChange={(e) => onUpdate({ bio: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 h-24 resize-none"
-              placeholder="Tell others about yourself..."
+              placeholder={t('tellAboutYourself')}
               maxLength={300}
             />
             <p className="text-xs text-gray-400 text-right">{(data.bio || '').length}/300</p>
@@ -1065,7 +1096,7 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
-          Continue
+          {t('continue')}
         </button>
       </div>
     </div>
@@ -1073,6 +1104,9 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
 }
 
 function SignUpStep3({ data, onUpdate, onNext, onBack }) {
+  const { language } = useLanguage()
+  const t = useTranslation()
+
   const toggleInterest = (interestId) => {
     const current = data.interests || []
     const updated = current.includes(interestId)
@@ -1093,8 +1127,8 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
             <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">3</div>
             <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-3/4 bg-pink-500 rounded"></div></div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Your Interests</h1>
-          <p className="text-gray-500">Select at least 3 interests</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('yourInterests')}</h1>
+          <p className="text-gray-500">{t('selectInterests')}</p>
         </div>
 
         <div className="flex flex-wrap gap-3">
@@ -1109,7 +1143,7 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
               }`}
             >
               <span>{interest.emoji}</span>
-              <span>{interest.label}</span>
+              <span>{interest.label[language] || interest.label.en}</span>
             </button>
           ))}
         </div>
@@ -1123,7 +1157,7 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
-          Continue ({(data.interests || []).length}/3 minimum)
+          {t('continue')} ({(data.interests || []).length}/3 {t('minimum')})
         </button>
       </div>
     </div>
@@ -1131,6 +1165,8 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
 }
 
 function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
+  const t = useTranslation()
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-md mx-auto">
@@ -1143,8 +1179,8 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
             <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">4</div>
             <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-full bg-pink-500 rounded"></div></div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Terms & Preferences</h1>
-          <p className="text-gray-500">Almost there!</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('termsPreferences')}</h1>
+          <p className="text-gray-500">{t('almostThere')}</p>
         </div>
 
         <div className="space-y-4">
@@ -1156,8 +1192,8 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
               className="w-5 h-5 text-pink-500 rounded border-gray-300 focus:ring-pink-500 mt-0.5"
             />
             <div>
-              <p className="font-medium text-gray-900">I agree to the Terms & Conditions</p>
-              <p className="text-sm text-gray-500">By checking this, you agree to our <a href="#" className="text-pink-500 underline">Terms of Service</a> and <a href="#" className="text-pink-500 underline">Privacy Policy</a></p>
+              <p className="font-medium text-gray-900">{t('agreeTerms')}</p>
+              <p className="text-sm text-gray-500">{t('termsDescription')}</p>
             </div>
           </label>
 
@@ -1169,8 +1205,8 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
               className="w-5 h-5 text-pink-500 rounded border-gray-300 focus:ring-pink-500 mt-0.5"
             />
             <div>
-              <p className="font-medium text-gray-900">Marketing Communications</p>
-              <p className="text-sm text-gray-500">Receive updates about new features, tips, and special offers</p>
+              <p className="font-medium text-gray-900">{t('marketingComms')}</p>
+              <p className="text-sm text-gray-500">{t('marketingDescription')}</p>
             </div>
           </label>
         </div>
@@ -1184,7 +1220,7 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
-          Create Account
+          {t('createAccount')}
         </button>
       </div>
     </div>
