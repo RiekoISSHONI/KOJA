@@ -14,7 +14,7 @@ const TRANSLATIONS = {
   en: {
     // App
     appName: 'koja',
-    tagline: 'Connect through culture',
+    tagline: 'Finding connection and your love language',
     // Navigation
     discover: 'Discover',
     messages: 'Messages',
@@ -161,7 +161,7 @@ const TRANSLATIONS = {
   },
   ko: {
     appName: 'koja',
-    tagline: '문화로 연결하다',
+    tagline: '연결과 사랑의 언어를 찾아서',
     discover: '발견',
     messages: '메시지',
     profile: '프로필',
@@ -297,7 +297,7 @@ const TRANSLATIONS = {
   },
   ja: {
     appName: 'koja',
-    tagline: '文化でつながる',
+    tagline: 'つながりと愛の言葉を見つける',
     discover: '発見',
     messages: 'メッセージ',
     profile: 'プロフィール',
