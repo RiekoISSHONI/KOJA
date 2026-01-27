@@ -2110,13 +2110,6 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
           userPlan={userPlan}
         />
       )}
-      {showLanguageGame && (
-        <LanguageGame
-          onClose={() => setShowLanguageGame(false)}
-          onEarnPoints={onEarnPoints}
-          currentPoints={userPoints}
-        />
-      )}
       {showConversationStarters && (
         <ConversationStartersModal
           onClose={() => setShowConversationStarters(false)}
