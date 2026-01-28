@@ -13,7 +13,7 @@ const LANGUAGES = [
 const TRANSLATIONS = {
   en: {
     // App
-    appName: 'koja',
+    appName: 'KONJA',
     tagline: 'Finding connection and your love language',
     // Navigation
     discover: 'Discover',
@@ -59,7 +59,7 @@ const TRANSLATIONS = {
     createAccount: 'Create Account',
     // Subscription
     choosePlan: 'Choose Your Plan',
-    unlockExperience: 'Unlock the full Koja experience',
+    unlockExperience: 'Unlock the full KONJA experience',
     mostPopular: 'MOST POPULAR',
     continueWithFree: 'Continue with Free',
     startFreeTrial: 'Start Free Trial',
@@ -159,7 +159,7 @@ const TRANSLATIONS = {
     autoTranslate: 'Auto-translate messages',
   },
   ko: {
-    appName: 'koja',
+    appName: 'KONJA',
     tagline: '연결과 사랑의 언어를 찾아서',
     discover: '발견',
     messages: '메시지',
@@ -201,7 +201,7 @@ const TRANSLATIONS = {
     marketingDescription: '새로운 기능, 팁, 특별 혜택에 대한 정보를 받습니다',
     createAccount: '계정 만들기',
     choosePlan: '플랜 선택',
-    unlockExperience: 'Koja의 모든 기능을 이용하세요',
+    unlockExperience: 'KONJA의 모든 기능을 이용하세요',
     mostPopular: '인기',
     continueWithFree: '무료로 계속',
     startFreeTrial: '무료 체험 시작',
@@ -294,7 +294,7 @@ const TRANSLATIONS = {
     autoTranslate: '메시지 자동 번역',
   },
   ja: {
-    appName: 'koja',
+    appName: 'KONJA',
     tagline: 'つながりと愛の言葉を見つける',
     discover: '発見',
     messages: 'メッセージ',
@@ -336,7 +336,7 @@ const TRANSLATIONS = {
     marketingDescription: '新機能、ヒント、特別オファーの情報を受け取る',
     createAccount: 'アカウント作成',
     choosePlan: 'プランを選択',
-    unlockExperience: 'Kojaの全機能をお楽しみください',
+    unlockExperience: 'KONJAの全機能をお楽しみください',
     mostPopular: '人気',
     continueWithFree: '無料で続ける',
     startFreeTrial: '無料トライアルを開始',
@@ -2902,7 +2902,7 @@ function AppContent() {
         <div className="flex items-center gap-2">
           <FlameIcon className="w-8 h-8 text-pink-500" />
           <span className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">
-            koja
+            KONJA
           </span>
         </div>
         <button className="text-gray-600 hover:text-gray-800 relative">
