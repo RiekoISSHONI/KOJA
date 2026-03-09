@@ -34,6 +34,14 @@ const TRANSLATIONS = {
     male: 'Male',
     female: 'Female',
     other: 'Other',
+    lookingFor: 'Looking For',
+    lookingForDesc: 'What are you hoping to find?',
+    friendship: 'Friendship',
+    friendshipDesc: 'Meet new people & make friends',
+    love: 'Love',
+    loveDesc: 'Find a romantic connection',
+    both: 'Both',
+    bothDesc: 'Open to friendship and romance',
     location: 'Location',
     cityCountry: 'City, Country',
     continue: 'Continue',
@@ -177,6 +185,14 @@ const TRANSLATIONS = {
     male: '남성',
     female: '여성',
     other: '기타',
+    lookingFor: '목적',
+    lookingForDesc: '무엇을 찾고 있나요?',
+    friendship: '우정',
+    friendshipDesc: '새로운 사람들을 만나고 친구 사귀기',
+    love: '사랑',
+    loveDesc: '로맨틱한 인연 찾기',
+    both: '둘 다',
+    bothDesc: '우정과 사랑 모두 열려 있어요',
     location: '위치',
     cityCountry: '도시, 국가',
     continue: '계속',
@@ -312,6 +328,14 @@ const TRANSLATIONS = {
     male: '男性',
     female: '女性',
     other: 'その他',
+    lookingFor: '目的',
+    lookingForDesc: '何を探していますか？',
+    friendship: '友達',
+    friendshipDesc: '新しい人と出会い、友達を作る',
+    love: '恋愛',
+    loveDesc: 'ロマンチックなつながりを見つける',
+    both: '両方',
+    bothDesc: '友情も恋愛もオープン',
     location: '場所',
     cityCountry: '都市、国',
     continue: '続ける',
@@ -890,6 +914,7 @@ function SignUpStep1({ data, onUpdate, onNext }) {
     if (!data.email?.trim()) newErrors.email = t('email') + ' is required'
     if (!data.dateOfBirth) newErrors.dateOfBirth = t('dateOfBirth') + ' is required'
     if (!data.gender) newErrors.gender = t('gender') + ' is required'
+    if (!data.lookingFor) newErrors.lookingFor = t('lookingFor') + ' is required'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -991,6 +1016,35 @@ function SignUpStep1({ data, onUpdate, onNext }) {
               ))}
             </div>
             {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('lookingFor')}</label>
+            <p className="text-xs text-gray-500 mb-2">{t('lookingForDesc')}</p>
+            <div className="space-y-2">
+              {[
+                { key: 'friendship', icon: '🤝', label: t('friendship'), desc: t('friendshipDesc') },
+                { key: 'love', icon: '💕', label: t('love'), desc: t('loveDesc') },
+                { key: 'both', icon: '✨', label: t('both'), desc: t('bothDesc') },
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  onClick={() => onUpdate({ lookingFor: option.key })}
+                  className={`w-full p-3 rounded-xl border-2 flex items-center gap-3 text-left transition ${
+                    data.lookingFor === option.key
+                      ? 'border-pink-500 bg-pink-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="text-2xl">{option.icon}</span>
+                  <div>
+                    <p className={`font-medium ${data.lookingFor === option.key ? 'text-pink-600' : 'text-gray-700'}`}>{option.label}</p>
+                    <p className="text-xs text-gray-500">{option.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {errors.lookingFor && <p className="text-red-500 text-sm mt-1">{errors.lookingFor}</p>}
           </div>
 
           <div>
@@ -2456,6 +2510,34 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
             />
           </div>
 
+          {/* Looking For */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('lookingFor')}</label>
+            <div className="space-y-2">
+              {[
+                { key: 'friendship', icon: '🤝', label: t('friendship'), desc: t('friendshipDesc') },
+                { key: 'love', icon: '💕', label: t('love'), desc: t('loveDesc') },
+                { key: 'both', icon: '✨', label: t('both'), desc: t('bothDesc') },
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  onClick={() => setEditData({ ...editData, lookingFor: option.key })}
+                  className={`w-full p-3 rounded-xl border-2 flex items-center gap-3 text-left transition ${
+                    editData.lookingFor === option.key
+                      ? 'border-pink-500 bg-pink-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="text-2xl">{option.icon}</span>
+                  <div>
+                    <p className={`font-medium ${editData.lookingFor === option.key ? 'text-pink-600' : 'text-gray-700'}`}>{option.label}</p>
+                    <p className="text-xs text-gray-500">{option.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Interests */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">{t('yourInterests')}</label>
@@ -2511,9 +2593,14 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
           </span>
         </div>
         <h2 className="text-2xl font-bold mt-4">{user.name}, {user.age}</h2>
+        {user.lookingFor && (
+          <span className="inline-block mt-2 px-3 py-1 bg-white/20 rounded-full text-sm">
+            {user.lookingFor === 'friendship' ? '🤝' : user.lookingFor === 'love' ? '💕' : '✨'} {t(user.lookingFor)}
+          </span>
+        )}
         <div className="flex items-center justify-center gap-2 mt-2">
           <CoinIcon />
-          <span className="font-bold">{userPoints} points</span>
+          <span className="font-bold">{userPoints} {t('points')}</span>
         </div>
       </div>
 
