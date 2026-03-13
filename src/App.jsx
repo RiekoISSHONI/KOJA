@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { useCycleData } from './hooks/useCycleData'
+import { isSupabaseConfigured } from './lib/supabase'
 
 // ============================================
 // MENSTRUAL CYCLE PHASES DATA (Dr. Mindy Pelz Research)
@@ -207,6 +210,276 @@ const NoteIcon = ({ className = "w-5 h-5" }) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
   </svg>
 )
+
+const UserIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+  </svg>
+)
+
+const CloudIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+  </svg>
+)
+
+const SyncIcon = ({ className = "w-4 h-4", spinning = false }) => (
+  <svg className={`${className} ${spinning ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+  </svg>
+)
+
+const LinkIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+  </svg>
+)
+
+// ============================================
+// AUTH MODAL
+// ============================================
+
+function AuthModal({ onClose }) {
+  const { signIn, signUp, signInWithMagicLink, error } = useAuth()
+  const [mode, setMode] = useState('signin') // signin, signup, magic
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage('')
+
+    if (mode === 'magic') {
+      const { error } = await signInWithMagicLink(email)
+      if (!error) {
+        setMessage('Check your email for a login link!')
+      }
+    } else if (mode === 'signup') {
+      const { error } = await signUp(email, password)
+      if (!error) {
+        setMessage('Check your email to confirm your account!')
+      }
+    } else {
+      const { error } = await signIn(email, password)
+      if (!error) {
+        onClose()
+      }
+    }
+    setLoading(false)
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl w-full max-w-md p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-gray-800">
+            {mode === 'signin' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Magic Link'}
+          </h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Sign in to sync your cycle data across devices and share with your partner.
+        </p>
+
+        {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-xl text-sm">{error}</div>}
+        {message && <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-xl text-sm">{message}</div>}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            />
+          </div>
+
+          {mode !== 'magic' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-bold disabled:opacity-50"
+          >
+            {loading ? 'Loading...' : mode === 'signin' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Magic Link'}
+          </button>
+        </form>
+
+        <div className="mt-4 text-center space-y-2">
+          {mode === 'signin' && (
+            <>
+              <button onClick={() => setMode('magic')} className="text-sm text-pink-500 hover:underline">
+                Sign in with magic link instead
+              </button>
+              <p className="text-sm text-gray-500">
+                Don't have an account?{' '}
+                <button onClick={() => setMode('signup')} className="text-pink-500 hover:underline">Sign up</button>
+              </p>
+            </>
+          )}
+          {mode === 'signup' && (
+            <p className="text-sm text-gray-500">
+              Already have an account?{' '}
+              <button onClick={() => setMode('signin')} className="text-pink-500 hover:underline">Sign in</button>
+            </p>
+          )}
+          {mode === 'magic' && (
+            <button onClick={() => setMode('signin')} className="text-sm text-pink-500 hover:underline">
+              Back to password sign in
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ============================================
+// PARTNER SHARE MODAL
+// ============================================
+
+function PartnerShareModal({ onClose, shareCode, sharedWith, onGenerateCode, onAcceptInvite, onRemoveShare }) {
+  const [inviteCode, setInviteCode] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [copied, setCopied] = useState(false)
+
+  const handleGenerateCode = async () => {
+    setLoading(true)
+    await onGenerateCode()
+    setLoading(false)
+  }
+
+  const handleAcceptInvite = async () => {
+    if (!inviteCode.trim()) return
+    setLoading(true)
+    setError('')
+    setSuccess('')
+    const result = await onAcceptInvite(inviteCode)
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setSuccess('Connected! You can now view your partner\'s cycle.')
+      setInviteCode('')
+    }
+    setLoading(false)
+  }
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(shareCode)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl w-full max-w-md p-6 max-h-[80vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-gray-800">Share with Partner</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+
+        {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-xl text-sm">{error}</div>}
+        {success && <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-xl text-sm">{success}</div>}
+
+        {/* Your share code */}
+        <div className="mb-6 p-4 bg-pink-50 rounded-xl">
+          <p className="text-sm font-medium text-gray-700 mb-2">Your Share Code</p>
+          <p className="text-xs text-gray-500 mb-3">Give this code to your partner so they can see your cycle.</p>
+
+          {shareCode ? (
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-white rounded-lg px-4 py-3 font-mono text-xl text-center tracking-wider">
+                {shareCode}
+              </div>
+              <button
+                onClick={copyCode}
+                className="px-4 py-3 bg-pink-500 text-white rounded-lg font-medium"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleGenerateCode}
+              disabled={loading}
+              className="w-full py-3 bg-pink-500 text-white rounded-xl font-medium disabled:opacity-50"
+            >
+              {loading ? 'Generating...' : 'Generate Share Code'}
+            </button>
+          )}
+        </div>
+
+        {/* Enter partner's code */}
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl">
+          <p className="text-sm font-medium text-gray-700 mb-2">Enter Partner's Code</p>
+          <p className="text-xs text-gray-500 mb-3">Enter your partner's code to view their cycle.</p>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={inviteCode}
+              onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+              placeholder="ABC123"
+              maxLength={6}
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-mono text-center uppercase tracking-wider"
+            />
+            <button
+              onClick={handleAcceptInvite}
+              disabled={loading || !inviteCode.trim()}
+              className="px-4 py-3 bg-blue-500 text-white rounded-lg font-medium disabled:opacity-50"
+            >
+              Connect
+            </button>
+          </div>
+        </div>
+
+        {/* Connected partners */}
+        {sharedWith && sharedWith.length > 0 && (
+          <div className="border-t pt-4">
+            <p className="text-sm font-medium text-gray-700 mb-2">Shared With</p>
+            <div className="space-y-2">
+              {sharedWith.map((share) => (
+                <div key={share.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <span className="text-sm text-gray-700">{share.shared_with_user?.email || 'Partner'}</span>
+                  <button
+                    onClick={() => onRemoveShare(share.id)}
+                    className="text-red-500 text-sm hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 // ============================================
 // PWA INSTALL BANNER
@@ -427,70 +700,59 @@ function DayDetailModal({ dayInfo, viewMode, notes, onSaveNote, onClose }) {
 }
 
 // ============================================
-// MAIN APP
+// MAIN APP CONTENT
 // ============================================
 
-function App() {
-  const [lastPeriodStart, setLastPeriodStart] = useState(() => {
-    const saved = localStorage.getItem('cycleLastPeriod')
-    return saved || ''
-  })
-  const [cycleLength, setCycleLength] = useState(() => {
-    const saved = localStorage.getItem('cycleLengthDays')
-    return saved ? parseInt(saved) : 28
-  })
-  const [periodLength, setPeriodLength] = useState(() => {
-    const saved = localStorage.getItem('periodLengthDays')
-    return saved ? parseInt(saved) : 5
-  })
+function AppContent() {
+  const { user, signOut, isConfigured } = useAuth()
+  const {
+    lastPeriodStart, setLastPeriodStart,
+    cycleLength, setCycleLength,
+    periodLength, setPeriodLength,
+    notes, setNotes,
+    syncing, lastSynced,
+    shareCode, sharedWith, sharedFromUser,
+    generateShareCode, acceptShareInvite, removeShare,
+    loadPartnerData,
+  } = useCycleData()
+
   const [viewMode, setViewMode] = useState('her')
   const [selectedDate, setSelectedDate] = useState(null)
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [showSettings, setShowSettings] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [showNotes, setShowNotes] = useState(false)
-  const [notes, setNotes] = useState(() => {
-    const saved = localStorage.getItem('cycleNotes')
-    return saved ? JSON.parse(saved) : {}
-  })
-  const [partnerEmail, setPartnerEmail] = useState(() => {
-    return localStorage.getItem('partnerEmail') || ''
-  })
+  const [showAuth, setShowAuth] = useState(false)
+  const [showPartnerShare, setShowPartnerShare] = useState(false)
   const [exportSuccess, setExportSuccess] = useState('')
+  const [partnerData, setPartnerData] = useState(null)
+  const [viewingPartner, setViewingPartner] = useState(false)
 
+  // Load partner data when available
   useEffect(() => {
-    if (lastPeriodStart) localStorage.setItem('cycleLastPeriod', lastPeriodStart)
-  }, [lastPeriodStart])
+    if (sharedFromUser && user) {
+      loadPartnerData().then(setPartnerData)
+    }
+  }, [sharedFromUser, user])
 
-  useEffect(() => {
-    localStorage.setItem('cycleLengthDays', cycleLength.toString())
-  }, [cycleLength])
-
-  useEffect(() => {
-    localStorage.setItem('periodLengthDays', periodLength.toString())
-  }, [periodLength])
-
-  useEffect(() => {
-    localStorage.setItem('cycleNotes', JSON.stringify(notes))
-  }, [notes])
-
-  useEffect(() => {
-    if (partnerEmail) localStorage.setItem('partnerEmail', partnerEmail)
-  }, [partnerEmail])
+  // Use partner data when viewing partner
+  const activeData = viewingPartner && partnerData ? partnerData : {
+    lastPeriodStart, cycleLength, periodLength, notes
+  }
 
   const getCycleDay = (date) => {
-    if (!lastPeriodStart) return null
-    const start = new Date(lastPeriodStart)
+    if (!activeData.lastPeriodStart) return null
+    const start = new Date(activeData.lastPeriodStart)
     const target = new Date(date)
     const diffTime = target - start
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
     if (diffDays < 0) return null
-    return (diffDays % cycleLength) + 1
+    return (diffDays % activeData.cycleLength) + 1
   }
 
   const getPhaseForDay = (cycleDay) => {
     if (!cycleDay) return null
-    if (cycleDay <= periodLength) return CYCLE_PHASES.menstruation
+    if (cycleDay <= activeData.periodLength) return CYCLE_PHASES.menstruation
     if (cycleDay <= 10) return CYCLE_PHASES.follicular
     if (cycleDay <= 15) return CYCLE_PHASES.ovulation
     if (cycleDay <= 19) return CYCLE_PHASES.earlyLuteal
@@ -502,12 +764,12 @@ function App() {
   const todayPhase = getPhaseForDay(todayCycleDay)
 
   const getNextPeriod = () => {
-    if (!lastPeriodStart) return null
-    const start = new Date(lastPeriodStart)
+    if (!activeData.lastPeriodStart) return null
+    const start = new Date(activeData.lastPeriodStart)
     const now = new Date()
     let nextPeriod = new Date(start)
     while (nextPeriod <= now) {
-      nextPeriod.setDate(nextPeriod.getDate() + cycleLength)
+      nextPeriod.setDate(nextPeriod.getDate() + activeData.cycleLength)
     }
     return nextPeriod
   }
@@ -527,7 +789,7 @@ function App() {
       const cycleDay = getCycleDay(date)
       const phase = getPhaseForDay(cycleDay)
       const dateStr = date.toISOString().split('T')[0]
-      days.push({ date, day: d, cycleDay, phase, isToday: date.toDateString() === today.toDateString(), hasNote: !!notes[dateStr] })
+      days.push({ date, day: d, cycleDay, phase, isToday: date.toDateString() === today.toDateString(), hasNote: !!activeData.notes[dateStr] })
     }
     return days
   }
@@ -593,6 +855,7 @@ function App() {
   }
 
   const handleSaveNote = (dateStr, noteText) => {
+    if (viewingPartner) return // Can't edit partner's notes
     if (noteText.trim()) {
       setNotes(prev => ({ ...prev, [dateStr]: noteText }))
     } else {
@@ -611,19 +874,63 @@ function App() {
       {/* Header */}
       <header className="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4 shadow-lg">
         <div className="max-w-lg mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold">Cycle Tracker</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-bold">Cycle Tracker</h1>
+            {syncing && <SyncIcon className="w-4 h-4 animate-spin" spinning />}
+            {!syncing && user && lastSynced && (
+              <CloudIcon className="w-4 h-4 opacity-75" title={`Synced ${lastSynced.toLocaleTimeString()}`} />
+            )}
+          </div>
           <div className="flex gap-2">
+            {isConfigured && (
+              <button
+                onClick={() => user ? setShowPartnerShare(true) : setShowAuth(true)}
+                className="p-2 hover:bg-white/20 rounded-lg transition"
+                title={user ? "Share with partner" : "Sign in to share"}
+              >
+                <LinkIcon className="w-5 h-5" />
+              </button>
+            )}
             <button onClick={() => setShowSettings(true)} className="p-2 hover:bg-white/20 rounded-lg transition">
               <CalendarIcon className="w-5 h-5" />
             </button>
             <button onClick={() => setShowShareModal(true)} className="p-2 hover:bg-white/20 rounded-lg transition">
               <ShareIcon />
             </button>
+            {isConfigured && (
+              <button
+                onClick={() => user ? signOut() : setShowAuth(true)}
+                className="p-2 hover:bg-white/20 rounded-lg transition"
+                title={user ? `Signed in as ${user.email}` : 'Sign in'}
+              >
+                <UserIcon className={`w-5 h-5 ${user ? 'fill-white' : ''}`} />
+              </button>
+            )}
           </div>
         </div>
       </header>
 
       <main className="max-w-lg mx-auto pb-8">
+        {/* Partner view toggle (when connected to partner) */}
+        {partnerData && (
+          <div className="p-4 pb-0">
+            <div className="flex rounded-xl bg-purple-100 p-1">
+              <button
+                onClick={() => setViewingPartner(false)}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${!viewingPartner ? 'bg-white text-purple-600 shadow-sm' : 'text-purple-500'}`}
+              >
+                My Cycle
+              </button>
+              <button
+                onClick={() => setViewingPartner(true)}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewingPartner ? 'bg-white text-purple-600 shadow-sm' : 'text-purple-500'}`}
+              >
+                Partner's Cycle
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* View Toggle */}
         <div className="p-4">
           <div className="flex rounded-xl bg-gray-200 p-1">
@@ -633,11 +940,13 @@ function App() {
         </div>
 
         {/* Status Card */}
-        {lastPeriodStart && todayPhase ? (
+        {activeData.lastPeriodStart && todayPhase ? (
           <div className={`mx-4 p-4 rounded-2xl border-2 ${todayPhase.color}`}>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <p className="text-sm text-gray-500">Today - Day {todayCycleDay}</p>
+                <p className="text-sm text-gray-500">
+                  {viewingPartner ? "Partner's " : ""}Today - Day {todayCycleDay}
+                </p>
                 <h2 className={`text-lg font-bold ${todayPhase.textColor}`}>{todayPhase.emoji} {todayPhase.name}</h2>
               </div>
               {nextPeriod && daysUntilPeriod > 0 && (
@@ -651,8 +960,30 @@ function App() {
           </div>
         ) : (
           <div className="mx-4 p-4 rounded-2xl border-2 border-gray-200 bg-white">
-            <p className="text-center text-gray-500">Set your last period start date to begin tracking</p>
-            <button onClick={() => setShowSettings(true)} className="w-full mt-3 py-2 bg-pink-500 text-white rounded-xl font-medium">Set Up Cycle</button>
+            <p className="text-center text-gray-500">
+              {viewingPartner ? "Partner hasn't set up their cycle yet" : "Set your last period start date to begin tracking"}
+            </p>
+            {!viewingPartner && (
+              <button onClick={() => setShowSettings(true)} className="w-full mt-3 py-2 bg-pink-500 text-white rounded-xl font-medium">Set Up Cycle</button>
+            )}
+          </div>
+        )}
+
+        {/* Cloud sync banner */}
+        {!user && isConfigured && (
+          <div className="mx-4 mt-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CloudIcon className="w-5 h-5 text-blue-500" />
+                <span className="text-sm text-gray-700">Sync & share with partner</span>
+              </div>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium"
+              >
+                Sign In
+              </button>
+            </div>
           </div>
         )}
 
@@ -700,9 +1031,11 @@ function App() {
           <div className="mx-4 mt-4 bg-white rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-bold text-gray-800">{viewMode === 'her' ? todayPhase.forHer.title : todayPhase.forHim.title}</h3>
-              <button onClick={() => setShowNotes(true)} className="flex items-center gap-1 text-sm text-pink-500">
-                <NoteIcon className="w-4 h-4" /> Notes
-              </button>
+              {!viewingPartner && (
+                <button onClick={() => setShowNotes(true)} className="flex items-center gap-1 text-sm text-pink-500">
+                  <NoteIcon className="w-4 h-4" /> Notes
+                </button>
+              )}
             </div>
 
             {viewMode === 'her' ? (
@@ -780,17 +1113,11 @@ function App() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-800">Share & Export</h3>
+              <h3 className="text-lg font-bold text-gray-800">Export to Calendar</h3>
               <button onClick={() => setShowShareModal(false)} className="text-gray-400 hover:text-gray-600"><XIcon className="w-6 h-6" /></button>
             </div>
             {exportSuccess && <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-xl text-sm">{exportSuccess}</div>}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Partner's Email</label>
-              <input type="email" value={partnerEmail} onChange={(e) => setPartnerEmail(e.target.value)} placeholder="partner@email.com" className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500" />
-              <p className="text-xs text-gray-500 mt-1">Save for your records - export their calendar below</p>
-            </div>
             <div className="space-y-3">
-              <p className="text-sm font-medium text-gray-700">Export to Calendar</p>
               <div className="border rounded-xl p-3">
                 <p className="font-medium text-gray-800 mb-2">My Calendar (For Her)</p>
                 <div className="flex gap-2">
@@ -811,12 +1138,39 @@ function App() {
         </div>
       )}
 
-      {showNotes && <NotesModal notes={notes} onSaveNote={handleSaveNote} onClose={() => setShowNotes(false)} selectedDate={selectedDate?.date || today} />}
-      {selectedDate && <DayDetailModal dayInfo={selectedDate} viewMode={viewMode} notes={notes} onSaveNote={handleSaveNote} onClose={() => setSelectedDate(null)} />}
+      {showNotes && !viewingPartner && <NotesModal notes={notes} onSaveNote={handleSaveNote} onClose={() => setShowNotes(false)} selectedDate={selectedDate?.date || today} />}
+      {selectedDate && <DayDetailModal dayInfo={selectedDate} viewMode={viewMode} notes={activeData.notes} onSaveNote={handleSaveNote} onClose={() => setSelectedDate(null)} />}
+
+      {/* Auth Modal */}
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+
+      {/* Partner Share Modal */}
+      {showPartnerShare && user && (
+        <PartnerShareModal
+          onClose={() => setShowPartnerShare(false)}
+          shareCode={shareCode}
+          sharedWith={sharedWith}
+          onGenerateCode={generateShareCode}
+          onAcceptInvite={acceptShareInvite}
+          onRemoveShare={removeShare}
+        />
+      )}
 
       {/* PWA Install Banner */}
       <InstallBanner />
     </div>
+  )
+}
+
+// ============================================
+// APP WRAPPER WITH AUTH PROVIDER
+// ============================================
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 
