@@ -1,6 +1,55 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 
 // ============================================
+// NOTIFICATION SYSTEM
+// ============================================
+
+const requestNotificationPermission = async () => {
+  if (!('Notification' in window)) {
+    console.log('This browser does not support notifications')
+    return false
+  }
+
+  if (Notification.permission === 'granted') {
+    return true
+  }
+
+  if (Notification.permission !== 'denied') {
+    const permission = await Notification.requestPermission()
+    return permission === 'granted'
+  }
+
+  return false
+}
+
+const sendNotification = (title, options = {}) => {
+  if (Notification.permission === 'granted') {
+    const notification = new Notification(title, {
+      icon: '/icons/icon.svg',
+      badge: '/icons/icon.svg',
+      vibrate: [200, 100, 200],
+      ...options
+    })
+
+    notification.onclick = () => {
+      window.focus()
+      notification.close()
+    }
+
+    return notification
+  }
+  return null
+}
+
+// Notification types
+const NotificationTypes = {
+  CHALLENGE: 'challenge',
+  CONVERSATION_STARTER: 'conversation_starter',
+  NEW_MATCH: 'new_match',
+  NEW_MESSAGE: 'new_message',
+}
+
+// ============================================
 // LANGUAGE & TRANSLATIONS SYSTEM
 // ============================================
 
@@ -148,6 +197,15 @@ const TRANSLATIONS = {
     updateVideo: 'Update Video',
     languageSettings: 'Language Settings',
     appLanguage: 'App Language',
+    // Notifications
+    enableNotifications: 'Enable Notifications',
+    notificationsEnabled: 'Notifications Enabled',
+    notificationChallengeTitle: 'Language Challenge!',
+    notificationChallengeBody: 'Time for a quick language game! Earn points now.',
+    notificationStarterTitle: 'Need conversation help?',
+    notificationStarterBody: 'Try a conversation starter to keep the chat going!',
+    notificationMatchTitle: 'New Match!',
+    notificationMatchBody: 'You matched with {name}! Say hello.',
     // Match
     itsAMatch: "It's a Match!",
     youBothLiked: 'You and {name} liked each other',
@@ -294,6 +352,14 @@ const TRANSLATIONS = {
     updateVideo: '영상 업데이트',
     languageSettings: '언어 설정',
     appLanguage: '앱 언어',
+    enableNotifications: '알림 활성화',
+    notificationsEnabled: '알림이 활성화됨',
+    notificationChallengeTitle: '언어 챌린지!',
+    notificationChallengeBody: '언어 게임 할 시간이에요! 지금 포인트를 획득하세요.',
+    notificationStarterTitle: '대화 도움이 필요해요?',
+    notificationStarterBody: '대화 시작 질문으로 대화를 이어가세요!',
+    notificationMatchTitle: '새로운 매치!',
+    notificationMatchBody: '{name}님과 매치되었어요! 인사해보세요.',
     itsAMatch: '매치 성공!',
     youBothLiked: '당신과 {name}님이 서로 좋아요를 눌렀어요',
     sendMessage: '메시지 보내기',
@@ -437,6 +503,14 @@ const TRANSLATIONS = {
     updateVideo: '動画を更新',
     languageSettings: '言語設定',
     appLanguage: 'アプリの言語',
+    enableNotifications: '通知を有効にする',
+    notificationsEnabled: '通知が有効です',
+    notificationChallengeTitle: '言語チャレンジ！',
+    notificationChallengeBody: '言語ゲームの時間です！今すぐポイントを獲得しよう。',
+    notificationStarterTitle: '会話のヒントが必要？',
+    notificationStarterBody: '会話スターターで会話を続けましょう！',
+    notificationMatchTitle: '新しいマッチ！',
+    notificationMatchBody: '{name}さんとマッチしました！挨拶しましょう。',
     itsAMatch: 'マッチしました！',
     youBothLiked: 'あなたと{name}さんが互いにいいねしました',
     sendMessage: 'メッセージを送る',
@@ -1973,7 +2047,7 @@ const translateMessage = (text, fromLang, toLang) => {
   return simpleTranslations[key]?.[text] || `[${toLang.toUpperCase()}] ${text}`
 }
 
-function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPoints, onEarnPoints, onSpendPoints, language }) {
+function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPoints, onEarnPoints, onSpendPoints, language, notificationsEnabled }) {
   const t = useTranslation()
   const [newMessage, setNewMessage] = useState('')
   const [showGifts, setShowGifts] = useState(false)
@@ -1982,6 +2056,27 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
   const [showConversationStarters, setShowConversationStarters] = useState(false)
   const [autoTranslate, setAutoTranslate] = useState(false)
   const [translatedMessages, setTranslatedMessages] = useState({})
+  const [showStarterPrompt, setShowStarterPrompt] = useState(false)
+
+  // Show conversation starter prompt after inactivity
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // If last message was not sent by user, suggest a conversation starter
+      const lastMsg = messages[messages.length - 1]
+      if (lastMsg && !lastMsg.sent && userPlan !== 'free') {
+        setShowStarterPrompt(true)
+        // Send notification if enabled
+        if (notificationsEnabled && Notification.permission === 'granted') {
+          sendNotification(t('notificationStarterTitle'), {
+            body: t('notificationStarterBody'),
+            tag: 'starter-' + match.id,
+          })
+        }
+      }
+    }, 10000) // 10 seconds for demo (would be longer in production)
+
+    return () => clearTimeout(timer)
+  }, [messages, userPlan, notificationsEnabled, match.id, t])
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -2126,6 +2221,36 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
             </div>
           </div>
         ))}
+
+        {/* Conversation Starter Prompt */}
+        {showStarterPrompt && userPlan !== 'free' && (
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4 mx-2 border border-purple-200">
+            <div className="flex items-start gap-3">
+              <div className="text-2xl">💡</div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-purple-800">{t('notificationStarterTitle')}</p>
+                <p className="text-xs text-purple-600 mt-1">{t('notificationStarterBody')}</p>
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() => {
+                      setShowConversationStarters(true)
+                      setShowStarterPrompt(false)
+                    }}
+                    className="px-4 py-2 bg-purple-500 text-white text-xs rounded-full font-medium hover:bg-purple-600 transition"
+                  >
+                    {t('ideas')} ✨
+                  </button>
+                  <button
+                    onClick={() => setShowStarterPrompt(false)}
+                    className="px-4 py-2 bg-gray-200 text-gray-600 text-xs rounded-full font-medium hover:bg-gray-300 transition"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Message Input */}
@@ -2400,7 +2525,7 @@ function MessagesList({ matches, onSelectChat }) {
 // ENHANCED PROFILE SETTINGS COMPONENT
 // ============================================
 
-function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onEarnPoints }) {
+function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onEarnPoints, notificationsEnabled, onEnableNotifications }) {
   const { language, setLanguage, languages } = useLanguage()
   const t = useTranslation()
   const [showEditProfile, setShowEditProfile] = useState(false)
@@ -2690,11 +2815,20 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
-        <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50">
+        <button
+          onClick={!notificationsEnabled ? onEnableNotifications : undefined}
+          className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
+        >
           <span className="font-medium text-gray-700">{t('notifications')}</span>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          {notificationsEnabled ? (
+            <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full font-medium">
+              ✓ {t('notificationsEnabled')}
+            </span>
+          ) : (
+            <span className="text-xs bg-pink-100 text-pink-600 px-2 py-1 rounded-full font-medium">
+              {t('enableNotifications')}
+            </span>
+          )}
         </button>
       </div>
 
@@ -2771,6 +2905,45 @@ function AppContent() {
   const [user, setUser] = useState(null)
   const [userPlan, setUserPlan] = useState('free')
   const [userPoints, setUserPoints] = useState(100) // Start with 100 points
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false)
+
+  // Request notification permission on app load
+  useEffect(() => {
+    const checkNotificationPermission = async () => {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        setNotificationsEnabled(true)
+      }
+    }
+    checkNotificationPermission()
+  }, [])
+
+  // Schedule periodic challenge notifications
+  useEffect(() => {
+    if (!notificationsEnabled || appState !== 'main') return
+
+    // Send a challenge notification every 30 minutes (for demo, using shorter interval)
+    const challengeInterval = setInterval(() => {
+      sendNotification(t('notificationChallengeTitle'), {
+        body: t('notificationChallengeBody'),
+        tag: 'challenge',
+        renotify: true,
+      })
+    }, 30 * 60 * 1000) // 30 minutes
+
+    return () => clearInterval(challengeInterval)
+  }, [notificationsEnabled, appState, t])
+
+  // Handle enabling notifications
+  const handleEnableNotifications = async () => {
+    const granted = await requestNotificationPermission()
+    setNotificationsEnabled(granted)
+    if (granted) {
+      sendNotification('KONJA', {
+        body: t('notificationsEnabled'),
+        tag: 'welcome',
+      })
+    }
+  }
 
   // Main app state
   const [currentTab, setCurrentTab] = useState('discover')
@@ -2953,6 +3126,7 @@ function AppContent() {
           onEarnPoints={handleEarnPoints}
           onSpendPoints={handleSpendPoints}
           language={language}
+          notificationsEnabled={notificationsEnabled}
         />
       )
     }
@@ -2984,6 +3158,8 @@ function AppContent() {
             userPlan={userPlan}
             userPoints={userPoints}
             onEarnPoints={handleEarnPoints}
+            notificationsEnabled={notificationsEnabled}
+            onEnableNotifications={handleEnableNotifications}
           />
         )
       default:
