@@ -2136,7 +2136,7 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Type a message..."
+            placeholder={t('typeMessage')}
             className="flex-1 px-4 py-3 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
           />
           <button
@@ -2780,7 +2780,20 @@ function AppContent() {
   const [matchCount, setMatchCount] = useState(0) // For free plan limit
   const [showMatch, setShowMatch] = useState(null)
   const [selectedChat, setSelectedChat] = useState(null)
-  const [chatMessages, setChatMessages] = useState({})
+  const [chatMessages, setChatMessages] = useState({
+    101: [
+      { text: 'Hey! I noticed you love K-dramas too!', sent: false, time: '2m ago' },
+      { text: 'Have you watched Goblin? 👻', sent: false, time: '2m ago' },
+    ],
+    102: [
+      { text: '안녕하세요!', sent: false, time: '1h ago' },
+      { text: 'How was your day?', sent: false, time: '1h ago' },
+    ],
+    103: [
+      { text: "I know this amazing Korean BBQ place!", sent: false, time: '3h ago' },
+      { text: "Let's try that Korean BBQ place! 🥩", sent: false, time: '3h ago' },
+    ],
+  })
 
   const currentProfile = profiles[currentIndex]
 
