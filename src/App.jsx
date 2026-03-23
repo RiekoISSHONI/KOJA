@@ -16,6 +16,14 @@ const CYCLE_PHASES = {
     textColor: 'text-red-700',
     emoji: '🌙',
     description: 'Rest & Reset Phase',
+    energyLevel: 'low',
+    quotes: [
+      { text: "Rest is not giving up. It's gearing up.", author: "Unknown" },
+      { text: "In the midst of winter, I found there was, within me, an invincible summer.", author: "Albert Camus" },
+      { text: "Almost everything will work again if you unplug it for a few minutes, including you.", author: "Anne Lamott" },
+      { text: "Self-care is not selfish. You cannot serve from an empty vessel.", author: "Eleanor Brown" },
+      { text: "The time to relax is when you don't have time for it.", author: "Sydney J. Harris" },
+    ],
     forHer: {
       title: 'Rest & Reset Phase',
       tips: [
@@ -47,6 +55,14 @@ const CYCLE_PHASES = {
     textColor: 'text-green-700',
     emoji: '🌱',
     description: 'Energy Rising',
+    energyLevel: 'rising',
+    quotes: [
+      { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+      { text: "Energy and persistence conquer all things.", author: "Benjamin Franklin" },
+      { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+    ],
     forHer: {
       title: 'Power Up Phase',
       tips: [
@@ -78,6 +94,14 @@ const CYCLE_PHASES = {
     textColor: 'text-pink-700',
     emoji: '🌸',
     description: 'Peak Energy & Fertility',
+    energyLevel: 'peak',
+    quotes: [
+      { text: "She remembered who she was and the game changed.", author: "Lalah Delia" },
+      { text: "You are magnetic. You are radiant. You are enough.", author: "Unknown" },
+      { text: "Confidence is not 'they will like me.' Confidence is 'I'll be fine if they don't.'", author: "Christina Grimmie" },
+      { text: "The most alluring thing a woman can have is confidence.", author: "Beyoncé" },
+      { text: "You were born to be real, not to be perfect.", author: "Unknown" },
+    ],
     forHer: {
       title: 'Superpower Phase',
       tips: [
@@ -109,6 +133,14 @@ const CYCLE_PHASES = {
     textColor: 'text-yellow-700',
     emoji: '🍂',
     description: 'Transition Phase',
+    energyLevel: 'moderate',
+    quotes: [
+      { text: "Life is a balance of holding on and letting go.", author: "Rumi" },
+      { text: "Progress, not perfection.", author: "Unknown" },
+      { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" },
+      { text: "Trust the timing of your life.", author: "Unknown" },
+      { text: "Slow progress is still progress.", author: "Unknown" },
+    ],
     forHer: {
       title: 'Transition Phase',
       tips: [
@@ -140,6 +172,14 @@ const CYCLE_PHASES = {
     textColor: 'text-purple-700',
     emoji: '🦋',
     description: 'Rest & Nurture',
+    energyLevel: 'low',
+    quotes: [
+      { text: "Be gentle with yourself. You're doing the best you can.", author: "Unknown" },
+      { text: "You owe yourself the love that you so freely give to others.", author: "Unknown" },
+      { text: "It's okay to not be okay, as long as you're not giving up.", author: "Karen Salmansohn" },
+      { text: "Feelings are just visitors. Let them come and go.", author: "Mooji" },
+      { text: "Your feelings are valid. Your struggles are real. Your story matters.", author: "Unknown" },
+    ],
     forHer: {
       title: 'Nurture Phase',
       tips: [
@@ -234,6 +274,39 @@ const LinkIcon = ({ className = "w-5 h-5" }) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
   </svg>
 )
+
+const EnergyIcon = ({ className = "w-4 h-4" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+)
+
+// Energy level indicator component
+const EnergyLevel = ({ level }) => {
+  const levels = {
+    low: { bars: 1, color: 'bg-red-400', label: 'Low Energy' },
+    rising: { bars: 2, color: 'bg-green-400', label: 'Rising Energy' },
+    moderate: { bars: 2, color: 'bg-yellow-400', label: 'Moderate Energy' },
+    peak: { bars: 3, color: 'bg-pink-400', label: 'Peak Energy' },
+  }
+  const config = levels[level] || levels.moderate
+
+  return (
+    <div className="flex items-center gap-1.5">
+      <EnergyIcon className="w-3.5 h-3.5 text-gray-500" />
+      <div className="flex gap-0.5">
+        {[1, 2, 3].map((bar) => (
+          <div
+            key={bar}
+            className={`w-1.5 rounded-full ${bar <= config.bars ? config.color : 'bg-gray-200'}`}
+            style={{ height: `${8 + bar * 3}px` }}
+          />
+        ))}
+      </div>
+      <span className="text-xs text-gray-500 ml-0.5">{config.label}</span>
+    </div>
+  )
+}
 
 // ============================================
 // AUTH MODAL
@@ -956,7 +1029,22 @@ function AppContent() {
                 </div>
               )}
             </div>
-            <p className="text-sm text-gray-600">{todayPhase.description}</p>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-600">{todayPhase.description}</p>
+              {todayPhase.energyLevel && <EnergyLevel level={todayPhase.energyLevel} />}
+            </div>
+
+            {/* Daily Quote */}
+            {todayPhase.quotes && (() => {
+              const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
+              const quote = todayPhase.quotes[dayOfYear % todayPhase.quotes.length]
+              return (
+                <div className="pt-3 border-t border-gray-200/50">
+                  <p className="text-sm italic text-gray-700">"{quote.text}"</p>
+                  <p className="text-xs text-gray-500 mt-1">— {quote.author}</p>
+                </div>
+              )
+            })()}
           </div>
         ) : (
           <div className="mx-4 p-4 rounded-2xl border-2 border-gray-200 bg-white">
