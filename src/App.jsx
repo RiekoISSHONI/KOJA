@@ -1,207 +1,58 @@
 import { useState, useEffect } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import { LanguageProvider, useLanguage } from './context/LanguageContext'
 import { useCycleData } from './hooks/useCycleData'
 import { isSupabaseConfigured } from './lib/supabase'
 
 // ============================================
-// MENSTRUAL CYCLE PHASES DATA (Dr. Mindy Pelz Research)
+// CYCLE PHASE STYLING (content comes from translations)
 // ============================================
 
-const CYCLE_PHASES = {
+const PHASE_STYLES = {
   menstruation: {
-    name: 'Menstruation',
+    key: 'menstruation',
     days: [1, 2, 3, 4, 5],
     color: 'bg-red-100 border-red-400',
     dotColor: 'bg-red-500',
     textColor: 'text-red-700',
     emoji: '🌙',
-    description: 'Rest & Reset Phase',
     energyLevel: 'low',
-    quotes: [
-      { text: "Rest is not giving up. It's gearing up.", author: "Unknown" },
-      { text: "In the midst of winter, I found there was, within me, an invincible summer.", author: "Albert Camus" },
-      { text: "Almost everything will work again if you unplug it for a few minutes, including you.", author: "Anne Lamott" },
-      { text: "Self-care is not selfish. You cannot serve from an empty vessel.", author: "Eleanor Brown" },
-      { text: "The time to relax is when you don't have time for it.", author: "Sydney J. Harris" },
-    ],
-    forHer: {
-      title: 'Rest & Reset Phase',
-      tips: [
-        'Your body is shedding - honor this natural cleansing process',
-        'Estrogen is at its lowest - you may feel more introspective',
-        'Light movement like yoga or walking is ideal',
-        'Iron-rich foods help replenish what you lose',
-        'Rest and self-care are especially important now',
-      ],
-      exercise: 'Light movement, yoga, walking',
-      foods: ['Iron-rich foods', 'Leafy greens', 'Bone broth', 'Dark chocolate'],
-    },
-    forHim: {
-      title: 'Support & Space Phase',
-      tips: [
-        'She may need more rest and quiet time',
-        'Offer to help with household tasks',
-        'Be patient - energy levels are naturally lower',
-        'Warm comfort foods and heating pads are appreciated',
-        'This is not the time to plan big activities or make major decisions',
-      ],
-    },
   },
   follicular: {
-    name: 'Follicular (Power Phase)',
+    key: 'follicular',
     days: [6, 7, 8, 9, 10],
     color: 'bg-green-100 border-green-400',
     dotColor: 'bg-green-500',
     textColor: 'text-green-700',
     emoji: '🌱',
-    description: 'Energy Rising',
     energyLevel: 'rising',
-    quotes: [
-      { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
-      { text: "Energy and persistence conquer all things.", author: "Benjamin Franklin" },
-      { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
-      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-      { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
-    ],
-    forHer: {
-      title: 'Power Up Phase',
-      tips: [
-        'Estrogen is building - energy and mood are rising',
-        'Best time for challenging workouts and new fitness goals',
-        'Great time to start new projects or tackle hard tasks',
-        'Your brain is sharp - learning and creativity peak',
-        'Social energy is increasing - connect with friends',
-      ],
-      exercise: 'HIIT, strength training, cardio - push yourself!',
-      foods: ['Fermented foods', 'Lean proteins', 'Fresh vegetables', 'Complex carbs'],
-    },
-    forHim: {
-      title: 'Adventure & Activity Phase',
-      tips: [
-        'Her energy is high - plan active activities!',
-        'She is more social and adventurous now',
-        'Great time for trying new restaurants or activities',
-        'Support her new projects and ideas',
-        'Physical intimacy drive may increase',
-      ],
-    },
   },
   ovulation: {
-    name: 'Ovulation (Manifestation)',
+    key: 'ovulation',
     days: [11, 12, 13, 14, 15],
     color: 'bg-pink-100 border-pink-400',
     dotColor: 'bg-pink-500',
     textColor: 'text-pink-700',
     emoji: '🌸',
-    description: 'Peak Energy & Fertility',
     energyLevel: 'peak',
-    quotes: [
-      { text: "She remembered who she was and the game changed.", author: "Lalah Delia" },
-      { text: "You are magnetic. You are radiant. You are enough.", author: "Unknown" },
-      { text: "Confidence is not 'they will like me.' Confidence is 'I'll be fine if they don't.'", author: "Christina Grimmie" },
-      { text: "The most alluring thing a woman can have is confidence.", author: "Beyoncé" },
-      { text: "You were born to be real, not to be perfect.", author: "Unknown" },
-    ],
-    forHer: {
-      title: 'Superpower Phase',
-      tips: [
-        'Estrogen, testosterone, and progesterone all peak - you\'re at your best!',
-        'You look and feel your best - confidence is high',
-        'Communication skills peak - great for important conversations',
-        'Fertility window - be mindful if avoiding pregnancy',
-        'Great time for social events and networking',
-      ],
-      exercise: 'Moderate to high intensity, group classes',
-      foods: ['Anti-inflammatory foods', 'Fiber-rich vegetables', 'Light proteins', 'Antioxidant fruits'],
-    },
-    forHim: {
-      title: 'Connection & Romance Phase',
-      tips: [
-        'She is at her most confident and attractive',
-        'Plan romantic activities - she\'s feeling social',
-        'Great time for important relationship talks',
-        'Physical attraction and intimacy peak',
-        'Be aware: this is her fertile window',
-      ],
-    },
   },
   earlyLuteal: {
-    name: 'Early Luteal',
+    key: 'earlyLuteal',
     days: [16, 17, 18, 19],
     color: 'bg-yellow-100 border-yellow-400',
     dotColor: 'bg-yellow-500',
     textColor: 'text-yellow-700',
     emoji: '🍂',
-    description: 'Transition Phase',
     energyLevel: 'moderate',
-    quotes: [
-      { text: "Life is a balance of holding on and letting go.", author: "Rumi" },
-      { text: "Progress, not perfection.", author: "Unknown" },
-      { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" },
-      { text: "Trust the timing of your life.", author: "Unknown" },
-      { text: "Slow progress is still progress.", author: "Unknown" },
-    ],
-    forHer: {
-      title: 'Transition Phase',
-      tips: [
-        'Hormones start to dip - energy may fluctuate',
-        'Good time to wrap up projects before the nurture phase',
-        'You may start to feel more inward-focused',
-        'Prioritize sleep and stress management',
-        'Listen to your body and adjust activity as needed',
-      ],
-      exercise: 'Moderate intensity, steady-state cardio',
-      foods: ['Complex carbohydrates', 'Magnesium-rich foods', 'Root vegetables', 'Healthy fats'],
-    },
-    forHim: {
-      title: 'Supportive Transition Phase',
-      tips: [
-        'Energy may start to shift - be flexible with plans',
-        'Low-key activities are often preferred',
-        'Help reduce stress where possible',
-        'Be understanding if mood shifts slightly',
-        'Quality time at home becomes more appealing',
-      ],
-    },
   },
   lateLuteal: {
-    name: 'Late Luteal (Nurture Phase)',
+    key: 'lateLuteal',
     days: [20, 21, 22, 23, 24, 25, 26, 27, 28],
     color: 'bg-purple-100 border-purple-400',
     dotColor: 'bg-purple-500',
     textColor: 'text-purple-700',
     emoji: '🦋',
-    description: 'Rest & Nurture',
     energyLevel: 'low',
-    quotes: [
-      { text: "Be gentle with yourself. You're doing the best you can.", author: "Unknown" },
-      { text: "You owe yourself the love that you so freely give to others.", author: "Unknown" },
-      { text: "It's okay to not be okay, as long as you're not giving up.", author: "Karen Salmansohn" },
-      { text: "Feelings are just visitors. Let them come and go.", author: "Mooji" },
-      { text: "Your feelings are valid. Your struggles are real. Your story matters.", author: "Unknown" },
-    ],
-    forHer: {
-      title: 'Nurture Phase',
-      tips: [
-        'Carb cravings are NORMAL - your body needs them for progesterone',
-        'This is NOT a lack of discipline - it\'s biology',
-        'Focus on rest, self-care, and gentle movement',
-        'Stress reduction is critical - cortisol affects progesterone',
-        'Be gentle with yourself - this is a time for nurturing',
-      ],
-      exercise: 'Yoga, pilates, walking, stretching only',
-      foods: ['Complex carbs (sweet potato, rice)', 'Comfort foods in moderation', 'Magnesium-rich foods', 'Warm, cooked meals'],
-    },
-    forHim: {
-      title: 'Nurture & Support Phase',
-      tips: [
-        'She may be more sensitive - extra patience helps',
-        'PMS symptoms may appear - this is hormonal, not personal',
-        'Carb cravings are biological needs, not weakness',
-        'Reduce stress and conflict where possible',
-        'Small acts of care mean everything right now',
-      ],
-    },
   },
 }
 
@@ -275,6 +126,12 @@ const LinkIcon = ({ className = "w-5 h-5" }) => (
   </svg>
 )
 
+const LanguageIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+  </svg>
+)
+
 const EnergyIcon = ({ className = "w-4 h-4" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -282,12 +139,12 @@ const EnergyIcon = ({ className = "w-4 h-4" }) => (
 )
 
 // Energy level indicator component
-const EnergyLevel = ({ level }) => {
+const EnergyLevel = ({ level, t }) => {
   const levels = {
-    low: { bars: 1, color: 'bg-red-400', label: 'Low Energy' },
-    rising: { bars: 2, color: 'bg-green-400', label: 'Rising Energy' },
-    moderate: { bars: 2, color: 'bg-yellow-400', label: 'Moderate Energy' },
-    peak: { bars: 3, color: 'bg-pink-400', label: 'Peak Energy' },
+    low: { bars: 1, color: 'bg-red-400', labelKey: 'lowEnergy' },
+    rising: { bars: 2, color: 'bg-green-400', labelKey: 'risingEnergy' },
+    moderate: { bars: 2, color: 'bg-yellow-400', labelKey: 'moderateEnergy' },
+    peak: { bars: 3, color: 'bg-pink-400', labelKey: 'peakEnergy' },
   }
   const config = levels[level] || levels.moderate
 
@@ -303,7 +160,7 @@ const EnergyLevel = ({ level }) => {
           />
         ))}
       </div>
-      <span className="text-xs text-gray-500 ml-0.5">{config.label}</span>
+      <span className="text-xs text-gray-500 ml-0.5">{t(config.labelKey)}</span>
     </div>
   )
 }
@@ -778,6 +635,7 @@ function DayDetailModal({ dayInfo, viewMode, notes, onSaveNote, onClose }) {
 
 function AppContent() {
   const { user, signOut, isConfigured } = useAuth()
+  const { t, getPhase, language, toggleLanguage } = useLanguage()
   const {
     lastPeriodStart, setLastPeriodStart,
     cycleLength, setCycleLength,
@@ -800,6 +658,14 @@ function AppContent() {
   const [exportSuccess, setExportSuccess] = useState('')
   const [partnerData, setPartnerData] = useState(null)
   const [viewingPartner, setViewingPartner] = useState(false)
+
+  // Helper to get full phase data (styling + translated content)
+  const getFullPhase = (phaseKey) => {
+    const style = PHASE_STYLES[phaseKey]
+    const content = getPhase(phaseKey)
+    if (!style || !content) return null
+    return { ...style, ...content }
+  }
 
   // Load partner data when available
   useEffect(() => {
@@ -825,11 +691,11 @@ function AppContent() {
 
   const getPhaseForDay = (cycleDay) => {
     if (!cycleDay) return null
-    if (cycleDay <= activeData.periodLength) return CYCLE_PHASES.menstruation
-    if (cycleDay <= 10) return CYCLE_PHASES.follicular
-    if (cycleDay <= 15) return CYCLE_PHASES.ovulation
-    if (cycleDay <= 19) return CYCLE_PHASES.earlyLuteal
-    return CYCLE_PHASES.lateLuteal
+    if (cycleDay <= activeData.periodLength) return getFullPhase('menstruation')
+    if (cycleDay <= 10) return getFullPhase('follicular')
+    if (cycleDay <= 15) return getFullPhase('ovulation')
+    if (cycleDay <= 19) return getFullPhase('earlyLuteal')
+    return getFullPhase('lateLuteal')
   }
 
   const today = new Date()
@@ -876,11 +742,11 @@ function AppContent() {
 
     while (currentCycleStart < endDate) {
       const phases = [
-        { name: 'Menstruation', startDay: 1, endDay: periodLength },
-        { name: 'Follicular (Power Phase)', startDay: periodLength + 1, endDay: 10 },
-        { name: 'Ovulation', startDay: 11, endDay: 15 },
-        { name: 'Early Luteal', startDay: 16, endDay: 19 },
-        { name: 'Late Luteal (Nurture Phase)', startDay: 20, endDay: cycleLength },
+        { key: 'menstruation', startDay: 1, endDay: periodLength },
+        { key: 'follicular', startDay: periodLength + 1, endDay: 10 },
+        { key: 'ovulation', startDay: 11, endDay: 15 },
+        { key: 'earlyLuteal', startDay: 16, endDay: 19 },
+        { key: 'lateLuteal', startDay: 20, endDay: cycleLength },
       ]
 
       phases.forEach(phase => {
@@ -890,12 +756,13 @@ function AppContent() {
         phaseEnd.setDate(phaseEnd.getDate() + phase.endDay - 1)
 
         if (phaseEnd >= new Date()) {
-          const phaseData = Object.values(CYCLE_PHASES).find(p => p.name.includes(phase.name.split(' ')[0]))
+          const phaseData = getFullPhase(phase.key)
           const tips = forPartner && phaseData ? phaseData.forHim.tips.slice(0, 2).join('. ') : (phaseData ? phaseData.forHer.tips.slice(0, 2).join('. ') : '')
+          const phaseName = phaseData?.name || phase.key
           events.push({
-            uid: `cycle-${currentCycleStart.getTime()}-${phase.name}@cycle-tracker.app`,
+            uid: `cycle-${currentCycleStart.getTime()}-${phase.key}@cycle-tracker.app`,
             start: phaseStart, end: phaseEnd,
-            summary: forPartner ? `Partner's ${phase.name}` : phase.name,
+            summary: forPartner ? `Partner's ${phaseName}` : phaseName,
             description: tips,
           })
         }
@@ -948,18 +815,25 @@ function AppContent() {
       <header className="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4 shadow-lg">
         <div className="max-w-lg mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold">Cycle Tracker</h1>
+            <h1 className="text-xl font-bold">{t('appName')}</h1>
             {syncing && <SyncIcon className="w-4 h-4 animate-spin" spinning />}
             {!syncing && user && lastSynced && (
               <CloudIcon className="w-4 h-4 opacity-75" title={`Synced ${lastSynced.toLocaleTimeString()}`} />
             )}
           </div>
           <div className="flex gap-2">
+            <button
+              onClick={toggleLanguage}
+              className="p-2 hover:bg-white/20 rounded-lg transition text-xs font-bold"
+              title="Switch language"
+            >
+              {language === 'en' ? '日本語' : 'EN'}
+            </button>
             {isConfigured && (
               <button
                 onClick={() => user ? setShowPartnerShare(true) : setShowAuth(true)}
                 className="p-2 hover:bg-white/20 rounded-lg transition"
-                title={user ? "Share with partner" : "Sign in to share"}
+                title={user ? t('shareWithPartner') : t('signIn')}
               >
                 <LinkIcon className="w-5 h-5" />
               </button>
@@ -974,7 +848,7 @@ function AppContent() {
               <button
                 onClick={() => user ? signOut() : setShowAuth(true)}
                 className="p-2 hover:bg-white/20 rounded-lg transition"
-                title={user ? `Signed in as ${user.email}` : 'Sign in'}
+                title={user ? `Signed in as ${user.email}` : t('signIn')}
               >
                 <UserIcon className={`w-5 h-5 ${user ? 'fill-white' : ''}`} />
               </button>
@@ -992,13 +866,13 @@ function AppContent() {
                 onClick={() => setViewingPartner(false)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${!viewingPartner ? 'bg-white text-purple-600 shadow-sm' : 'text-purple-500'}`}
               >
-                My Cycle
+                {t('myCycle')}
               </button>
               <button
                 onClick={() => setViewingPartner(true)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewingPartner ? 'bg-white text-purple-600 shadow-sm' : 'text-purple-500'}`}
               >
-                Partner's Cycle
+                {t('partnerCycle')}
               </button>
             </div>
           </div>
@@ -1007,8 +881,8 @@ function AppContent() {
         {/* View Toggle */}
         <div className="p-4">
           <div className="flex rounded-xl bg-gray-200 p-1">
-            <button onClick={() => setViewMode('her')} className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewMode === 'her' ? 'bg-white text-pink-600 shadow-sm' : 'text-gray-500'}`}>For Her</button>
-            <button onClick={() => setViewMode('him')} className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewMode === 'him' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500'}`}>For Him</button>
+            <button onClick={() => setViewMode('her')} className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewMode === 'her' ? 'bg-white text-pink-600 shadow-sm' : 'text-gray-500'}`}>{t('forHer')}</button>
+            <button onClick={() => setViewMode('him')} className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${viewMode === 'him' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500'}`}>{t('forHim')}</button>
           </div>
         </div>
 
@@ -1018,20 +892,20 @@ function AppContent() {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <p className="text-sm text-gray-500">
-                  {viewingPartner ? "Partner's " : ""}Today - Day {todayCycleDay}
+                  {viewingPartner ? t('partnerCycle') + ' - ' : ''}{t('today')} - {t('day')} {todayCycleDay}
                 </p>
                 <h2 className={`text-lg font-bold ${todayPhase.textColor}`}>{todayPhase.emoji} {todayPhase.name}</h2>
               </div>
               {nextPeriod && daysUntilPeriod > 0 && (
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">Next period in</p>
-                  <p className="text-lg font-bold text-gray-800">{daysUntilPeriod} days</p>
+                  <p className="text-sm text-gray-500">{t('nextPeriodIn')}</p>
+                  <p className="text-lg font-bold text-gray-800">{daysUntilPeriod} {t('days')}</p>
                 </div>
               )}
             </div>
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-600">{todayPhase.description}</p>
-              {todayPhase.energyLevel && <EnergyLevel level={todayPhase.energyLevel} />}
+              {todayPhase.energyLevel && <EnergyLevel level={todayPhase.energyLevel} t={t} />}
             </div>
 
             {/* Daily Quote */}
@@ -1039,7 +913,7 @@ function AppContent() {
               const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
               const quote = todayPhase.quotes[dayOfYear % todayPhase.quotes.length]
               return (
-                <div className="pt-3 border-t border-gray-200/50">
+                <div className="pt-3 mt-3 border-t border-gray-200/50">
                   <p className="text-sm italic text-gray-700">"{quote.text}"</p>
                   <p className="text-xs text-gray-500 mt-1">— {quote.author}</p>
                 </div>
@@ -1049,10 +923,10 @@ function AppContent() {
         ) : (
           <div className="mx-4 p-4 rounded-2xl border-2 border-gray-200 bg-white">
             <p className="text-center text-gray-500">
-              {viewingPartner ? "Partner hasn't set up their cycle yet" : "Set your last period start date to begin tracking"}
+              {viewingPartner ? t('partnerNotSetup') : t('setLastPeriod')}
             </p>
             {!viewingPartner && (
-              <button onClick={() => setShowSettings(true)} className="w-full mt-3 py-2 bg-pink-500 text-white rounded-xl font-medium">Set Up Cycle</button>
+              <button onClick={() => setShowSettings(true)} className="w-full mt-3 py-2 bg-pink-500 text-white rounded-xl font-medium">{t('setupCycle')}</button>
             )}
           </div>
         )}
@@ -1063,13 +937,13 @@ function AppContent() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <CloudIcon className="w-5 h-5 text-blue-500" />
-                <span className="text-sm text-gray-700">Sync & share with partner</span>
+                <span className="text-sm text-gray-700">{t('syncShare')}</span>
               </div>
               <button
                 onClick={() => setShowAuth(true)}
                 className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium"
               >
-                Sign In
+                {t('signIn')}
               </button>
             </div>
           </div>
@@ -1105,12 +979,15 @@ function AppContent() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2 justify-center">
-            {Object.values(CYCLE_PHASES).map((phase, i) => (
-              <div key={i} className="flex items-center gap-1">
-                <div className={`w-3 h-3 rounded-full ${phase.dotColor}`} />
-                <span className="text-xs text-gray-500">{phase.name.split(' ')[0]}</span>
-              </div>
-            ))}
+            {Object.entries(PHASE_STYLES).map(([key, style]) => {
+              const phaseContent = getPhase(key)
+              return (
+                <div key={key} className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded-full ${style.dotColor}`} />
+                  <span className="text-xs text-gray-500">{phaseContent?.name?.split(' ')[0] || key}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
 
@@ -1121,7 +998,7 @@ function AppContent() {
               <h3 className="font-bold text-gray-800">{viewMode === 'her' ? todayPhase.forHer.title : todayPhase.forHim.title}</h3>
               {!viewingPartner && (
                 <button onClick={() => setShowNotes(true)} className="flex items-center gap-1 text-sm text-pink-500">
-                  <NoteIcon className="w-4 h-4" /> Notes
+                  <NoteIcon className="w-4 h-4" /> {t('notes')}
                 </button>
               )}
             </div>
@@ -1164,7 +1041,7 @@ function AppContent() {
 
         {/* Attribution */}
         <div className="mx-4 mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
-          <p className="text-xs text-gray-500 text-center">Tips based on Dr. Mindy Pelz's research on women's hormonal cycles.</p>
+          <p className="text-xs text-gray-500 text-center">{t('attribution')}</p>
         </div>
       </main>
 
@@ -1256,9 +1133,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </LanguageProvider>
   )
 }
 
