@@ -1,4 +1,67 @@
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, useRef, createContext, useContext } from 'react'
+import * as faceapi from 'face-api.js'
+
+// ============================================
+// FACE VERIFICATION SYSTEM
+// ============================================
+
+let faceModelsLoaded = false
+
+const loadFaceModels = async () => {
+  if (faceModelsLoaded) return true
+  try {
+    await Promise.all([
+      faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+    ])
+    faceModelsLoaded = true
+    return true
+  } catch (err) {
+    console.error('Failed to load face models:', err)
+    return false
+  }
+}
+
+const extractFaceDescriptor = async (element) => {
+  const detection = await faceapi
+    .detectSingleFace(element)
+    .withFaceLandmarks()
+    .withFaceDescriptor()
+  return detection ? detection.descriptor : null
+}
+
+const getVideoFrameAsCanvas = (videoSrc) => {
+  return new Promise((resolve) => {
+    const video = document.createElement('video')
+    video.crossOrigin = 'anonymous'
+    video.muted = true
+    video.playsInline = true
+    video.preload = 'auto'
+
+    video.onloadeddata = () => {
+      video.currentTime = Math.min(1, video.duration / 2)
+    }
+
+    video.onseeked = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(video, 0, 0)
+      resolve(canvas)
+    }
+
+    video.onerror = () => resolve(null)
+    video.src = videoSrc
+  })
+}
+
+const compareFaces = (desc1, desc2) => {
+  const distance = faceapi.euclideanDistance(desc1, desc2)
+  const similarity = Math.max(0, Math.min(100, Math.round((1 - distance / 1.0) * 100)))
+  return { distance, similarity, match: distance < 0.6 }
+}
 
 // ============================================
 // NOTIFICATION SYSTEM
@@ -202,6 +265,15 @@ const TRANSLATIONS = {
     updateVideo: 'Update Video',
     languageSettings: 'Language Settings',
     appLanguage: 'App Language',
+    // Verification
+    verifying: 'Verifying your photo and video...',
+    verificationPassed: 'Verified! Photo and video match',
+    verificationFailed: 'Photo and video faces don\'t match',
+    verificationNoFacePhoto: 'No face detected in photo',
+    verificationNoFaceVideo: 'No face detected in video',
+    verificationBadge: 'Verified',
+    verificationLoading: 'Loading verification...',
+    matchScore: 'Match score',
     // Notifications
     enableNotifications: 'Enable Notifications',
     notificationsEnabled: 'Notifications Enabled',
@@ -362,6 +434,14 @@ const TRANSLATIONS = {
     updateVideo: '영상 업데이트',
     languageSettings: '언어 설정',
     appLanguage: '앱 언어',
+    verifying: '사진과 영상을 확인 중...',
+    verificationPassed: '인증 완료! 사진과 영상이 일치합니다',
+    verificationFailed: '사진과 영상의 얼굴이 일치하지 않습니다',
+    verificationNoFacePhoto: '사진에서 얼굴을 감지할 수 없습니다',
+    verificationNoFaceVideo: '영상에서 얼굴을 감지할 수 없습니다',
+    verificationBadge: '인증됨',
+    verificationLoading: '인증 로딩 중...',
+    matchScore: '일치 점수',
     enableNotifications: '알림 활성화',
     notificationsEnabled: '알림이 활성화됨',
     notificationChallengeTitle: '언어 챌린지!',
@@ -518,6 +598,14 @@ const TRANSLATIONS = {
     updateVideo: '動画を更新',
     languageSettings: '言語設定',
     appLanguage: 'アプリの言語',
+    verifying: '写真と動画を確認中...',
+    verificationPassed: '認証済み！写真と動画が一致しました',
+    verificationFailed: '写真と動画の顔が一致しません',
+    verificationNoFacePhoto: '写真で顔が検出されませんでした',
+    verificationNoFaceVideo: '動画で顔が検出されませんでした',
+    verificationBadge: '認証済み',
+    verificationLoading: '認証をロード中...',
+    matchScore: '一致スコア',
     enableNotifications: '通知を有効にする',
     notificationsEnabled: '通知が有効です',
     notificationChallengeTitle: '言語チャレンジ！',
@@ -780,6 +868,7 @@ const sampleProfiles = [
     distance: '3 miles away',
     images: ['https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'],
     video: null,
+    verified: true,
     interests: ['kpop', 'cooking', 'kdrama', 'coffee'],
   },
   {
@@ -791,6 +880,7 @@ const sampleProfiles = [
     distance: '7 miles away',
     images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'],
     video: null,
+    verified: false,
     interests: ['cooking', 'language', 'gaming', 'fitness'],
   },
   {
@@ -802,6 +892,7 @@ const sampleProfiles = [
     distance: '5 miles away',
     images: ['https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400'],
     video: null,
+    verified: true,
     interests: ['kpop', 'art', 'dancing', 'photography'],
   },
   {
@@ -813,6 +904,7 @@ const sampleProfiles = [
     distance: '12 miles away',
     images: ['https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'],
     video: null,
+    verified: true,
     interests: ['kdrama', 'yoga', 'food', 'outdoors'],
   },
   {
@@ -824,6 +916,7 @@ const sampleProfiles = [
     distance: '15 miles away',
     images: ['https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400'],
     video: null,
+    verified: false,
     interests: ['kpop', 'reading', 'movies', 'pets'],
   },
 ]
@@ -1176,9 +1269,63 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
   const [videoError, setVideoError] = useState(null)
   const [showVideoOptions, setShowVideoOptions] = useState(false)
   const [isPlayingVideo, setIsPlayingVideo] = useState(false)
-  const imageInputRef = useState(null)
-  const videoInputRef = useState(null)
-  const videoRecordRef = useState(null)
+  const [verificationState, setVerificationState] = useState(null)
+  const photoRef = useRef(null)
+
+  useEffect(() => {
+    if (data.profileImage && data.profileVideo) {
+      runVerification()
+    } else {
+      setVerificationState(null)
+      onUpdate({ faceVerified: false })
+    }
+  }, [data.profileImage, data.profileVideo])
+
+  const runVerification = async () => {
+    setVerificationState({ status: 'loading' })
+    const loaded = await loadFaceModels()
+    if (!loaded) {
+      setVerificationState({ status: 'error', message: 'Models failed to load' })
+      return
+    }
+
+    setVerificationState({ status: 'verifying' })
+
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.src = data.profileImage
+    await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve })
+
+    const photoDescriptor = await extractFaceDescriptor(img)
+    if (!photoDescriptor) {
+      setVerificationState({ status: 'no_face_photo' })
+      onUpdate({ faceVerified: false })
+      return
+    }
+
+    const videoCanvas = await getVideoFrameAsCanvas(data.profileVideo)
+    if (!videoCanvas) {
+      setVerificationState({ status: 'no_face_video' })
+      onUpdate({ faceVerified: false })
+      return
+    }
+
+    const videoDescriptor = await extractFaceDescriptor(videoCanvas)
+    if (!videoDescriptor) {
+      setVerificationState({ status: 'no_face_video' })
+      onUpdate({ faceVerified: false })
+      return
+    }
+
+    const result = compareFaces(photoDescriptor, videoDescriptor)
+    if (result.match) {
+      setVerificationState({ status: 'passed', similarity: result.similarity })
+      onUpdate({ faceVerified: true })
+    } else {
+      setVerificationState({ status: 'failed', similarity: result.similarity })
+      onUpdate({ faceVerified: false })
+    }
+  }
 
   const handleImageUpload = () => {
     const input = document.createElement('input')
@@ -1240,7 +1387,8 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
   const handleRemoveVideo = (e) => {
     e.stopPropagation()
     if (data.profileVideo) URL.revokeObjectURL(data.profileVideo)
-    onUpdate({ profileVideo: null, profileVideoFile: null })
+    onUpdate({ profileVideo: null, profileVideoFile: null, faceVerified: false })
+    setVerificationState(null)
   }
 
   return (
@@ -1337,6 +1485,57 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
             )}
             <p className="text-xs text-gray-400 mt-2">{t('videoHelp')}</p>
           </div>
+
+          {/* Face Verification Status */}
+          {verificationState && (
+            <div className={`rounded-xl p-4 flex items-center gap-3 ${
+              verificationState.status === 'passed' ? 'bg-green-50 border border-green-200' :
+              verificationState.status === 'failed' ? 'bg-red-50 border border-red-200' :
+              verificationState.status === 'no_face_photo' || verificationState.status === 'no_face_video' ? 'bg-yellow-50 border border-yellow-200' :
+              'bg-blue-50 border border-blue-200'
+            }`}>
+              {(verificationState.status === 'loading' || verificationState.status === 'verifying') && (
+                <>
+                  <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-sm text-blue-700 font-medium">{t('verifying')}</span>
+                </>
+              )}
+              {verificationState.status === 'passed' && (
+                <>
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-green-700 font-medium">{t('verificationPassed')}</p>
+                    <p className="text-xs text-green-600">{t('matchScore')}: {verificationState.similarity}%</p>
+                  </div>
+                </>
+              )}
+              {verificationState.status === 'failed' && (
+                <>
+                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <XIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-red-700 font-medium">{t('verificationFailed')}</p>
+                    <p className="text-xs text-red-600">{t('matchScore')}: {verificationState.similarity}%</p>
+                  </div>
+                </>
+              )}
+              {verificationState.status === 'no_face_photo' && (
+                <>
+                  <span className="text-xl">⚠</span>
+                  <span className="text-sm text-yellow-700 font-medium">{t('verificationNoFacePhoto')}</span>
+                </>
+              )}
+              {verificationState.status === 'no_face_video' && (
+                <>
+                  <span className="text-xl">⚠</span>
+                  <span className="text-sm text-yellow-700 font-medium">{t('verificationNoFaceVideo')}</span>
+                </>
+              )}
+            </div>
+          )}
 
           {/* Bio */}
           <div>
@@ -2541,7 +2740,15 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <div className="flex items-end justify-between">
             <div>
-              <h2 className="text-3xl font-bold">{profile.name}, {profile.age}</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-3xl font-bold">{profile.name}, {profile.age}</h2>
+                {profile.verified && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+                    <CheckIcon className="w-3 h-3" />
+                    {t('verificationBadge')}
+                  </span>
+                )}
+              </div>
               <div className="flex items-center gap-1 text-gray-200 mt-1">
                 <LocationIcon className="w-4 h-4" />
                 <span className="text-sm">{profile.distance}</span>
@@ -2969,7 +3176,15 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
             {badge.text}
           </span>
         </div>
-        <h2 className="text-2xl font-bold mt-4">{user.name}, {user.age}</h2>
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <h2 className="text-2xl font-bold">{user.name}, {user.age}</h2>
+          {user.verified && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+              <CheckIcon className="w-3 h-3" />
+              {t('verificationBadge')}
+            </span>
+          )}
+        </div>
         {user.lookingFor && (
           <span className="inline-block mt-2 px-3 py-1 bg-white/20 rounded-full text-sm">
             {user.lookingFor === 'friendship' ? '🤝' : user.lookingFor === 'love' ? '💕' : '✨'} {t(user.lookingFor)}
@@ -3232,6 +3447,7 @@ function AppContent() {
       ...signUpData,
       image: signUpData.profileImage,
       profileVideo: signUpData.profileVideo || null,
+      verified: signUpData.faceVerified || false,
       age: signUpData.dateOfBirth ? new Date().getFullYear() - new Date(signUpData.dateOfBirth).getFullYear() : 25,
       likes: 0,
       matches: 0,
