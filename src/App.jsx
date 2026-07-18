@@ -300,6 +300,53 @@ const TRANSLATIONS = {
     originalMessage: 'Original',
     translatedMessage: 'Translated',
     autoTranslate: 'Auto-translate messages',
+    // Gallery
+    addMorePhotos: 'Add More Photos',
+    photoOf: 'of',
+    // Dark Mode
+    appearance: 'Appearance',
+    darkMode: 'Dark Mode',
+    lightMode: 'Light Mode',
+    // Onboarding
+    onboardingTitle1: 'Welcome to KONJA',
+    onboardingDesc1: 'Find meaningful connections through shared culture and language',
+    onboardingTitle2: 'Swipe & Match',
+    onboardingDesc2: 'Swipe right to like, left to pass. When you both like each other, it\'s a match!',
+    onboardingTitle3: 'Learn Together',
+    onboardingDesc3: 'Play language games, earn points, and bond over learning new words',
+    onboardingTitle4: 'Stay Verified',
+    onboardingDesc4: 'Upload a photo and video to get verified and build trust',
+    getStartedNow: 'Get Started',
+    skip: 'Skip',
+    next: 'Next',
+    // Profile Completion
+    profileCompletion: 'Profile Completion',
+    completeProfile: 'Complete your profile to get more matches',
+    addPhotoToComplete: 'Add a profile photo',
+    addBioToComplete: 'Write a bio',
+    addInterestsToComplete: 'Select your interests',
+    addVideoToComplete: 'Add an intro video',
+    verifyToComplete: 'Verify your identity',
+    // Report/Block
+    reportUser: 'Report User',
+    blockUser: 'Block User',
+    reportReasons: 'Why are you reporting this user?',
+    fakeProfile: 'Fake profile',
+    inappropriateContent: 'Inappropriate content',
+    harassment: 'Harassment',
+    spam: 'Spam',
+    otherReason: 'Other',
+    reportSubmitted: 'Report submitted. Thank you.',
+    userBlocked: 'User blocked',
+    unblock: 'Unblock',
+    blockedUsers: 'Blocked Users',
+    noBlockedUsers: 'No blocked users',
+    confirmBlock: 'Are you sure you want to block this user?',
+    yes: 'Yes',
+    no: 'No',
+    // Matching
+    compatibility: 'Compatibility',
+    sharedInterests: 'shared interests',
   },
   ko: {
     appName: 'KONJA',
@@ -464,6 +511,47 @@ const TRANSLATIONS = {
     originalMessage: '원본',
     translatedMessage: '번역됨',
     autoTranslate: '메시지 자동 번역',
+    addMorePhotos: '사진 더 추가',
+    photoOf: '/',
+    appearance: '외관',
+    darkMode: '다크 모드',
+    lightMode: '라이트 모드',
+    onboardingTitle1: 'KONJA에 오신 것을 환영합니다',
+    onboardingDesc1: '문화와 언어를 통해 의미 있는 만남을 찾으세요',
+    onboardingTitle2: '스와이프 & 매칭',
+    onboardingDesc2: '오른쪽으로 좋아요, 왼쪽으로 패스. 서로 좋아하면 매치!',
+    onboardingTitle3: '함께 배우기',
+    onboardingDesc3: '언어 게임을 하고, 포인트를 모으고, 새로운 단어를 배우며 교류하세요',
+    onboardingTitle4: '인증받기',
+    onboardingDesc4: '사진과 영상을 업로드하여 인증받고 신뢰를 쌓으세요',
+    getStartedNow: '시작하기',
+    skip: '건너뛰기',
+    next: '다음',
+    profileCompletion: '프로필 완성도',
+    completeProfile: '프로필을 완성하면 더 많은 매치를 받을 수 있어요',
+    addPhotoToComplete: '프로필 사진 추가',
+    addBioToComplete: '자기소개 작성',
+    addInterestsToComplete: '관심사 선택',
+    addVideoToComplete: '소개 영상 추가',
+    verifyToComplete: '본인 인증',
+    reportUser: '사용자 신고',
+    blockUser: '사용자 차단',
+    reportReasons: '신고 사유를 선택해주세요',
+    fakeProfile: '가짜 프로필',
+    inappropriateContent: '부적절한 콘텐츠',
+    harassment: '괴롭힘',
+    spam: '스팸',
+    otherReason: '기타',
+    reportSubmitted: '신고가 접수되었습니다. 감사합니다.',
+    userBlocked: '사용자가 차단되었습니다',
+    unblock: '차단 해제',
+    blockedUsers: '차단된 사용자',
+    noBlockedUsers: '차단된 사용자 없음',
+    confirmBlock: '이 사용자를 차단하시겠습니까?',
+    yes: '예',
+    no: '아니오',
+    compatibility: '호환성',
+    sharedInterests: '공통 관심사',
   },
   ja: {
     appName: 'KONJA',
@@ -628,6 +716,47 @@ const TRANSLATIONS = {
     originalMessage: '原文',
     translatedMessage: '翻訳済み',
     autoTranslate: 'メッセージを自動翻訳',
+    addMorePhotos: '写真を追加',
+    photoOf: '/',
+    appearance: '外観',
+    darkMode: 'ダークモード',
+    lightMode: 'ライトモード',
+    onboardingTitle1: 'KONJAへようこそ',
+    onboardingDesc1: '文化と言語を通じて意味のある出会いを見つけましょう',
+    onboardingTitle2: 'スワイプ＆マッチ',
+    onboardingDesc2: '右にスワイプでいいね、左でパス。お互いにいいねするとマッチ！',
+    onboardingTitle3: '一緒に学ぶ',
+    onboardingDesc3: '言語ゲームで遊び、ポイントを貯め、新しい言葉を学びましょう',
+    onboardingTitle4: '認証を受ける',
+    onboardingDesc4: '写真と動画をアップロードして認証を受け、信頼を築きましょう',
+    getStartedNow: '始める',
+    skip: 'スキップ',
+    next: '次へ',
+    profileCompletion: 'プロフィール完成度',
+    completeProfile: 'プロフィールを完成させてマッチを増やしましょう',
+    addPhotoToComplete: 'プロフィール写真を追加',
+    addBioToComplete: '自己紹介を書く',
+    addInterestsToComplete: '興味を選択',
+    addVideoToComplete: '紹介動画を追加',
+    verifyToComplete: '本人確認',
+    reportUser: 'ユーザーを報告',
+    blockUser: 'ユーザーをブロック',
+    reportReasons: '報告理由を選んでください',
+    fakeProfile: '偽のプロフィール',
+    inappropriateContent: '不適切なコンテンツ',
+    harassment: 'ハラスメント',
+    spam: 'スパム',
+    otherReason: 'その他',
+    reportSubmitted: '報告が送信されました。ありがとうございます。',
+    userBlocked: 'ユーザーがブロックされました',
+    unblock: 'ブロック解除',
+    blockedUsers: 'ブロックしたユーザー',
+    noBlockedUsers: 'ブロックしたユーザーはいません',
+    confirmBlock: 'このユーザーをブロックしますか？',
+    yes: 'はい',
+    no: 'いいえ',
+    compatibility: '相性',
+    sharedInterests: '共通の興味',
   },
 }
 
@@ -649,6 +778,15 @@ const useTranslation = () => {
     })
     return text
   }
+}
+
+// Theme Context
+const ThemeContext = createContext()
+
+const useTheme = () => {
+  const context = useContext(ThemeContext)
+  if (!context) throw new Error('useTheme must be used within ThemeProvider')
+  return context
 }
 
 // ============================================
@@ -866,7 +1004,12 @@ const sampleProfiles = [
     bio: 'K-pop enthusiast 🎤 | Foodie exploring Korean cuisine | Looking for someone to watch K-dramas with',
     location: 'San Francisco, CA',
     distance: '3 miles away',
-    images: ['https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'],
+    lookingFor: 'love',
+    images: [
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
+      'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=400',
+      'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400',
+    ],
     video: null,
     verified: true,
     interests: ['kpop', 'cooking', 'kdrama', 'coffee'],
@@ -878,7 +1021,11 @@ const sampleProfiles = [
     bio: 'Learning Korean one word at a time 🇰🇷 | Tech by day, chef by night',
     location: 'Oakland, CA',
     distance: '7 miles away',
-    images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'],
+    lookingFor: 'both',
+    images: [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+      'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400',
+    ],
     video: null,
     verified: false,
     interests: ['cooking', 'language', 'gaming', 'fitness'],
@@ -890,7 +1037,12 @@ const sampleProfiles = [
     bio: 'BTS ARMY 💜 | Artist & dreamer | Looking for my partner in crime',
     location: 'Berkeley, CA',
     distance: '5 miles away',
-    images: ['https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400'],
+    lookingFor: 'love',
+    images: [
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400',
+      'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+    ],
     video: null,
     verified: true,
     interests: ['kpop', 'art', 'dancing', 'photography'],
@@ -902,7 +1054,11 @@ const sampleProfiles = [
     bio: 'Korean drama addict 📺 | Yoga instructor | Fluent in food recommendations',
     location: 'Santa Cruz, CA',
     distance: '12 miles away',
-    images: ['https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'],
+    lookingFor: 'friendship',
+    images: [
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400',
+    ],
     video: null,
     verified: true,
     interests: ['kdrama', 'yoga', 'food', 'outdoors'],
@@ -914,12 +1070,31 @@ const sampleProfiles = [
     bio: 'BLACKPINK in my area 🖤💗 | Book lover | Hopeless romantic',
     location: 'San Jose, CA',
     distance: '15 miles away',
-    images: ['https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400'],
+    lookingFor: 'love',
+    images: [
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400',
+    ],
     video: null,
     verified: false,
     interests: ['kpop', 'reading', 'movies', 'pets'],
   },
 ]
+
+const calculateCompatibility = (userProfile, otherProfile) => {
+  if (!userProfile) return 0
+  let score = 0
+  const userInterests = userProfile.interests || []
+  const otherInterests = otherProfile.interests || []
+  const shared = userInterests.filter(i => otherInterests.includes(i))
+  score += shared.length * 15
+  if (userProfile.lookingFor && otherProfile.lookingFor) {
+    if (userProfile.lookingFor === otherProfile.lookingFor) score += 25
+    else if (userProfile.lookingFor === 'both' || otherProfile.lookingFor === 'both') score += 15
+  }
+  if (otherProfile.verified) score += 10
+  return Math.min(99, Math.max(10, score))
+}
 
 const sampleMatches = [
   { id: 101, name: 'Alex', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100', lastMessage: 'Have you watched Goblin? 👻', time: '2m ago', unread: true },
@@ -1008,6 +1183,48 @@ const PlayCircleIcon = ({ className = "w-6 h-6" }) => (
 const TrashIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  </svg>
+)
+
+const MoonIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+)
+
+const SunIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+)
+
+const FlagIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+  </svg>
+)
+
+const ShieldIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+  </svg>
+)
+
+const DotsIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+  </svg>
+)
+
+const ChevronLeftIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  </svg>
+)
+
+const ChevronRightIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
   </svg>
 )
 
@@ -2660,12 +2877,18 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
 // PROFILE CARD COMPONENT
 // ============================================
 
-function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
+function ProfileCard({ profile, onLike, onPass, onSuperLike, onReport, onBlock, compatibility }) {
   const t = useTranslation()
+  const { dark } = useTheme()
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [swipeDirection, setSwipeDirection] = useState(null)
   const [showVideo, setShowVideo] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [showMenu, setShowMenu] = useState(false)
+  const [showReportModal, setShowReportModal] = useState(false)
+  const [showBlockConfirm, setShowBlockConfirm] = useState(false)
+  const [reportSubmitted, setReportSubmitted] = useState(false)
 
   const minSwipeDistance = 50
 
@@ -2693,14 +2916,33 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
     setSwipeDirection(null)
   }
 
+  const handleImageTap = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    if (x > rect.width / 2) {
+      setCurrentImageIndex(i => Math.min(i + 1, profile.images.length - 1))
+    } else {
+      setCurrentImageIndex(i => Math.max(i - 1, 0))
+    }
+  }
+
   const getInterestLabel = (id) => {
     const interest = INTERESTS_OPTIONS.find(i => i.id === id)
     return interest ? `${interest.emoji} ${interest.label}` : id
   }
 
+  const handleReport = (reason) => {
+    if (onReport) onReport(profile.id, reason)
+    setShowReportModal(false)
+    setReportSubmitted(true)
+    setTimeout(() => setReportSubmitted(false), 2000)
+  }
+
   return (
     <div
-      className={`relative bg-white rounded-3xl shadow-2xl overflow-hidden transition-transform duration-300 ${
+      className={`relative rounded-3xl shadow-2xl overflow-hidden transition-transform duration-300 ${
+        dark ? 'bg-gray-800' : 'bg-white'
+      } ${
         swipeDirection === 'left' ? '-rotate-6 -translate-x-4' :
         swipeDirection === 'right' ? 'rotate-6 translate-x-4' : ''
       }`}
@@ -2708,31 +2950,77 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="relative h-96 sm:h-[500px]">
+      <div className="relative h-96 sm:h-[500px]" onClick={handleImageTap}>
         <img
-          src={profile.images[0]}
+          src={profile.images[currentImageIndex]}
           alt={profile.name}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-        {profile.video && (
+        {/* Photo indicator dots */}
+        {profile.images.length > 1 && (
+          <div className="absolute top-3 left-0 right-0 flex justify-center gap-1 z-10">
+            {profile.images.map((_, idx) => (
+              <div key={idx} className={`h-1 rounded-full transition-all ${
+                idx === currentImageIndex ? 'w-6 bg-white' : 'w-6 bg-white/40'
+              }`} />
+            ))}
+          </div>
+        )}
+
+        {/* Top right: video + menu */}
+        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+          {profile.video && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowVideo(true) }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium hover:bg-black/70 transition"
+            >
+              <PlayCircleIcon className="w-5 h-5" />
+            </button>
+          )}
           <button
-            onClick={() => setShowVideo(true)}
-            className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium hover:bg-black/70 transition z-10"
+            onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu) }}
+            className="p-2 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition"
           >
-            <PlayCircleIcon className="w-5 h-5" />
-            <span>{t('tapToPlay')}</span>
+            <DotsIcon className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Dropdown menu */}
+        {showMenu && (
+          <div className="absolute top-16 right-4 bg-white rounded-xl shadow-xl z-20 overflow-hidden min-w-[160px]" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => { setShowMenu(false); setShowReportModal(true) }}
+              className="w-full px-4 py-3 flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50"
+            >
+              <FlagIcon className="w-4 h-4" />
+              {t('reportUser')}
+            </button>
+            <button
+              onClick={() => { setShowMenu(false); setShowBlockConfirm(true) }}
+              className="w-full px-4 py-3 flex items-center gap-2 text-sm text-red-600 hover:bg-red-50 border-t"
+            >
+              <ShieldIcon className="w-4 h-4" />
+              {t('blockUser')}
+            </button>
+          </div>
+        )}
+
+        {/* Compatibility badge */}
+        {compatibility > 0 && (
+          <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold z-10">
+            {compatibility}% {t('compatibility')}
+          </div>
         )}
 
         {swipeDirection === 'right' && (
-          <div className="absolute top-8 left-8 border-4 border-green-500 text-green-500 px-4 py-2 rounded-lg rotate-[-20deg] text-2xl font-bold">
+          <div className="absolute top-20 left-8 border-4 border-green-500 text-green-500 px-4 py-2 rounded-lg rotate-[-20deg] text-2xl font-bold">
             LIKE
           </div>
         )}
         {swipeDirection === 'left' && (
-          <div className="absolute top-8 right-8 border-4 border-red-500 text-red-500 px-4 py-2 rounded-lg rotate-[20deg] text-2xl font-bold">
+          <div className="absolute top-20 right-8 border-4 border-red-500 text-red-500 px-4 py-2 rounded-lg rotate-[20deg] text-2xl font-bold">
             NOPE
           </div>
         )}
@@ -2766,16 +3054,16 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-4 p-6 bg-white">
+      <div className={`flex justify-center items-center gap-4 p-6 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
         <button
           onClick={onPass}
-          className="w-16 h-16 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center text-red-500 hover:scale-110 transition-transform active:scale-95"
+          className={`w-16 h-16 rounded-full shadow-lg border flex items-center justify-center text-red-500 hover:scale-110 transition-transform active:scale-95 ${dark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'}`}
         >
           <XIcon className="w-8 h-8" />
         </button>
         <button
           onClick={onSuperLike}
-          className="w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center text-blue-500 hover:scale-110 transition-transform active:scale-95"
+          className={`w-12 h-12 rounded-full shadow-lg border flex items-center justify-center text-blue-500 hover:scale-110 transition-transform active:scale-95 ${dark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'}`}
         >
           <StarIcon className="w-6 h-6" />
         </button>
@@ -2787,26 +3075,56 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
         </button>
       </div>
 
+      {/* Report submitted toast */}
+      {reportSubmitted && (
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg z-30">
+          {t('reportSubmitted')}
+        </div>
+      )}
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowReportModal(false)}>
+          <div className={`w-full max-w-sm rounded-2xl p-6 ${dark ? 'bg-gray-800' : 'bg-white'}`} onClick={(e) => e.stopPropagation()}>
+            <h3 className={`text-lg font-bold mb-4 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('reportReasons')}</h3>
+            <div className="space-y-2">
+              {['fakeProfile', 'inappropriateContent', 'harassment', 'spam', 'otherReason'].map((reason) => (
+                <button
+                  key={reason}
+                  onClick={() => handleReport(reason)}
+                  className={`w-full p-3 rounded-xl text-left text-sm font-medium transition ${dark ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t(reason)}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setShowReportModal(false)} className="w-full mt-4 py-2 text-gray-400 text-sm">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* Block Confirm */}
+      {showBlockConfirm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowBlockConfirm(false)}>
+          <div className={`w-full max-w-sm rounded-2xl p-6 text-center ${dark ? 'bg-gray-800' : 'bg-white'}`} onClick={(e) => e.stopPropagation()}>
+            <ShieldIcon className={`w-12 h-12 mx-auto mb-3 ${dark ? 'text-red-400' : 'text-red-500'}`} />
+            <p className={`font-medium mb-4 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('confirmBlock')}</p>
+            <div className="flex gap-3">
+              <button onClick={() => setShowBlockConfirm(false)} className={`flex-1 py-3 rounded-xl font-medium ${dark ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>{t('no')}</button>
+              <button onClick={() => { setShowBlockConfirm(false); if (onBlock) onBlock(profile.id) }} className="flex-1 py-3 bg-red-500 text-white rounded-xl font-medium">{t('yes')}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Video Playback Modal */}
       {showVideo && profile.video && (
-        <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
-          onClick={() => setShowVideo(false)}
-        >
-          <button
-            className="absolute top-6 right-6 text-white p-2 hover:bg-white/20 rounded-full transition z-10"
-            onClick={() => setShowVideo(false)}
-          >
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center" onClick={() => setShowVideo(false)}>
+          <button className="absolute top-6 right-6 text-white p-2 hover:bg-white/20 rounded-full transition z-10" onClick={() => setShowVideo(false)}>
             <XIcon className="w-8 h-8" />
           </button>
           <div className="w-full max-w-lg px-4" onClick={(e) => e.stopPropagation()}>
-            <video
-              src={profile.video}
-              className="w-full rounded-2xl"
-              controls
-              autoPlay
-              playsInline
-            />
+            <video src={profile.video} className="w-full rounded-2xl" controls autoPlay playsInline />
             <p className="text-white text-center mt-4 font-medium">{profile.name}'s intro</p>
           </div>
         </div>
@@ -2927,6 +3245,7 @@ function MessagesList({ matches, onSelectChat }) {
 
 function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onEarnPoints, notificationsEnabled, onEnableNotifications }) {
   const { language, setLanguage, languages } = useLanguage()
+  const { dark, toggleDark } = useTheme()
   const t = useTranslation()
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [showLanguageGame, setShowLanguageGame] = useState(false)
@@ -3163,7 +3482,7 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
   }
 
   return (
-    <div className="h-full bg-gray-50 overflow-y-auto">
+    <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Profile Header */}
       <div className="bg-gradient-to-b from-pink-500 to-rose-500 pt-8 pb-16 px-4 text-center text-white">
         <div className="relative inline-block">
@@ -3197,29 +3516,29 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
       </div>
 
       {/* Stats */}
-      <div className="bg-white -mt-8 mx-4 rounded-2xl shadow-lg p-4 mb-4">
+      <div className={`-mt-8 mx-4 rounded-2xl shadow-lg p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="flex justify-around text-center">
           <div>
             <p className="text-2xl font-bold text-pink-500">{user.likes || 0}</p>
-            <p className="text-sm text-gray-500">{t('likes')}</p>
+            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('likes')}</p>
           </div>
-          <div className="border-l border-r px-8">
+          <div className={`border-l border-r px-8 ${dark ? 'border-gray-700' : ''}`}>
             <p className="text-2xl font-bold text-pink-500">{user.matches || 0}</p>
-            <p className="text-sm text-gray-500">{t('matches')}</p>
+            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('matches')}</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-pink-500">{user.superLikes || 0}</p>
-            <p className="text-sm text-gray-500">{t('superLikes')}</p>
+            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('superLikes')}</p>
           </div>
         </div>
       </div>
 
       {/* Interests */}
-      <div className="bg-white mx-4 rounded-2xl shadow-lg p-4 mb-4">
-        <h3 className="font-semibold text-gray-900 mb-3">{t('yourInterests')}</h3>
+      <div className={`mx-4 rounded-2xl shadow-lg p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
+        <h3 className={`font-semibold mb-3 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('yourInterests')}</h3>
         <div className="flex flex-wrap gap-2">
           {(user.interests || []).map((interest, idx) => (
-            <span key={idx} className="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-medium">
+            <span key={idx} className={`px-3 py-1 rounded-full text-sm font-medium ${dark ? 'bg-pink-900/30 text-pink-400' : 'bg-pink-100 text-pink-600'}`}>
               {getInterestLabel(interest)}
             </span>
           ))}
@@ -3227,7 +3546,7 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
       </div>
 
       {/* Language Game */}
-      <div className="bg-white mx-4 rounded-2xl shadow-lg p-4 mb-4">
+      <div className={`mx-4 rounded-2xl shadow-lg p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
         <button
           onClick={() => setShowLanguageGame(true)}
           className="w-full flex items-center justify-between"
@@ -3237,54 +3556,44 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
               <GameIcon className="w-6 h-6 text-white" />
             </div>
             <div className="text-left">
-              <h3 className="font-semibold text-gray-900">{t('languageGame')}</h3>
-              <p className="text-sm text-gray-500">{t('learnAndEarn')}</p>
+              <h3 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('languageGame')}</h3>
+              <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('learnAndEarn')}</p>
             </div>
           </div>
-          <div className="text-pink-500">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
+          <ChevronRightIcon className="w-6 h-6 text-pink-500" />
         </button>
       </div>
 
       {/* Settings */}
-      <div className="bg-white mx-4 rounded-2xl shadow-lg divide-y mb-4">
+      <div className={`mx-4 rounded-2xl shadow-lg divide-y mb-4 ${dark ? 'bg-gray-800 divide-gray-700' : 'bg-white'}`}>
         <button
           onClick={() => setShowEditProfile(true)}
-          className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
         >
-          <span className="font-medium text-gray-700">{t('editProfile')}</span>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('editProfile')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
         <button
           onClick={() => setShowLanguageSettings(true)}
-          className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
         >
-          <span className="font-medium text-gray-700">{t('languageSettings')}</span>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('languageSettings')}</span>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">{languages.find(l => l.id === language)?.flag}</span>
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            <span className="text-sm">{languages.find(l => l.id === language)?.flag}</span>
+            <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
           </div>
         </button>
-        <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50">
-          <span className="font-medium text-gray-700">{t('subscription')}</span>
+        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('subscription')}</span>
           <span className={`${badge.color} text-white text-xs font-bold px-2 py-1 rounded-full`}>{badge.text}</span>
         </button>
-        <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50">
-          <span className="font-medium text-gray-700">{t('discoverySettings')}</span>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('discoverySettings')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
         <button
           onClick={!notificationsEnabled ? onEnableNotifications : undefined}
-          className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
         >
           <span className="font-medium text-gray-700">{t('notifications')}</span>
           {notificationsEnabled ? (
@@ -3299,20 +3608,31 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
         </button>
       </div>
 
-      <div className="bg-white mx-4 rounded-2xl shadow-lg divide-y mb-8">
-        <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50">
-          <span className="font-medium text-gray-700">{t('helpSupport')}</span>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+      <div className={`mx-4 rounded-2xl shadow-lg divide-y mb-4 ${dark ? 'bg-gray-800 divide-gray-700' : 'bg-white'}`}>
+        <div className="w-full p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {dark ? <MoonIcon className="w-5 h-5 text-purple-400" /> : <SunIcon className="w-5 h-5 text-yellow-500" />}
+            <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('appearance')}</span>
+          </div>
+          <button
+            onClick={toggleDark}
+            className={`relative w-12 h-7 rounded-full transition-colors ${dark ? 'bg-purple-500' : 'bg-gray-300'}`}
+          >
+            <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${dark ? 'translate-x-5' : 'translate-x-0.5'}`} />
+          </button>
+        </div>
+      </div>
+
+      <div className={`mx-4 rounded-2xl shadow-lg divide-y mb-8 ${dark ? 'bg-gray-800 divide-gray-700' : 'bg-white'}`}>
+        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('helpSupport')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
-        <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50">
-          <span className="font-medium text-gray-700">{t('privacyPolicy')}</span>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('privacyPolicy')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
-        <button className="w-full p-4 text-red-500 font-medium hover:bg-gray-50">
+        <button className={`w-full p-4 text-red-500 font-medium ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
           {t('logOut')}
         </button>
       </div>
@@ -3359,20 +3679,115 @@ function EmptyState({ userPlan }) {
 // MAIN APP COMPONENT
 // ============================================
 
+// ============================================
+// ONBOARDING TUTORIAL
+// ============================================
+
+function OnboardingTutorial({ onComplete }) {
+  const t = useTranslation()
+  const { dark } = useTheme()
+  const [step, setStep] = useState(0)
+
+  const steps = [
+    { title: t('onboardingTitle1'), desc: t('onboardingDesc1'), emoji: '💕' },
+    { title: t('onboardingTitle2'), desc: t('onboardingDesc2'), emoji: '👆' },
+    { title: t('onboardingTitle3'), desc: t('onboardingDesc3'), emoji: '🎮' },
+    { title: t('onboardingTitle4'), desc: t('onboardingDesc4'), emoji: '✅' },
+  ]
+
+  return (
+    <div className={`min-h-screen flex flex-col items-center justify-center p-8 ${dark ? 'bg-gray-900' : 'bg-gradient-to-br from-pink-50 to-rose-50'}`}>
+      <div className="w-full max-w-md text-center">
+        <div className="text-8xl mb-8 animate-bounce-in">{steps[step].emoji}</div>
+        <h2 className={`text-2xl font-bold mb-3 ${dark ? 'text-white' : 'text-gray-900'}`}>{steps[step].title}</h2>
+        <p className={`mb-8 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{steps[step].desc}</p>
+
+        <div className="flex justify-center gap-2 mb-8">
+          {steps.map((_, idx) => (
+            <div key={idx} className={`h-2 rounded-full transition-all ${idx === step ? 'w-8 bg-pink-500' : 'w-2 bg-gray-300'}`} />
+          ))}
+        </div>
+
+        <div className="flex gap-3">
+          <button onClick={onComplete} className={`flex-1 py-3 rounded-full font-medium ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
+            {t('skip')}
+          </button>
+          <button
+            onClick={() => step < steps.length - 1 ? setStep(step + 1) : onComplete()}
+            className="flex-1 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-bold hover:shadow-lg transition"
+          >
+            {step < steps.length - 1 ? t('next') : t('getStartedNow')}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ============================================
+// PROFILE COMPLETION METER
+// ============================================
+
+function ProfileCompletionMeter({ user }) {
+  const t = useTranslation()
+  const { dark } = useTheme()
+
+  const checks = [
+    { key: 'photo', done: !!user?.image, label: t('addPhotoToComplete') },
+    { key: 'bio', done: !!user?.bio, label: t('addBioToComplete') },
+    { key: 'interests', done: (user?.interests || []).length >= 3, label: t('addInterestsToComplete') },
+    { key: 'video', done: !!user?.profileVideo, label: t('addVideoToComplete') },
+    { key: 'verified', done: !!user?.verified, label: t('verifyToComplete') },
+  ]
+
+  const completed = checks.filter(c => c.done).length
+  const percentage = Math.round((completed / checks.length) * 100)
+  const incomplete = checks.filter(c => !c.done)
+
+  if (percentage === 100) return null
+
+  return (
+    <div className={`mx-4 mb-4 p-4 rounded-2xl ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+      <div className="flex items-center justify-between mb-2">
+        <h3 className={`text-sm font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('profileCompletion')}</h3>
+        <span className="text-sm font-bold text-pink-500">{percentage}%</span>
+      </div>
+      <div className={`h-2 rounded-full mb-3 ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
+        <div className="h-full bg-gradient-to-r from-pink-500 to-rose-500 rounded-full transition-all duration-500" style={{ width: `${percentage}%` }} />
+      </div>
+      <p className={`text-xs mb-2 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('completeProfile')}</p>
+      <div className="space-y-1">
+        {incomplete.map((item) => (
+          <div key={item.key} className={`flex items-center gap-2 text-xs ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
+            <div className={`w-4 h-4 rounded-full border-2 ${dark ? 'border-gray-600' : 'border-gray-300'}`} />
+            {item.label}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ============================================
+// APP CONTENT
+// ============================================
+
 function AppContent() {
   const { language } = useLanguage()
+  const { dark } = useTheme()
   const t = useTranslation()
 
   // App state
-  const [appState, setAppState] = useState('welcome') // welcome, signup, subscription, main
+  const [appState, setAppState] = useState('welcome') // welcome, signup, subscription, onboarding, main
   const [signUpStep, setSignUpStep] = useState(1)
   const [signUpData, setSignUpData] = useState({})
 
   // User state
   const [user, setUser] = useState(null)
   const [userPlan, setUserPlan] = useState('free')
-  const [userPoints, setUserPoints] = useState(100) // Start with 100 points
+  const [userPoints, setUserPoints] = useState(100)
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
+  const [blockedUsers, setBlockedUsers] = useState([])
 
   // Request notification permission on app load
   useEffect(() => {
@@ -3458,7 +3873,19 @@ function AppContent() {
 
   const handleSelectPlan = (plan) => {
     setUserPlan(plan)
-    setAppState('main')
+    setAppState('onboarding')
+  }
+
+  const handleReportUser = (userId, reason) => {
+    console.log(`Reported user ${userId} for: ${reason}`)
+  }
+
+  const handleBlockUser = (userId) => {
+    setBlockedUsers(prev => [...prev, userId])
+    setProfiles(prev => prev.filter(p => p.id !== userId))
+    if (currentProfile && currentProfile.id === userId) {
+      nextProfile()
+    }
   }
 
   const handleLike = () => {
@@ -3581,6 +4008,10 @@ function AppContent() {
     return <SubscriptionScreen onSelectPlan={handleSelectPlan} />
   }
 
+  if (appState === 'onboarding') {
+    return <OnboardingTutorial onComplete={() => setAppState('main')} />
+  }
+
   // Main app
   const renderContent = () => {
     if (selectedChat && currentTab === 'messages') {
@@ -3611,6 +4042,9 @@ function AppContent() {
                 onLike={handleLike}
                 onPass={handlePass}
                 onSuperLike={handleSuperLike}
+                onReport={handleReportUser}
+                onBlock={handleBlockUser}
+                compatibility={calculateCompatibility(user, currentProfile)}
               />
             </div>
           </div>
@@ -3621,15 +4055,18 @@ function AppContent() {
         return <MessagesList matches={matches} onSelectChat={setSelectedChat} />
       case 'profile':
         return (
-          <EnhancedProfileSettings
-            user={user}
-            onUpdateUser={handleUpdateUser}
-            userPlan={userPlan}
-            userPoints={userPoints}
-            onEarnPoints={handleEarnPoints}
-            notificationsEnabled={notificationsEnabled}
-            onEnableNotifications={handleEnableNotifications}
-          />
+          <div className="h-full overflow-y-auto">
+            <ProfileCompletionMeter user={user} />
+            <EnhancedProfileSettings
+              user={user}
+              onUpdateUser={handleUpdateUser}
+              userPlan={userPlan}
+              userPoints={userPoints}
+              onEarnPoints={handleEarnPoints}
+              notificationsEnabled={notificationsEnabled}
+              onEnableNotifications={handleEnableNotifications}
+            />
+          </div>
         )
       default:
         return null
@@ -3637,9 +4074,9 @@ function AppContent() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className={`h-screen flex flex-col ${dark ? 'bg-gray-900' : 'bg-gray-100'}`}>
       {/* Header */}
-      <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
+      <header className={`shadow-sm px-4 py-3 flex items-center justify-between ${dark ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="flex items-center gap-2">
           <CoinIcon />
           <span className="font-bold text-yellow-600">{userPoints}</span>
@@ -3650,7 +4087,7 @@ function AppContent() {
             KONJA
           </span>
         </div>
-        <button className="text-gray-600 hover:text-gray-800 relative">
+        <button className={`relative ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}>
           <ChatIcon />
           {matches.some(m => m.unread) && (
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-pink-500 rounded-full" />
@@ -3664,12 +4101,12 @@ function AppContent() {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="bg-white shadow-lg border-t">
+      <nav className={`shadow-lg border-t ${dark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
         <div className="flex justify-around">
           <button
             onClick={() => { setCurrentTab('discover'); setSelectedChat(null); }}
             className={`flex-1 py-4 flex flex-col items-center gap-1 ${
-              currentTab === 'discover' ? 'text-pink-500' : 'text-gray-400'
+              currentTab === 'discover' ? 'text-pink-500' : dark ? 'text-gray-500' : 'text-gray-400'
             }`}
           >
             <FlameIcon />
@@ -3678,7 +4115,7 @@ function AppContent() {
           <button
             onClick={() => { setCurrentTab('messages'); setSelectedChat(null); }}
             className={`flex-1 py-4 flex flex-col items-center gap-1 relative ${
-              currentTab === 'messages' ? 'text-pink-500' : 'text-gray-400'
+              currentTab === 'messages' ? 'text-pink-500' : dark ? 'text-gray-500' : 'text-gray-400'
             }`}
           >
             <ChatIcon />
@@ -3690,7 +4127,7 @@ function AppContent() {
           <button
             onClick={() => { setCurrentTab('profile'); setSelectedChat(null); }}
             className={`flex-1 py-4 flex flex-col items-center gap-1 ${
-              currentTab === 'profile' ? 'text-pink-500' : 'text-gray-400'
+              currentTab === 'profile' ? 'text-pink-500' : dark ? 'text-gray-500' : 'text-gray-400'
             }`}
           >
             <UserIcon />
@@ -3723,14 +4160,32 @@ function AppContent() {
   )
 }
 
-// Main App wrapper with Language Provider
+// Main App wrapper with Language + Theme Providers
 function App() {
   const [language, setLanguage] = useState('en')
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('konja-dark-mode')
+      if (saved !== null) return saved === 'true'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    return false
+  })
+
+  const toggleDark = () => {
+    setDark(prev => {
+      const next = !prev
+      localStorage.setItem('konja-dark-mode', String(next))
+      return next
+    })
+  }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, languages: LANGUAGES }}>
-      <AppContent />
-    </LanguageContext.Provider>
+    <ThemeContext.Provider value={{ dark, toggleDark }}>
+      <LanguageContext.Provider value={{ language, setLanguage, languages: LANGUAGES }}>
+        <AppContent />
+      </LanguageContext.Provider>
+    </ThemeContext.Provider>
   )
 }
 
