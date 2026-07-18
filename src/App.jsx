@@ -100,7 +100,12 @@ const TRANSLATIONS = {
     addPhoto: 'Add Photo',
     introVideo: 'Introduction Video (Optional)',
     addVideo: 'Add a short video (max 30 sec)',
+    recordVideo: 'Record Video',
+    chooseVideo: 'Choose from Library',
     videoUploaded: 'Video uploaded!',
+    removeVideo: 'Remove',
+    tapToPlay: 'Tap to play',
+    videoTooLong: 'Video must be 30 seconds or less',
     videoHelp: 'A video helps you stand out and get 3x more matches!',
     bio: 'Bio',
     tellAboutYourself: 'Tell others about yourself...',
@@ -260,7 +265,12 @@ const TRANSLATIONS = {
     addPhoto: '사진 추가',
     introVideo: '소개 영상 (선택)',
     addVideo: '짧은 영상 추가 (최대 30초)',
+    recordVideo: '영상 촬영',
+    chooseVideo: '라이브러리에서 선택',
     videoUploaded: '영상 업로드 완료!',
+    removeVideo: '삭제',
+    tapToPlay: '재생하려면 탭하세요',
+    videoTooLong: '영상은 30초 이하여야 합니다',
     videoHelp: '영상은 매치 확률을 3배 높여줍니다!',
     bio: '자기소개',
     tellAboutYourself: '자신에 대해 알려주세요...',
@@ -411,7 +421,12 @@ const TRANSLATIONS = {
     addPhoto: '写真を追加',
     introVideo: '紹介動画（任意）',
     addVideo: '短い動画を追加（最大30秒）',
+    recordVideo: '動画を撮影',
+    chooseVideo: 'ライブラリから選択',
     videoUploaded: '動画がアップロードされました！',
+    removeVideo: '削除',
+    tapToPlay: 'タップして再生',
+    videoTooLong: '動画は30秒以下にしてください',
     videoHelp: '動画があるとマッチ率が3倍になります！',
     bio: '自己紹介',
     tellAboutYourself: '自分について教えてください...',
@@ -891,6 +906,18 @@ const VideoIcon = ({ className = "w-6 h-6" }) => (
   </svg>
 )
 
+const PlayCircleIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" />
+  </svg>
+)
+
+const TrashIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  </svg>
+)
+
 const GiftIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
@@ -1146,15 +1173,74 @@ function SignUpStep1({ data, onUpdate, onNext }) {
 
 function SignUpStep2({ data, onUpdate, onNext, onBack }) {
   const t = useTranslation()
+  const [videoError, setVideoError] = useState(null)
+  const [showVideoOptions, setShowVideoOptions] = useState(false)
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false)
+  const imageInputRef = useState(null)
+  const videoInputRef = useState(null)
+  const videoRecordRef = useState(null)
 
   const handleImageUpload = () => {
-    // Simulated - in real app would use file input
-    onUpdate({ profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400' })
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.capture = 'user'
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        const url = URL.createObjectURL(file)
+        onUpdate({ profileImage: url })
+      }
+    }
+    input.click()
   }
 
-  const handleVideoUpload = () => {
-    // Simulated - in real app would use file input
-    onUpdate({ profileVideo: 'uploaded' })
+  const handleVideoFromLibrary = () => {
+    setShowVideoOptions(false)
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'video/*'
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      if (file) processVideoFile(file)
+    }
+    input.click()
+  }
+
+  const handleVideoRecord = () => {
+    setShowVideoOptions(false)
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'video/*'
+    input.capture = 'user'
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      if (file) processVideoFile(file)
+    }
+    input.click()
+  }
+
+  const processVideoFile = (file) => {
+    setVideoError(null)
+    const url = URL.createObjectURL(file)
+    const video = document.createElement('video')
+    video.preload = 'metadata'
+    video.onloadedmetadata = () => {
+      URL.revokeObjectURL(video.src)
+      if (video.duration > 30) {
+        setVideoError(t('videoTooLong'))
+        URL.revokeObjectURL(url)
+        return
+      }
+      onUpdate({ profileVideo: url, profileVideoFile: file })
+    }
+    video.src = url
+  }
+
+  const handleRemoveVideo = (e) => {
+    e.stopPropagation()
+    if (data.profileVideo) URL.revokeObjectURL(data.profileVideo)
+    onUpdate({ profileVideo: null, profileVideoFile: null })
   }
 
   return (
@@ -1179,7 +1265,7 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
             <label className="block text-sm font-medium text-gray-700 mb-3">{t('profilePhoto')}</label>
             <div
               onClick={handleImageUpload}
-              className="w-40 h-40 mx-auto rounded-full border-4 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100"
+              className="w-40 h-40 mx-auto rounded-full border-4 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100 overflow-hidden"
             >
               {data.profileImage ? (
                 <img src={data.profileImage} alt="Profile" className="w-full h-full rounded-full object-cover" />
@@ -1195,22 +1281,60 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
           {/* Profile Video */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">{t('introVideo')}</label>
-            <div
-              onClick={handleVideoUpload}
-              className="w-full h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100"
-            >
-              {data.profileVideo ? (
-                <div className="text-center">
-                  <CheckIcon className="w-10 h-10 text-green-500 mx-auto" />
-                  <span className="text-sm text-green-600 mt-2">{t('videoUploaded')}</span>
+
+            {data.profileVideo ? (
+              <div className="relative rounded-xl overflow-hidden bg-black">
+                {isPlayingVideo ? (
+                  <video
+                    src={data.profileVideo}
+                    className="w-full h-48 object-contain"
+                    controls
+                    autoPlay
+                    onEnded={() => setIsPlayingVideo(false)}
+                  />
+                ) : (
+                  <div
+                    className="relative cursor-pointer"
+                    onClick={() => setIsPlayingVideo(true)}
+                  >
+                    <video
+                      src={data.profileVideo}
+                      className="w-full h-48 object-contain"
+                      muted
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <PlayCircleIcon className="w-16 h-16 text-white drop-shadow-lg" />
+                    </div>
+                  </div>
+                )}
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={handleRemoveVideo}
+                    className="p-2 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition"
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
                 </div>
-              ) : (
-                <>
-                  <VideoIcon className="w-10 h-10 text-gray-400" />
-                  <span className="text-sm text-gray-500 mt-2">{t('addVideo')}</span>
-                </>
-              )}
-            </div>
+                <div className="bg-green-50 px-4 py-2 flex items-center gap-2">
+                  <CheckIcon className="w-5 h-5 text-green-500" />
+                  <span className="text-sm text-green-600 font-medium">{t('videoUploaded')}</span>
+                </div>
+              </div>
+            ) : (
+              <div
+                onClick={() => setShowVideoOptions(true)}
+                className="w-full h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-pink-400 transition bg-gray-100"
+              >
+                <VideoIcon className="w-10 h-10 text-gray-400" />
+                <span className="text-sm text-gray-500 mt-2">{t('addVideo')}</span>
+              </div>
+            )}
+
+            {videoError && (
+              <p className="text-sm text-red-500 mt-2 flex items-center gap-1">
+                <span>⚠</span> {videoError}
+              </p>
+            )}
             <p className="text-xs text-gray-400 mt-2">{t('videoHelp')}</p>
           </div>
 
@@ -1240,6 +1364,38 @@ function SignUpStep2({ data, onUpdate, onNext, onBack }) {
           {t('continue')}
         </button>
       </div>
+
+      {/* Video Options Modal */}
+      {showVideoOptions && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center" onClick={() => setShowVideoOptions(false)}>
+          <div
+            className="bg-white w-full max-w-md rounded-t-3xl p-6 space-y-3 animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4" />
+            <button
+              onClick={handleVideoRecord}
+              className="w-full py-4 px-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl font-semibold flex items-center gap-3 hover:shadow-lg transition"
+            >
+              <VideoIcon className="w-6 h-6" />
+              {t('recordVideo')}
+            </button>
+            <button
+              onClick={handleVideoFromLibrary}
+              className="w-full py-4 px-6 bg-gray-100 text-gray-700 rounded-2xl font-semibold flex items-center gap-3 hover:bg-gray-200 transition"
+            >
+              <CameraIcon className="w-6 h-6" />
+              {t('chooseVideo')}
+            </button>
+            <button
+              onClick={() => setShowVideoOptions(false)}
+              className="w-full py-3 text-gray-400 font-medium"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -2306,9 +2462,11 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
 // ============================================
 
 function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
+  const t = useTranslation()
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [swipeDirection, setSwipeDirection] = useState(null)
+  const [showVideo, setShowVideo] = useState(false)
 
   const minSwipeDistance = 50
 
@@ -2358,6 +2516,16 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+
+        {profile.video && (
+          <button
+            onClick={() => setShowVideo(true)}
+            className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium hover:bg-black/70 transition z-10"
+          >
+            <PlayCircleIcon className="w-5 h-5" />
+            <span>{t('tapToPlay')}</span>
+          </button>
+        )}
 
         {swipeDirection === 'right' && (
           <div className="absolute top-8 left-8 border-4 border-green-500 text-green-500 px-4 py-2 rounded-lg rotate-[-20deg] text-2xl font-bold">
@@ -2411,6 +2579,31 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike }) {
           <HeartIcon filled className="w-8 h-8" />
         </button>
       </div>
+
+      {/* Video Playback Modal */}
+      {showVideo && profile.video && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+          onClick={() => setShowVideo(false)}
+        >
+          <button
+            className="absolute top-6 right-6 text-white p-2 hover:bg-white/20 rounded-full transition z-10"
+            onClick={() => setShowVideo(false)}
+          >
+            <XIcon className="w-8 h-8" />
+          </button>
+          <div className="w-full max-w-lg px-4" onClick={(e) => e.stopPropagation()}>
+            <video
+              src={profile.video}
+              className="w-full rounded-2xl"
+              controls
+              autoPlay
+              playsInline
+            />
+            <p className="text-white text-center mt-4 font-medium">{profile.name}'s intro</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -2609,7 +2802,22 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
                 alt={editData.name}
                 className="w-32 h-32 rounded-full object-cover border-4 border-pink-500"
               />
-              <button className="absolute bottom-0 right-0 w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white shadow-lg">
+              <button
+                onClick={() => {
+                  const input = document.createElement('input')
+                  input.type = 'file'
+                  input.accept = 'image/*'
+                  input.onchange = (e) => {
+                    const file = e.target.files[0]
+                    if (file) {
+                      const url = URL.createObjectURL(file)
+                      setEditData({ ...editData, image: url })
+                    }
+                  }
+                  input.click()
+                }}
+                className="absolute bottom-0 right-0 w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white shadow-lg"
+              >
                 <CameraIcon className="w-5 h-5" />
               </button>
             </div>
@@ -2618,10 +2826,54 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
           {/* Video */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">{t('introVideo')}</label>
-            <button className="w-full h-24 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-500 hover:border-pink-400 transition">
-              <VideoIcon className="w-8 h-8" />
-              <span className="text-sm mt-1">{t('updateVideo')}</span>
-            </button>
+            {editData.profileVideo ? (
+              <div className="relative rounded-xl overflow-hidden bg-black">
+                <video
+                  src={editData.profileVideo}
+                  className="w-full h-40 object-contain"
+                  controls
+                  playsInline
+                />
+                <button
+                  onClick={() => setEditData({ ...editData, profileVideo: null })}
+                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition"
+                >
+                  <TrashIcon className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  const input = document.createElement('input')
+                  input.type = 'file'
+                  input.accept = 'video/*'
+                  input.onchange = (e) => {
+                    const file = e.target.files[0]
+                    if (file) {
+                      const url = URL.createObjectURL(file)
+                      const vid = document.createElement('video')
+                      vid.preload = 'metadata'
+                      vid.onloadedmetadata = () => {
+                        URL.revokeObjectURL(vid.src)
+                        if (vid.duration <= 30) {
+                          setEditData({ ...editData, profileVideo: url })
+                        } else {
+                          URL.revokeObjectURL(url)
+                          alert(t('videoTooLong'))
+                        }
+                      }
+                      vid.src = url
+                    }
+                  }
+                  input.click()
+                }}
+                className="w-full h-24 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-500 hover:border-pink-400 transition"
+              >
+                <VideoIcon className="w-8 h-8" />
+                <span className="text-sm mt-1">{t('updateVideo')}</span>
+              </button>
+            )}
+            <p className="text-xs text-gray-400 mt-2">{t('videoHelp')}</p>
           </div>
 
           {/* Bio */}
@@ -2979,6 +3231,7 @@ function AppContent() {
     setUser({
       ...signUpData,
       image: signUpData.profileImage,
+      profileVideo: signUpData.profileVideo || null,
       age: signUpData.dateOfBirth ? new Date().getFullYear() - new Date(signUpData.dateOfBirth).getFullYear() : 25,
       likes: 0,
       matches: 0,
