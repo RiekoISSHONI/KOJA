@@ -347,6 +347,32 @@ const TRANSLATIONS = {
     // Matching
     compatibility: 'Compatibility',
     sharedInterests: 'shared interests',
+    // Community
+    community: 'Community',
+    communityFeed: 'Community Feed',
+    allTopics: 'All',
+    topicKpop: 'K-Pop',
+    topicKdrama: 'K-Drama',
+    topicFood: 'Food & Drink',
+    topicLanguage: 'Language',
+    topicTravel: 'Travel',
+    topicCulture: 'Culture',
+    newPost: 'New Post',
+    writePost: 'Share something with the community...',
+    post: 'Post',
+    cancel: 'Cancel',
+    selectTopic: 'Select a topic',
+    likesCount: 'likes',
+    commentsCount: 'comments',
+    writeComment: 'Write a comment...',
+    reply: 'Reply',
+    communityGuidelines: 'Be respectful and kind to everyone',
+    noPostsYet: 'No posts yet',
+    beFirstToPost: 'Be the first to share something!',
+    justNow: 'just now',
+    minutesAgo: 'm ago',
+    hoursAgo: 'h ago',
+    daysAgo: 'd ago',
   },
   ko: {
     appName: 'KONJA',
@@ -552,6 +578,31 @@ const TRANSLATIONS = {
     no: '아니오',
     compatibility: '호환성',
     sharedInterests: '공통 관심사',
+    community: '커뮤니티',
+    communityFeed: '커뮤니티 피드',
+    allTopics: '전체',
+    topicKpop: 'K-Pop',
+    topicKdrama: 'K-드라마',
+    topicFood: '음식',
+    topicLanguage: '언어',
+    topicTravel: '여행',
+    topicCulture: '문화',
+    newPost: '새 글',
+    writePost: '커뮤니티에 공유해보세요...',
+    post: '게시',
+    cancel: '취소',
+    selectTopic: '주제를 선택하세요',
+    likesCount: '좋아요',
+    commentsCount: '댓글',
+    writeComment: '댓글을 작성하세요...',
+    reply: '답글',
+    communityGuidelines: '모두에게 존중과 친절을 베풀어주세요',
+    noPostsYet: '아직 게시글이 없습니다',
+    beFirstToPost: '첫 번째 게시글을 작성해보세요!',
+    justNow: '방금',
+    minutesAgo: '분 전',
+    hoursAgo: '시간 전',
+    daysAgo: '일 전',
   },
   ja: {
     appName: 'KONJA',
@@ -757,6 +808,31 @@ const TRANSLATIONS = {
     no: 'いいえ',
     compatibility: '相性',
     sharedInterests: '共通の興味',
+    community: 'コミュニティ',
+    communityFeed: 'コミュニティフィード',
+    allTopics: 'すべて',
+    topicKpop: 'K-Pop',
+    topicKdrama: 'K-ドラマ',
+    topicFood: 'グルメ',
+    topicLanguage: '言語',
+    topicTravel: '旅行',
+    topicCulture: '文化',
+    newPost: '新規投稿',
+    writePost: 'コミュニティでシェアしましょう...',
+    post: '投稿',
+    cancel: 'キャンセル',
+    selectTopic: 'トピックを選択',
+    likesCount: 'いいね',
+    commentsCount: 'コメント',
+    writeComment: 'コメントを書く...',
+    reply: '返信',
+    communityGuidelines: '皆に敬意と優しさを持ちましょう',
+    noPostsYet: 'まだ投稿がありません',
+    beFirstToPost: '最初の投稿をしましょう！',
+    justNow: 'たった今',
+    minutesAgo: '分前',
+    hoursAgo: '時間前',
+    daysAgo: '日前',
   },
 }
 
@@ -995,6 +1071,95 @@ const CONVERSATION_STARTERS = {
     ],
   },
 }
+
+const COMMUNITY_TOPICS = [
+  { id: 'all', labelKey: 'allTopics', emoji: '🌐' },
+  { id: 'kpop', labelKey: 'topicKpop', emoji: '🎤' },
+  { id: 'kdrama', labelKey: 'topicKdrama', emoji: '📺' },
+  { id: 'food', labelKey: 'topicFood', emoji: '🍜' },
+  { id: 'language', labelKey: 'topicLanguage', emoji: '🗣️' },
+  { id: 'travel', labelKey: 'topicTravel', emoji: '✈️' },
+  { id: 'culture', labelKey: 'topicCulture', emoji: '🏯' },
+]
+
+const SAMPLE_COMMUNITY_POSTS = [
+  {
+    id: 1,
+    author: { name: 'Mina', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100', verified: true },
+    topic: 'kpop',
+    text: 'Just saw BLACKPINK live in concert and it was absolutely INCREDIBLE! The energy was unreal. Anyone else been to a K-pop concert recently?',
+    likes: 42,
+    comments: [
+      { id: 1, author: 'Yuki', text: 'So jealous! I want to see them live next year!', time: '1h ago' },
+      { id: 2, author: 'Alex', text: 'Their choreography is insane! Which song was your favorite?', time: '45m ago' },
+    ],
+    time: '2h ago',
+    timeMs: 7200000,
+  },
+  {
+    id: 2,
+    author: { name: 'David', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100', verified: false },
+    topic: 'food',
+    text: 'Made homemade tteokbokki for the first time! Not as spicy as I expected but SO delicious. Drop your favorite Korean recipes below!',
+    likes: 28,
+    comments: [
+      { id: 1, author: 'Soo-jin', text: 'Try adding gochujang for extra kick!', time: '3h ago' },
+    ],
+    time: '4h ago',
+    timeMs: 14400000,
+  },
+  {
+    id: 3,
+    author: { name: 'Haruki', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100', verified: true },
+    topic: 'language',
+    text: 'Learning Korean tip: Watch K-dramas with Korean subtitles instead of English. It really helps with reading speed and vocabulary! What study methods work for you?',
+    likes: 67,
+    comments: [
+      { id: 1, author: 'Lisa', text: 'This changed my learning completely! Also try Talk To Me In Korean podcast', time: '5h ago' },
+      { id: 2, author: 'Jun', text: 'Flashcard apps + dramas = best combo', time: '4h ago' },
+      { id: 3, author: 'Emily', text: 'I do this with Japanese anime too!', time: '3h ago' },
+    ],
+    time: '6h ago',
+    timeMs: 21600000,
+  },
+  {
+    id: 4,
+    author: { name: 'Sarah', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100', verified: false },
+    topic: 'kdrama',
+    text: 'Just finished Crash Landing on You and I cannot stop crying. Why do K-dramas do this to us? What should I watch next?',
+    likes: 53,
+    comments: [
+      { id: 1, author: 'Min-ho', text: 'Watch Goblin next! You will cry even more', time: '1d ago' },
+      { id: 2, author: 'Nana', text: 'Reply 1988 is a masterpiece!', time: '23h ago' },
+    ],
+    time: '1d ago',
+    timeMs: 86400000,
+  },
+  {
+    id: 5,
+    author: { name: 'Kenji', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100', verified: true },
+    topic: 'travel',
+    text: 'Planning my first trip to Seoul! Must-visit places? I already have Myeongdong and Bukchon Hanok Village on my list.',
+    likes: 35,
+    comments: [
+      { id: 1, author: 'Ji-yeon', text: 'Hongdae for nightlife and street food! Also check out Ikseon-dong for cute cafes', time: '8h ago' },
+    ],
+    time: '12h ago',
+    timeMs: 43200000,
+  },
+  {
+    id: 6,
+    author: { name: 'Aiko', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100', verified: false },
+    topic: 'culture',
+    text: 'Tried wearing hanbok for the first time at Gyeongbokgung Palace. Such a beautiful experience! Has anyone tried wearing traditional clothing from another Asian culture?',
+    likes: 89,
+    comments: [
+      { id: 1, author: 'Wei', text: 'I wore a yukata in Kyoto last summer! So fun', time: '2d ago' },
+    ],
+    time: '2d ago',
+    timeMs: 172800000,
+  },
+]
 
 const sampleProfiles = [
   {
@@ -1263,6 +1428,24 @@ const CoinIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="10" fill="#FFD700" stroke="#DAA520" strokeWidth="2"/>
     <text x="12" y="16" textAnchor="middle" fontSize="10" fill="#B8860B" fontWeight="bold">P</text>
+  </svg>
+)
+
+const UsersIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+  </svg>
+)
+
+const PlusIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+  </svg>
+)
+
+const MessageBubbleIcon = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
   </svg>
 )
 
@@ -3676,6 +3859,275 @@ function EmptyState({ userPlan }) {
 }
 
 // ============================================
+// COMMUNITY FEED
+// ============================================
+
+function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment }) {
+  const t = useTranslation()
+  const { dark } = useTheme()
+  const [selectedTopic, setSelectedTopic] = useState('all')
+  const [showNewPost, setShowNewPost] = useState(false)
+  const [newPostText, setNewPostText] = useState('')
+  const [newPostTopic, setNewPostTopic] = useState('culture')
+  const [expandedComments, setExpandedComments] = useState({})
+  const [commentText, setCommentText] = useState({})
+
+  const filteredPosts = selectedTopic === 'all'
+    ? posts
+    : posts.filter(p => p.topic === selectedTopic)
+
+  const handlePost = () => {
+    if (!newPostText.trim()) return
+    onAddPost({
+      text: newPostText.trim(),
+      topic: newPostTopic,
+    })
+    setNewPostText('')
+    setNewPostTopic('culture')
+    setShowNewPost(false)
+  }
+
+  const handleComment = (postId) => {
+    const text = commentText[postId]
+    if (!text?.trim()) return
+    onAddComment(postId, text.trim())
+    setCommentText({ ...commentText, [postId]: '' })
+  }
+
+  const toggleComments = (postId) => {
+    setExpandedComments(prev => ({ ...prev, [postId]: !prev[postId] }))
+  }
+
+  const getTopicEmoji = (topicId) => {
+    const topic = COMMUNITY_TOPICS.find(t => t.id === topicId)
+    return topic ? topic.emoji : '🌐'
+  }
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Topic Filter Bar */}
+      <div className={`px-3 py-2 border-b ${dark ? 'border-gray-700' : 'border-gray-200'}`}>
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          {COMMUNITY_TOPICS.map(topic => (
+            <button
+              key={topic.id}
+              onClick={() => setSelectedTopic(topic.id)}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                selectedTopic === topic.id
+                  ? 'bg-pink-500 text-white'
+                  : dark
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <span>{topic.emoji}</span>
+              <span>{t(topic.labelKey)}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Post Feed */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Guidelines Banner */}
+        <div className={`mx-4 mt-3 mb-2 px-3 py-2 rounded-lg text-xs flex items-center gap-2 ${
+          dark ? 'bg-gray-800 text-gray-400' : 'bg-pink-50 text-pink-600'
+        }`}>
+          <span>💕</span>
+          <span>{t('communityGuidelines')}</span>
+        </div>
+
+        {filteredPosts.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 px-8">
+            <span className="text-5xl mb-4">📝</span>
+            <p className={`text-lg font-semibold mb-1 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('noPostsYet')}</p>
+            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('beFirstToPost')}</p>
+          </div>
+        ) : (
+          <div className="space-y-0">
+            {filteredPosts.map(post => (
+              <div key={post.id} className={`px-4 py-4 border-b ${dark ? 'border-gray-700' : 'border-gray-100'}`}>
+                {/* Post Header */}
+                <div className="flex items-center gap-3 mb-2">
+                  <img
+                    src={post.author.image}
+                    alt={post.author.name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className={`font-semibold text-sm ${dark ? 'text-white' : 'text-gray-900'}`}>
+                        {post.author.name}
+                      </span>
+                      {post.author.verified && (
+                        <span className="text-blue-500 text-xs">✓</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs ${dark ? 'text-gray-500' : 'text-gray-400'}`}>{post.time}</span>
+                      <span className="text-xs">{getTopicEmoji(post.topic)}</span>
+                      <span className={`text-xs ${dark ? 'text-gray-500' : 'text-gray-400'}`}>{t(COMMUNITY_TOPICS.find(tp => tp.id === post.topic)?.labelKey || 'allTopics')}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Post Text */}
+                <p className={`text-sm leading-relaxed mb-3 ${dark ? 'text-gray-200' : 'text-gray-800'}`}>
+                  {post.text}
+                </p>
+
+                {/* Post Actions */}
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => onLikePost(post.id)}
+                    className={`flex items-center gap-1.5 text-sm transition ${
+                      post.liked
+                        ? 'text-pink-500'
+                        : dark ? 'text-gray-400 hover:text-pink-400' : 'text-gray-500 hover:text-pink-500'
+                    }`}
+                  >
+                    <HeartIcon filled={post.liked} className="w-5 h-5" />
+                    <span>{post.likes}</span>
+                  </button>
+                  <button
+                    onClick={() => toggleComments(post.id)}
+                    className={`flex items-center gap-1.5 text-sm transition ${
+                      dark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-500 hover:text-blue-500'
+                    }`}
+                  >
+                    <MessageBubbleIcon className="w-5 h-5" />
+                    <span>{post.comments.length}</span>
+                  </button>
+                </div>
+
+                {/* Comments Section */}
+                {expandedComments[post.id] && (
+                  <div className={`mt-3 pt-3 border-t ${dark ? 'border-gray-700' : 'border-gray-100'}`}>
+                    {post.comments.map(comment => (
+                      <div key={comment.id} className="flex gap-2 mb-2.5">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                          dark ? 'bg-gray-600 text-gray-300' : 'bg-gray-200 text-gray-600'
+                        }`}>
+                          {comment.author[0]}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-baseline gap-2">
+                            <span className={`text-xs font-semibold ${dark ? 'text-gray-300' : 'text-gray-700'}`}>{comment.author}</span>
+                            <span className={`text-xs ${dark ? 'text-gray-600' : 'text-gray-400'}`}>{comment.time}</span>
+                          </div>
+                          <p className={`text-xs mt-0.5 ${dark ? 'text-gray-400' : 'text-gray-600'}`}>{comment.text}</p>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Add Comment */}
+                    <div className="flex gap-2 mt-2">
+                      <input
+                        type="text"
+                        value={commentText[post.id] || ''}
+                        onChange={e => setCommentText({ ...commentText, [post.id]: e.target.value })}
+                        onKeyDown={e => e.key === 'Enter' && handleComment(post.id)}
+                        placeholder={t('writeComment')}
+                        className={`flex-1 text-sm px-3 py-1.5 rounded-full border ${
+                          dark
+                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-500'
+                            : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                        } focus:outline-none focus:ring-1 focus:ring-pink-500`}
+                      />
+                      <button
+                        onClick={() => handleComment(post.id)}
+                        className="px-3 py-1.5 bg-pink-500 text-white text-sm rounded-full font-medium hover:bg-pink-600 transition"
+                      >
+                        {t('reply')}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* New Post FAB */}
+      <button
+        onClick={() => setShowNewPost(true)}
+        className="absolute bottom-20 right-4 w-14 h-14 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all active:scale-95"
+      >
+        <PlusIcon className="w-7 h-7" />
+      </button>
+
+      {/* New Post Modal */}
+      {showNewPost && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center" onClick={() => setShowNewPost(false)}>
+          <div
+            className={`w-full max-w-lg rounded-t-2xl p-5 animate-slide-up ${dark ? 'bg-gray-800' : 'bg-white'}`}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <button onClick={() => setShowNewPost(false)} className={`text-sm font-medium ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
+                {t('cancel')}
+              </button>
+              <h3 className={`font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('newPost')}</h3>
+              <button
+                onClick={handlePost}
+                disabled={!newPostText.trim()}
+                className={`text-sm font-bold ${newPostText.trim() ? 'text-pink-500' : dark ? 'text-gray-600' : 'text-gray-300'}`}
+              >
+                {t('post')}
+              </button>
+            </div>
+
+            {/* Topic Selector */}
+            <div className="flex gap-2 mb-3 overflow-x-auto pb-1">
+              {COMMUNITY_TOPICS.filter(tp => tp.id !== 'all').map(topic => (
+                <button
+                  key={topic.id}
+                  onClick={() => setNewPostTopic(topic.id)}
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                    newPostTopic === topic.id
+                      ? 'bg-pink-500 text-white'
+                      : dark
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-100 text-gray-600'
+                  }`}
+                >
+                  <span>{topic.emoji}</span>
+                  <span>{t(topic.labelKey)}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Post Input */}
+            <div className="flex gap-3">
+              {user?.image ? (
+                <img src={user.image} alt="" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+              ) : (
+                <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center ${dark ? 'bg-gray-600' : 'bg-gray-200'}`}>
+                  <UserIcon className="w-5 h-5" />
+                </div>
+              )}
+              <textarea
+                value={newPostText}
+                onChange={e => setNewPostText(e.target.value)}
+                placeholder={t('writePost')}
+                rows={4}
+                autoFocus
+                className={`flex-1 text-sm p-3 rounded-xl border resize-none ${
+                  dark
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-500'
+                    : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                } focus:outline-none focus:ring-1 focus:ring-pink-500`}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ============================================
 // MAIN APP COMPONENT
 // ============================================
 
@@ -3788,6 +4240,7 @@ function AppContent() {
   const [userPoints, setUserPoints] = useState(100)
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
   const [blockedUsers, setBlockedUsers] = useState([])
+  const [communityPosts, setCommunityPosts] = useState(SAMPLE_COMMUNITY_POSTS)
 
   // Request notification permission on app load
   useEffect(() => {
@@ -3886,6 +4339,49 @@ function AppContent() {
     if (currentProfile && currentProfile.id === userId) {
       nextProfile()
     }
+  }
+
+  const handleAddPost = ({ text, topic }) => {
+    const newPost = {
+      id: Date.now(),
+      author: {
+        name: user?.name || 'You',
+        image: user?.image || '',
+        verified: user?.verified || false,
+      },
+      topic,
+      text,
+      likes: 0,
+      liked: false,
+      comments: [],
+      time: t('justNow'),
+      timeMs: 0,
+    }
+    setCommunityPosts(prev => [newPost, ...prev])
+  }
+
+  const handleLikePost = (postId) => {
+    setCommunityPosts(prev => prev.map(p =>
+      p.id === postId
+        ? { ...p, liked: !p.liked, likes: p.liked ? p.likes - 1 : p.likes + 1 }
+        : p
+    ))
+  }
+
+  const handleAddComment = (postId, text) => {
+    setCommunityPosts(prev => prev.map(p =>
+      p.id === postId
+        ? {
+            ...p,
+            comments: [...p.comments, {
+              id: Date.now(),
+              author: user?.name || 'You',
+              text,
+              time: t('justNow'),
+            }],
+          }
+        : p
+    ))
   }
 
   const handleLike = () => {
@@ -4053,6 +4549,16 @@ function AppContent() {
         )
       case 'messages':
         return <MessagesList matches={matches} onSelectChat={setSelectedChat} />
+      case 'community':
+        return (
+          <CommunityFeed
+            user={user}
+            posts={communityPosts}
+            onAddPost={handleAddPost}
+            onLikePost={handleLikePost}
+            onAddComment={handleAddComment}
+          />
+        )
       case 'profile':
         return (
           <div className="h-full overflow-y-auto">
@@ -4096,7 +4602,7 @@ function AppContent() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden relative">
         {renderContent()}
       </main>
 
@@ -4123,6 +4629,15 @@ function AppContent() {
             {matches.some(m => m.unread) && (
               <span className="absolute top-3 right-1/3 w-2 h-2 bg-pink-500 rounded-full" />
             )}
+          </button>
+          <button
+            onClick={() => { setCurrentTab('community'); setSelectedChat(null); }}
+            className={`flex-1 py-4 flex flex-col items-center gap-1 ${
+              currentTab === 'community' ? 'text-pink-500' : dark ? 'text-gray-500' : 'text-gray-400'
+            }`}
+          >
+            <UsersIcon />
+            <span className="text-xs">{t('community')}</span>
           </button>
           <button
             onClick={() => { setCurrentTab('profile'); setSelectedChat(null); }}
