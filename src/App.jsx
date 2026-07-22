@@ -347,6 +347,18 @@ const TRANSLATIONS = {
     // Matching
     compatibility: 'Compatibility',
     sharedInterests: 'shared interests',
+    // Subscription Settings
+    currentPlan: 'Current Plan',
+    changePlan: 'Change Plan',
+    planFeatures: 'Plan Features',
+    // Discovery Settings
+    maxDistance: 'Maximum Distance',
+    km: 'km',
+    ageRange: 'Age Range',
+    showMe: 'Show Me',
+    everyone: 'Everyone',
+    men: 'Men',
+    women: 'Women',
     // Community
     community: 'Community',
     communityFeed: 'Community Feed',
@@ -578,6 +590,16 @@ const TRANSLATIONS = {
     no: '아니오',
     compatibility: '호환성',
     sharedInterests: '공통 관심사',
+    currentPlan: '현재 플랜',
+    changePlan: '플랜 변경',
+    planFeatures: '플랜 기능',
+    maxDistance: '최대 거리',
+    km: 'km',
+    ageRange: '연령 범위',
+    showMe: '보여주기',
+    everyone: '모두',
+    men: '남성',
+    women: '여성',
     community: '커뮤니티',
     communityFeed: '커뮤니티 피드',
     allTopics: '전체',
@@ -808,6 +830,16 @@ const TRANSLATIONS = {
     no: 'いいえ',
     compatibility: '相性',
     sharedInterests: '共通の興味',
+    currentPlan: '現在のプラン',
+    changePlan: 'プランを変更',
+    planFeatures: 'プランの機能',
+    maxDistance: '最大距離',
+    km: 'km',
+    ageRange: '年齢範囲',
+    showMe: '表示する',
+    everyone: '全員',
+    men: '男性',
+    women: '女性',
     community: 'コミュニティ',
     communityFeed: 'コミュニティフィード',
     allTopics: 'すべて',
@@ -897,9 +929,9 @@ const SUBSCRIPTION_PLANS = [
     price: '$0',
     period: 'forever',
     features: [
-      'Limited to 5 matches per day',
-      'Solo language learning game',
-      'Basic profile',
+      'limitedMatches',
+      'soloGame',
+      'basicProfile',
     ],
     color: 'gray',
   },
@@ -909,10 +941,10 @@ const SUBSCRIPTION_PLANS = [
     price: '$9.99',
     period: '/month',
     features: [
-      'Unlimited matches',
-      'Conversation starter questions',
-      'Multiplayer language games',
-      'See who likes you',
+      'unlimitedMatches',
+      'conversationStarters',
+      'multiplayerGames',
+      'seeWhoLikes',
     ],
     color: 'pink',
     popular: true,
@@ -923,11 +955,11 @@ const SUBSCRIPTION_PLANS = [
     price: '$19.99',
     period: '/month',
     features: [
-      'Everything in Standard',
-      'AI date planning recommendations',
-      'Virtual gift feature',
-      'Priority profile visibility',
-      'Read receipts',
+      'everythingStandard',
+      'aiDatePlanning',
+      'virtualGifts',
+      'priorityVisibility',
+      'readReceipts',
     ],
     color: 'purple',
   },
@@ -3433,7 +3465,15 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [showLanguageGame, setShowLanguageGame] = useState(false)
   const [showLanguageSettings, setShowLanguageSettings] = useState(false)
+  const [showSubscription, setShowSubscription] = useState(false)
+  const [showDiscovery, setShowDiscovery] = useState(false)
   const [editData, setEditData] = useState({ ...user })
+  const [discoveryData, setDiscoveryData] = useState({
+    distance: 50,
+    ageMin: 18,
+    ageMax: 45,
+    showMe: 'everyone',
+  })
 
   const getInterestLabel = (id) => {
     const interest = INTERESTS_OPTIONS.find(i => i.id === id)
@@ -3486,6 +3526,160 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
                 )}
               </button>
             ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (showSubscription) {
+    const plans = SUBSCRIPTION_PLANS
+    return (
+      <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className={`shadow-sm px-4 py-3 flex items-center gap-3 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
+          <button onClick={() => setShowSubscription(false)} className={dark ? 'text-gray-400' : 'text-gray-600'}>
+            <BackIcon />
+          </button>
+          <h2 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('subscription')}</h2>
+        </div>
+
+        <div className="p-4">
+          <div className={`rounded-2xl p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('currentPlan')}</p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className={`${badge.color} text-white text-sm font-bold px-3 py-1 rounded-full`}>{badge.text}</span>
+            </div>
+          </div>
+
+          <h3 className={`text-sm font-semibold mb-3 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('changePlan')}</h3>
+
+          <div className="space-y-3">
+            {plans.map((plan) => {
+              const isActive = userPlan === plan.id
+              return (
+                <div
+                  key={plan.id}
+                  className={`rounded-2xl p-4 border-2 transition ${
+                    isActive
+                      ? 'border-pink-500 shadow-lg'
+                      : dark ? 'border-gray-700' : 'border-gray-200'
+                  } ${dark ? 'bg-gray-800' : 'bg-white'}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <h4 className={`font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>{t(plan.id)}</h4>
+                      <p className="text-pink-500 font-bold">{plan.price}<span className={`text-sm font-normal ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{plan.id === 'free' ? ` ${t('forever')}` : ` ${t('perMonth')}`}</span></p>
+                    </div>
+                    {isActive && (
+                      <span className="px-3 py-1 bg-pink-500 text-white text-xs font-bold rounded-full">{t('currentPlan')}</span>
+                    )}
+                  </div>
+                  <ul className="space-y-1.5">
+                    {plan.features.map((feature, idx) => (
+                      <li key={idx} className={`flex items-center gap-2 text-sm ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
+                        <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        <span>{t(feature)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (showDiscovery) {
+    return (
+      <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className={`shadow-sm px-4 py-3 flex items-center gap-3 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
+          <button onClick={() => setShowDiscovery(false)} className={dark ? 'text-gray-400' : 'text-gray-600'}>
+            <BackIcon />
+          </button>
+          <h2 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('discoverySettings')}</h2>
+        </div>
+
+        <div className="p-4 space-y-6">
+          {/* Max Distance */}
+          <div className={`rounded-2xl p-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`font-medium ${dark ? 'text-white' : 'text-gray-900'}`}>{t('maxDistance')}</span>
+              <span className="text-pink-500 font-bold">{discoveryData.distance} {t('km')}</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="200"
+              value={discoveryData.distance}
+              onChange={e => setDiscoveryData({ ...discoveryData, distance: parseInt(e.target.value) })}
+              className="w-full accent-pink-500"
+            />
+            <div className={`flex justify-between text-xs mt-1 ${dark ? 'text-gray-500' : 'text-gray-400'}`}>
+              <span>1 {t('km')}</span>
+              <span>200 {t('km')}</span>
+            </div>
+          </div>
+
+          {/* Age Range */}
+          <div className={`rounded-2xl p-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`font-medium ${dark ? 'text-white' : 'text-gray-900'}`}>{t('ageRange')}</span>
+              <span className="text-pink-500 font-bold">{discoveryData.ageMin} - {discoveryData.ageMax}</span>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className={`text-xs ${dark ? 'text-gray-400' : 'text-gray-500'}`}>Min: {discoveryData.ageMin}</label>
+                <input
+                  type="range"
+                  min="18"
+                  max="60"
+                  value={discoveryData.ageMin}
+                  onChange={e => {
+                    const val = parseInt(e.target.value)
+                    setDiscoveryData({ ...discoveryData, ageMin: val, ageMax: Math.max(val, discoveryData.ageMax) })
+                  }}
+                  className="w-full accent-pink-500"
+                />
+              </div>
+              <div>
+                <label className={`text-xs ${dark ? 'text-gray-400' : 'text-gray-500'}`}>Max: {discoveryData.ageMax}</label>
+                <input
+                  type="range"
+                  min="18"
+                  max="60"
+                  value={discoveryData.ageMax}
+                  onChange={e => {
+                    const val = parseInt(e.target.value)
+                    setDiscoveryData({ ...discoveryData, ageMax: val, ageMin: Math.min(val, discoveryData.ageMin) })
+                  }}
+                  className="w-full accent-pink-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Show Me */}
+          <div className={`rounded-2xl p-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <span className={`font-medium block mb-3 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('showMe')}</span>
+            <div className="space-y-2">
+              {['everyone', 'men', 'women'].map(option => (
+                <button
+                  key={option}
+                  onClick={() => setDiscoveryData({ ...discoveryData, showMe: option })}
+                  className={`w-full p-3 rounded-xl border-2 text-left font-medium transition ${
+                    discoveryData.showMe === option
+                      ? 'border-pink-500 bg-pink-50 text-pink-600 dark:bg-pink-900/20'
+                      : dark
+                        ? 'border-gray-700 text-gray-300 hover:border-gray-600'
+                        : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {t(option)}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -3766,11 +3960,17 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
             <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
           </div>
         </button>
-        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+        <button
+          onClick={() => setShowSubscription(true)}
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+        >
           <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('subscription')}</span>
           <span className={`${badge.color} text-white text-xs font-bold px-2 py-1 rounded-full`}>{badge.text}</span>
         </button>
-        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+        <button
+          onClick={() => setShowDiscovery(true)}
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+        >
           <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('discoverySettings')}</span>
           <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
