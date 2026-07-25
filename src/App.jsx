@@ -1680,7 +1680,8 @@ function SignUpStep1({ data, onUpdate, onNext }) {
               type="date"
               value={data.dateOfBirth || ''}
               onChange={(e) => onUpdate({ dateOfBirth: e.target.value })}
-              max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
+              min={`${new Date().getFullYear() - 100}-01-01`}
+              max={`${new Date().getFullYear() - 18}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`}
               className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>}
