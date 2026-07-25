@@ -1708,7 +1708,13 @@ function SignUpStep1({ data, onUpdate, onNext }) {
             <input
               type="date"
               value={data.dateOfBirth || ''}
-              onChange={(e) => onUpdate({ dateOfBirth: e.target.value })}
+              onChange={(e) => {
+                const val = e.target.value
+                const minDate = `${new Date().getFullYear() - 100}-01-01`
+                const maxDate = `${new Date().getFullYear() - 18}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`
+                if (val && (val > maxDate || val < minDate)) return
+                onUpdate({ dateOfBirth: val })
+              }}
               min={`${new Date().getFullYear() - 100}-01-01`}
               max={`${new Date().getFullYear() - 18}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`}
               className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
