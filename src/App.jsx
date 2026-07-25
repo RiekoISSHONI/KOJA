@@ -3251,6 +3251,7 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
 
 function ProfileCard({ profile, onLike, onPass, onSuperLike, onReport, onBlock, compatibility }) {
   const t = useTranslation()
+  const { language } = useLanguage()
   const { dark } = useTheme()
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
@@ -3300,7 +3301,7 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike, onReport, onBlock, 
 
   const getInterestLabel = (id) => {
     const interest = INTERESTS_OPTIONS.find(i => i.id === id)
-    return interest ? `${interest.emoji} ${interest.label}` : id
+    return interest ? `${interest.emoji} ${interest.label[language] || interest.label.en}` : id
   }
 
   const handleReport = (reason) => {
