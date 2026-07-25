@@ -193,7 +193,12 @@ const TRANSLATIONS = {
     standard: 'Standard',
     premium: 'Premium',
     forever: 'forever',
-    perMonth: '/month',
+    perMonth: '/mo',
+    perYear: '/year',
+    monthly: 'Monthly',
+    yearly: 'Yearly',
+    savePercent: 'Save {percent}%',
+    billedYearly: 'Billed yearly',
     limitedMatches: 'Limited to 5 matches per day',
     soloGame: 'Solo language learning game',
     basicProfile: 'Basic profile',
@@ -452,6 +457,11 @@ const TRANSLATIONS = {
     premium: '프리미엄',
     forever: '영구',
     perMonth: '/월',
+    perYear: '/년',
+    monthly: '월간',
+    yearly: '연간',
+    savePercent: '{percent}% 절약',
+    billedYearly: '연간 결제',
     limitedMatches: '하루 5개 매치 제한',
     soloGame: '솔로 언어 학습 게임',
     basicProfile: '기본 프로필',
@@ -692,6 +702,11 @@ const TRANSLATIONS = {
     premium: 'プレミアム',
     forever: '永久',
     perMonth: '/月',
+    perYear: '/年',
+    monthly: '月額',
+    yearly: '年額',
+    savePercent: '{percent}%お得',
+    billedYearly: '年間請求',
     limitedMatches: '1日5マッチまで',
     soloGame: 'ソロ言語学習ゲーム',
     basicProfile: '基本プロフィール',
@@ -926,7 +941,9 @@ const SUBSCRIPTION_PLANS = [
   {
     id: 'free',
     name: 'Free',
-    price: '$0',
+    priceMonthly: '$0',
+    priceYearly: '$0',
+    priceYearlyPerMonth: '$0',
     period: 'forever',
     features: [
       'limitedMatches',
@@ -938,7 +955,9 @@ const SUBSCRIPTION_PLANS = [
   {
     id: 'standard',
     name: 'Standard',
-    price: '$9.99',
+    priceMonthly: '$9.99',
+    priceYearly: '$95.88',
+    priceYearlyPerMonth: '$7.99',
     period: '/month',
     features: [
       'unlimitedMatches',
@@ -948,11 +967,14 @@ const SUBSCRIPTION_PLANS = [
     ],
     color: 'pink',
     popular: true,
+    yearlySavings: 20,
   },
   {
     id: 'premium',
     name: 'Premium',
-    price: '$19.99',
+    priceMonthly: '$19.99',
+    priceYearly: '$191.88',
+    priceYearlyPerMonth: '$15.99',
     period: '/month',
     features: [
       'everythingStandard',
@@ -962,6 +984,7 @@ const SUBSCRIPTION_PLANS = [
       'readReceipts',
     ],
     color: 'purple',
+    yearlySavings: 20,
   },
 ]
 
@@ -2162,21 +2185,62 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
 function SubscriptionScreen({ onSelectPlan }) {
   const t = useTranslation()
   const [selectedPlan, setSelectedPlan] = useState('standard')
+  const [billingCycle, setBillingCycle] = useState('yearly')
 
-  // Translated feature keys for each plan
   const planFeatureKeys = {
     free: ['limitedMatches', 'soloGame', 'basicProfile'],
     standard: ['unlimitedMatches', 'conversationStarters', 'multiplayerGames', 'seeWhoLikes'],
     premium: ['everythingStandard', 'aiDatePlanning', 'virtualGifts', 'priorityVisibility', 'readReceipts'],
   }
 
+  const getPrice = (plan) => {
+    if (plan.id === 'free') return plan.priceMonthly
+    return billingCycle === 'yearly' ? plan.priceYearlyPerMonth : plan.priceMonthly
+  }
+
+  const getPeriodLabel = (plan) => {
+    if (plan.id === 'free') return ` ${t('forever')}`
+    return ` ${t('perMonth')}`
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-600 to-pink-600 p-6">
       <div className="max-w-md mx-auto">
-        <div className="text-center text-white mb-8">
+        <div className="text-center text-white mb-6">
           <SparklesIcon className="w-12 h-12 mx-auto mb-4" />
           <h1 className="text-3xl font-bold">{t('choosePlan')}</h1>
           <p className="text-purple-200 mt-2">{t('unlockExperience')}</p>
+        </div>
+
+        {/* Billing Toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-1 flex">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+                billingCycle === 'monthly'
+                  ? 'bg-white text-purple-600 shadow'
+                  : 'text-white/80 hover:text-white'
+              }`}
+            >
+              {t('monthly')}
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition flex items-center gap-1.5 ${
+                billingCycle === 'yearly'
+                  ? 'bg-white text-purple-600 shadow'
+                  : 'text-white/80 hover:text-white'
+              }`}
+            >
+              {t('yearly')}
+              <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
+                billingCycle === 'yearly'
+                  ? 'bg-green-100 text-green-600'
+                  : 'bg-green-500/30 text-green-200'
+              }`}>-20%</span>
+            </button>
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -2200,9 +2264,21 @@ function SubscriptionScreen({ onSelectPlan }) {
                   <h3 className={`text-xl font-bold ${selectedPlan === plan.id ? 'text-gray-900' : 'text-white'}`}>
                     {t(plan.id)}
                   </h3>
-                  <p className={`text-2xl font-bold mt-1 ${selectedPlan === plan.id ? 'text-pink-600' : 'text-white'}`}>
-                    {plan.price}<span className="text-sm font-normal">{plan.id === 'free' ? t('forever') : t('perMonth')}</span>
-                  </p>
+                  <div className="flex items-baseline gap-2 mt-1">
+                    <p className={`text-2xl font-bold ${selectedPlan === plan.id ? 'text-pink-600' : 'text-white'}`}>
+                      {getPrice(plan)}<span className="text-sm font-normal">{getPeriodLabel(plan)}</span>
+                    </p>
+                    {plan.id !== 'free' && billingCycle === 'yearly' && (
+                      <span className={`text-xs line-through ${selectedPlan === plan.id ? 'text-gray-400' : 'text-white/50'}`}>
+                        {plan.priceMonthly}
+                      </span>
+                    )}
+                  </div>
+                  {plan.id !== 'free' && billingCycle === 'yearly' && (
+                    <p className={`text-xs mt-0.5 ${selectedPlan === plan.id ? 'text-gray-500' : 'text-white/60'}`}>
+                      {plan.priceYearly} {t('perYear')} · {t('savePercent', { percent: plan.yearlySavings })}
+                    </p>
+                  )}
                 </div>
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                   selectedPlan === plan.id ? 'border-pink-500 bg-pink-500' : 'border-white/50'
@@ -3455,6 +3531,119 @@ function MessagesList({ matches, onSelectChat }) {
 }
 
 // ============================================
+// SUBSCRIPTION SETTINGS VIEW
+// ============================================
+
+function SubscriptionSettingsView({ dark, t, badge, userPlan, onBack }) {
+  const [billingCycle, setBillingCycle] = useState('yearly')
+
+  const getPrice = (plan) => {
+    if (plan.id === 'free') return plan.priceMonthly
+    return billingCycle === 'yearly' ? plan.priceYearlyPerMonth : plan.priceMonthly
+  }
+
+  return (
+    <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <div className={`shadow-sm px-4 py-3 flex items-center gap-3 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
+        <button onClick={onBack} className={dark ? 'text-gray-400' : 'text-gray-600'}>
+          <BackIcon />
+        </button>
+        <h2 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('subscription')}</h2>
+      </div>
+
+      <div className="p-4">
+        <div className={`rounded-2xl p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+          <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('currentPlan')}</p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className={`${badge.color} text-white text-sm font-bold px-3 py-1 rounded-full`}>{badge.text}</span>
+          </div>
+        </div>
+
+        {/* Billing Toggle */}
+        <div className="flex justify-center mb-4">
+          <div className={`rounded-full p-1 flex ${dark ? 'bg-gray-700' : 'bg-gray-200'}`}>
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                billingCycle === 'monthly'
+                  ? dark ? 'bg-gray-600 text-white shadow' : 'bg-white text-gray-900 shadow'
+                  : dark ? 'text-gray-400' : 'text-gray-500'
+              }`}
+            >
+              {t('monthly')}
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-1.5 ${
+                billingCycle === 'yearly'
+                  ? dark ? 'bg-gray-600 text-white shadow' : 'bg-white text-gray-900 shadow'
+                  : dark ? 'text-gray-400' : 'text-gray-500'
+              }`}
+            >
+              {t('yearly')}
+              <span className="text-xs px-1.5 py-0.5 rounded-full font-bold bg-green-100 text-green-600">-20%</span>
+            </button>
+          </div>
+        </div>
+
+        <h3 className={`text-sm font-semibold mb-3 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('changePlan')}</h3>
+
+        <div className="space-y-3">
+          {SUBSCRIPTION_PLANS.map((plan) => {
+            const isActive = userPlan === plan.id
+            return (
+              <div
+                key={plan.id}
+                className={`rounded-2xl p-4 border-2 transition ${
+                  isActive
+                    ? 'border-pink-500 shadow-lg'
+                    : dark ? 'border-gray-700' : 'border-gray-200'
+                } ${dark ? 'bg-gray-800' : 'bg-white'}`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <h4 className={`font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>{t(plan.id)}</h4>
+                    <div className="flex items-baseline gap-2">
+                      <p className="text-pink-500 font-bold">
+                        {getPrice(plan)}
+                        <span className={`text-sm font-normal ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
+                          {plan.id === 'free' ? ` ${t('forever')}` : ` ${t('perMonth')}`}
+                        </span>
+                      </p>
+                      {plan.id !== 'free' && billingCycle === 'yearly' && (
+                        <span className={`text-xs line-through ${dark ? 'text-gray-500' : 'text-gray-400'}`}>
+                          {plan.priceMonthly}
+                        </span>
+                      )}
+                    </div>
+                    {plan.id !== 'free' && billingCycle === 'yearly' && (
+                      <p className={`text-xs mt-0.5 ${dark ? 'text-gray-500' : 'text-gray-400'}`}>
+                        {plan.priceYearly} {t('perYear')} · {t('savePercent', { percent: plan.yearlySavings })}
+                      </p>
+                    )}
+                  </div>
+                  {isActive && (
+                    <span className="px-3 py-1 bg-pink-500 text-white text-xs font-bold rounded-full">{t('currentPlan')}</span>
+                  )}
+                </div>
+                <ul className="space-y-1.5">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className={`flex items-center gap-2 text-sm ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      <span>{t(feature)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ============================================
 // ENHANCED PROFILE SETTINGS COMPONENT
 // ============================================
 
@@ -3533,62 +3722,7 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
   }
 
   if (showSubscription) {
-    const plans = SUBSCRIPTION_PLANS
-    return (
-      <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <div className={`shadow-sm px-4 py-3 flex items-center gap-3 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
-          <button onClick={() => setShowSubscription(false)} className={dark ? 'text-gray-400' : 'text-gray-600'}>
-            <BackIcon />
-          </button>
-          <h2 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('subscription')}</h2>
-        </div>
-
-        <div className="p-4">
-          <div className={`rounded-2xl p-4 mb-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
-            <p className={`text-sm ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('currentPlan')}</p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className={`${badge.color} text-white text-sm font-bold px-3 py-1 rounded-full`}>{badge.text}</span>
-            </div>
-          </div>
-
-          <h3 className={`text-sm font-semibold mb-3 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{t('changePlan')}</h3>
-
-          <div className="space-y-3">
-            {plans.map((plan) => {
-              const isActive = userPlan === plan.id
-              return (
-                <div
-                  key={plan.id}
-                  className={`rounded-2xl p-4 border-2 transition ${
-                    isActive
-                      ? 'border-pink-500 shadow-lg'
-                      : dark ? 'border-gray-700' : 'border-gray-200'
-                  } ${dark ? 'bg-gray-800' : 'bg-white'}`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <h4 className={`font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>{t(plan.id)}</h4>
-                      <p className="text-pink-500 font-bold">{plan.price}<span className={`text-sm font-normal ${dark ? 'text-gray-400' : 'text-gray-500'}`}>{plan.id === 'free' ? ` ${t('forever')}` : ` ${t('perMonth')}`}</span></p>
-                    </div>
-                    {isActive && (
-                      <span className="px-3 py-1 bg-pink-500 text-white text-xs font-bold rounded-full">{t('currentPlan')}</span>
-                    )}
-                  </div>
-                  <ul className="space-y-1.5">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className={`flex items-center gap-2 text-sm ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
-                        <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span>{t(feature)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    )
+    return <SubscriptionSettingsView dark={dark} t={t} badge={badge} userPlan={userPlan} onBack={() => setShowSubscription(false)} />
   }
 
   if (showDiscovery) {
