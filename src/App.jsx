@@ -360,6 +360,7 @@ const TRANSLATIONS = {
     viewTerms: 'View Terms of Service',
     viewPrivacy: 'View Privacy Policy',
     close: 'Close',
+    mustBe18: 'You must be at least 18 years old to use KONJA',
     // Subscription Settings
     currentPlan: 'Current Plan',
     changePlan: 'Change Plan',
@@ -615,6 +616,7 @@ const TRANSLATIONS = {
     viewTerms: '이용약관 보기',
     viewPrivacy: '개인정보처리방침 보기',
     close: '닫기',
+    mustBe18: 'KONJA를 사용하려면 만 18세 이상이어야 합니다',
     currentPlan: '현재 플랜',
     changePlan: '플랜 변경',
     planFeatures: '플랜 기능',
@@ -867,6 +869,7 @@ const TRANSLATIONS = {
     viewTerms: '利用規約を見る',
     viewPrivacy: 'プライバシーポリシーを見る',
     close: '閉じる',
+    mustBe18: 'KONJAを利用するには18歳以上である必要があります',
     currentPlan: '現在のプラン',
     changePlan: 'プランを変更',
     planFeatures: 'プランの機能',
@@ -1579,11 +1582,24 @@ function SignUpStep1({ data, onUpdate, onNext }) {
   const t = useTranslation()
   const [errors, setErrors] = useState({})
 
+  const getAge = (dob) => {
+    const today = new Date()
+    const birth = new Date(dob)
+    let age = today.getFullYear() - birth.getFullYear()
+    const monthDiff = today.getMonth() - birth.getMonth()
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--
+    return age
+  }
+
   const validate = () => {
     const newErrors = {}
     if (!data.name?.trim()) newErrors.name = t('fullName') + ' is required'
     if (!data.email?.trim()) newErrors.email = t('email') + ' is required'
-    if (!data.dateOfBirth) newErrors.dateOfBirth = t('dateOfBirth') + ' is required'
+    if (!data.dateOfBirth) {
+      newErrors.dateOfBirth = t('dateOfBirth') + ' is required'
+    } else if (getAge(data.dateOfBirth) < 18) {
+      newErrors.dateOfBirth = t('mustBe18')
+    }
     if (!data.gender) newErrors.gender = t('gender') + ' is required'
     if (!data.lookingFor) newErrors.lookingFor = t('lookingFor') + ' is required'
     setErrors(newErrors)
@@ -1664,6 +1680,7 @@ function SignUpStep1({ data, onUpdate, onNext }) {
               type="date"
               value={data.dateOfBirth || ''}
               onChange={(e) => onUpdate({ dateOfBirth: e.target.value })}
+              max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
               className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>}
