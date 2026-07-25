@@ -352,6 +352,14 @@ const TRANSLATIONS = {
     // Matching
     compatibility: 'Compatibility',
     sharedInterests: 'shared interests',
+    // T&C and Privacy
+    termsOfServiceTitle: 'Terms of Service',
+    privacyPolicyTitle: 'Privacy Policy',
+    termsContent: 'Welcome to KONJA. By using our app, you agree to these terms.\n\n1. Eligibility: You must be at least 18 years old to use KONJA.\n\n2. Account: You are responsible for maintaining the security of your account and for all activities that occur under it. You agree to provide accurate, current, and complete information.\n\n3. Conduct: You agree not to use KONJA to harass, abuse, or harm others. Fake profiles, spam, and inappropriate content are strictly prohibited.\n\n4. Content: You retain ownership of content you post. By posting, you grant KONJA a non-exclusive license to display your content within the app.\n\n5. Matching & Communication: KONJA facilitates introductions but does not guarantee compatibility. Always exercise caution when meeting someone in person.\n\n6. Subscriptions: Paid plans auto-renew unless canceled at least 24 hours before the renewal date. Refunds follow app store policies.\n\n7. Termination: We reserve the right to suspend or terminate accounts that violate these terms without prior notice.\n\n8. Limitation of Liability: KONJA is provided "as is." We are not liable for any damages arising from your use of the app.\n\n9. Changes: We may update these terms from time to time. Continued use constitutes acceptance of the updated terms.\n\nLast updated: July 2026',
+    privacyContent: 'Your privacy matters to us. This policy explains how KONJA collects, uses, and protects your data.\n\n1. Information We Collect:\n- Profile information (name, age, photos, bio, interests)\n- Usage data (swipes, matches, messages)\n- Device information and location (with your permission)\n\n2. How We Use Your Data:\n- To match you with compatible users\n- To improve our matching algorithms\n- To provide customer support\n- To send relevant notifications\n\n3. Data Sharing:\n- We do not sell your personal data\n- Profile information is visible to other users as part of the matching experience\n- We may share anonymized analytics with partners\n\n4. Data Security:\n- We use industry-standard encryption\n- Face verification data is processed locally and not stored on servers\n- Photos and videos are stored securely\n\n5. Your Rights:\n- Access, correct, or delete your personal data\n- Opt out of marketing communications\n- Request a copy of your data\n- Delete your account at any time\n\n6. Cookies & Tracking:\n- We use essential cookies for app functionality\n- Analytics help us improve user experience\n\n7. Children:\n- KONJA is not intended for users under 18\n\n8. Contact:\n- For privacy inquiries: privacy@konja.app\n\nLast updated: July 2026',
+    viewTerms: 'View Terms of Service',
+    viewPrivacy: 'View Privacy Policy',
+    close: 'Close',
     // Subscription Settings
     currentPlan: 'Current Plan',
     changePlan: 'Change Plan',
@@ -600,6 +608,13 @@ const TRANSLATIONS = {
     no: '아니오',
     compatibility: '호환성',
     sharedInterests: '공통 관심사',
+    termsOfServiceTitle: '이용약관',
+    privacyPolicyTitle: '개인정보처리방침',
+    termsContent: 'KONJA에 오신 것을 환영합니다. 앱을 사용하면 이 약관에 동의하는 것입니다.\n\n1. 자격: KONJA를 사용하려면 만 18세 이상이어야 합니다.\n\n2. 계정: 계정의 보안을 유지하고 계정에서 발생하는 모든 활동에 대해 책임을 집니다.\n\n3. 행동: KONJA를 사용하여 다른 사람을 괴롭히거나 해를 끼치지 않을 것에 동의합니다. 가짜 프로필, 스팸, 부적절한 콘텐츠는 엄격히 금지됩니다.\n\n4. 콘텐츠: 게시한 콘텐츠의 소유권은 귀하에게 있습니다. 게시함으로써 KONJA에 앱 내에서 콘텐츠를 표시할 비독점적 라이선스를 부여합니다.\n\n5. 매칭 및 커뮤니케이션: KONJA는 소개를 촉진하지만 호환성을 보장하지 않습니다.\n\n6. 구독: 유료 플랜은 갱신일 최소 24시간 전에 취소하지 않는 한 자동 갱신됩니다.\n\n7. 종료: 이 약관을 위반하는 계정을 사전 통지 없이 일시 중지하거나 종료할 권리가 있습니다.\n\n8. 책임 제한: KONJA는 "있는 그대로" 제공됩니다.\n\n9. 변경: 이 약관을 수시로 업데이트할 수 있습니다.\n\n최종 업데이트: 2026년 7월',
+    privacyContent: '귀하의 개인정보는 중요합니다. 이 정책은 KONJA가 귀하의 데이터를 수집, 사용, 보호하는 방법을 설명합니다.\n\n1. 수집 정보:\n- 프로필 정보 (이름, 나이, 사진, 자기소개, 관심사)\n- 사용 데이터 (스와이프, 매치, 메시지)\n- 기기 정보 및 위치 (허가 시)\n\n2. 데이터 사용 방법:\n- 호환되는 사용자 매칭\n- 매칭 알고리즘 개선\n- 고객 지원\n- 관련 알림 발송\n\n3. 데이터 공유:\n- 개인 데이터를 판매하지 않습니다\n- 프로필 정보는 매칭의 일환으로 다른 사용자에게 표시됩니다\n\n4. 데이터 보안:\n- 업계 표준 암호화 사용\n- 얼굴 인증 데이터는 로컬에서 처리되며 서버에 저장되지 않습니다\n\n5. 귀하의 권리:\n- 개인 데이터 접근, 수정, 삭제\n- 마케팅 수신 거부\n- 데이터 사본 요청\n- 언제든 계정 삭제\n\n6. 문의: privacy@konja.app\n\n최종 업데이트: 2026년 7월',
+    viewTerms: '이용약관 보기',
+    viewPrivacy: '개인정보처리방침 보기',
+    close: '닫기',
     currentPlan: '현재 플랜',
     changePlan: '플랜 변경',
     planFeatures: '플랜 기능',
@@ -845,6 +860,13 @@ const TRANSLATIONS = {
     no: 'いいえ',
     compatibility: '相性',
     sharedInterests: '共通の興味',
+    termsOfServiceTitle: '利用規約',
+    privacyPolicyTitle: 'プライバシーポリシー',
+    termsContent: 'KONJAへようこそ。アプリを使用することで、これらの規約に同意したものとみなされます。\n\n1. 資格: KONJAを使用するには18歳以上である必要があります。\n\n2. アカウント: アカウントのセキュリティを維持し、アカウントで発生するすべての活動に責任を負います。\n\n3. 行動: KONJAを使用して他者を嫌がらせたり、害を与えたりしないことに同意します。偽のプロフィール、スパム、不適切なコンテンツは厳禁です。\n\n4. コンテンツ: 投稿したコンテンツの所有権はお客様にあります。投稿することで、アプリ内でコンテンツを表示する非独占的ライセンスをKONJAに付与します。\n\n5. マッチングとコミュニケーション: KONJAは紹介を促進しますが、相性を保証するものではありません。\n\n6. サブスクリプション: 有料プランは更新日の少なくとも24時間前にキャンセルしない限り自動更新されます。\n\n7. 終了: これらの規約に違反するアカウントを予告なく一時停止または終了する権利を留保します。\n\n8. 責任の制限: KONJAは「現状のまま」提供されます。\n\n9. 変更: これらの規約は随時更新される場合があります。\n\n最終更新: 2026年7月',
+    privacyContent: 'お客様のプライバシーは重要です。このポリシーでは、KONJAがお客様のデータをどのように収集、使用、保護するかを説明します。\n\n1. 収集する情報:\n- プロフィール情報（名前、年齢、写真、自己紹介、興味）\n- 使用データ（スワイプ、マッチ、メッセージ）\n- デバイス情報と位置情報（許可がある場合）\n\n2. データの使用方法:\n- 互換性のあるユーザーとのマッチング\n- マッチングアルゴリズムの改善\n- カスタマーサポート\n- 関連通知の送信\n\n3. データ共有:\n- 個人データを販売しません\n- プロフィール情報はマッチングの一環として他のユーザーに表示されます\n\n4. データセキュリティ:\n- 業界標準の暗号化を使用\n- 顔認証データはローカルで処理され、サーバーに保存されません\n\n5. お客様の権利:\n- 個人データのアクセス、修正、削除\n- マーケティング配信の停止\n- データのコピーのリクエスト\n- いつでもアカウント削除\n\n6. お問い合わせ: privacy@konja.app\n\n最終更新: 2026年7月',
+    viewTerms: '利用規約を見る',
+    viewPrivacy: 'プライバシーポリシーを見る',
+    close: '閉じる',
     currentPlan: '現在のプラン',
     changePlan: 'プランを変更',
     planFeatures: 'プランの機能',
@@ -2115,8 +2137,34 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
   )
 }
 
+function LegalModal({ title, content, onClose }) {
+  const t = useTranslation()
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="font-bold text-lg text-gray-900">{title}</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="p-4 overflow-y-auto flex-1">
+          <p className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{content}</p>
+        </div>
+        <div className="p-4 border-t">
+          <button onClick={onClose} className="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-bold">
+            {t('close')}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
   const t = useTranslation()
+  const [showTerms, setShowTerms] = useState(false)
+  const [showPrivacy, setShowPrivacy] = useState(false)
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -2145,6 +2193,10 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
             <div>
               <p className="font-medium text-gray-900">{t('agreeTerms')}</p>
               <p className="text-sm text-gray-500">{t('termsDescription')}</p>
+              <div className="flex gap-3 mt-2">
+                <button type="button" onClick={(e) => { e.preventDefault(); setShowTerms(true) }} className="text-xs text-pink-500 underline">{t('viewTerms')}</button>
+                <button type="button" onClick={(e) => { e.preventDefault(); setShowPrivacy(true) }} className="text-xs text-pink-500 underline">{t('viewPrivacy')}</button>
+              </div>
             </div>
           </label>
 
@@ -2174,6 +2226,9 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
           {t('createAccount')}
         </button>
       </div>
+
+      {showTerms && <LegalModal title={t('termsOfServiceTitle')} content={t('termsContent')} onClose={() => setShowTerms(false)} />}
+      {showPrivacy && <LegalModal title={t('privacyPolicyTitle')} content={t('privacyContent')} onClose={() => setShowPrivacy(false)} />}
     </div>
   )
 }
@@ -2538,14 +2593,14 @@ function VirtualGiftModal({ onClose, onSendGift, userPoints, matchName }) {
 // DATE PLANNING MODAL
 // ============================================
 
-function DatePlanningModal({ onClose, matchName, userPlan }) {
+function DatePlanningModal({ onClose, matchName, userPlan, onShare }) {
+  const t = useTranslation()
   const [selectedDate, setSelectedDate] = useState(null)
   const [generating, setGenerating] = useState(false)
   const [suggestion, setSuggestion] = useState(null)
 
   const generateSuggestion = () => {
     setGenerating(true)
-    // Simulate AI generating a suggestion
     setTimeout(() => {
       const randomIdea = DATE_IDEAS[Math.floor(Math.random() * DATE_IDEAS.length)]
       setSuggestion(randomIdea)
@@ -2553,21 +2608,28 @@ function DatePlanningModal({ onClose, matchName, userPlan }) {
     }, 1500)
   }
 
+  const handleShare = () => {
+    if (suggestion && onShare) {
+      onShare(`${suggestion.icon} ${suggestion.title} — ${suggestion.description}`)
+    }
+    onClose()
+  }
+
   if (userPlan !== 'premium') {
     return (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-3xl p-6 max-w-sm w-full text-center">
           <div className="text-6xl mb-4">👑</div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Premium Feature</h2>
-          <p className="text-gray-600 mb-6">Upgrade to Premium to unlock AI-powered date planning</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t('premiumFeature')}</h2>
+          <p className="text-gray-600 mb-6">{t('datePlanningLocked')}</p>
           <button
             onClick={onClose}
             className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold"
           >
-            Upgrade to Premium
+            {t('upgradePremium')}
           </button>
           <button onClick={onClose} className="w-full py-3 text-gray-500 mt-2">
-            Maybe Later
+            {t('maybeLater')}
           </button>
         </div>
       </div>
@@ -2578,13 +2640,13 @@ function DatePlanningModal({ onClose, matchName, userPlan }) {
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl p-6 max-w-sm w-full">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Plan a Date</h2>
+          <h2 className="text-xl font-bold text-gray-900">{t('planDate')}</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <XIcon className="w-6 h-6" />
           </button>
         </div>
 
-        <p className="text-gray-600 mb-6">Get AI-powered date ideas for you and {matchName}</p>
+        <p className="text-gray-600 mb-6">{t('generateDateIdea')}</p>
 
         {!suggestion ? (
           <button
@@ -2595,12 +2657,12 @@ function DatePlanningModal({ onClose, matchName, userPlan }) {
             {generating ? (
               <>
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Generating idea...
+                {t('generatingIdea')}
               </>
             ) : (
               <>
                 <SparklesIcon className="w-5 h-5" />
-                Generate Date Idea
+                {t('generateDateIdea')}
               </>
             )}
           </button>
@@ -2618,13 +2680,13 @@ function DatePlanningModal({ onClose, matchName, userPlan }) {
               onClick={generateSuggestion}
               className="w-full py-3 border-2 border-pink-500 text-pink-500 rounded-full font-semibold"
             >
-              Generate Another
+              {t('generateAnother')}
             </button>
             <button
-              onClick={onClose}
+              onClick={handleShare}
               className="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold"
             >
-              Share with {matchName}
+              {t('shareWith')} {matchName}
             </button>
           </div>
         )}
@@ -2897,14 +2959,14 @@ function InChatLanguageGame({ onClose, onEarnPoints, onSendMessage, matchName, l
   )
 }
 
-// Translation helper function
 const translateMessage = (text, fromLang, toLang) => {
-  // Simulated translation - in production would use real API
   const simpleTranslations = {
-    'ko-en': { '안녕': 'Hello', '감사합니다': 'Thank you', '좋아요': 'I like it', '뭐해요?': 'What are you doing?' },
+    'ko-en': { '안녕': 'Hello', '감사합니다': 'Thank you', '좋아요': 'I like it', '뭐해요?': 'What are you doing?', '안녕하세요!': 'Hello!', '오늘 어땠어요?': 'How was your day?' },
     'ja-en': { 'こんにちは': 'Hello', 'ありがとう': 'Thank you', 'いいね': 'Nice', '何してる？': 'What are you doing?' },
-    'en-ko': { 'Hello': '안녕', 'Thank you': '감사합니다', 'I like it': '좋아요', 'What are you doing?': '뭐해요?' },
-    'en-ja': { 'Hello': 'こんにちは', 'Thank you': 'ありがとう', 'Nice': 'いいね', 'What are you doing?': '何してる？' },
+    'en-ko': { 'Hello': '안녕', 'Thank you': '감사합니다', 'I like it': '좋아요', 'What are you doing?': '뭐해요?', 'Hey! I noticed you love K-dramas too!': 'K-드라마도 좋아하시는군요!', 'Have you watched Goblin? 👻': '도깨비 봤어요? 👻', 'How was your day?': '오늘 어땠어요?', "I know this amazing Korean BBQ place!": '맛있는 한국 바베큐 맛집을 알아요!', "Let's try that Korean BBQ place! 🥩": '그 한국 바베큐 맛집 가봐요! 🥩' },
+    'en-ja': { 'Hello': 'こんにちは', 'Thank you': 'ありがとう', 'Nice': 'いいね', 'What are you doing?': '何してる？', 'Hey! I noticed you love K-dramas too!': 'K-ドラマも好きなんですね！', 'Have you watched Goblin? 👻': 'トッケビ見ましたか？👻', 'How was your day?': '今日はどうでしたか？', "I know this amazing Korean BBQ place!": '美味しい韓国バーベキューのお店を知ってるよ！', "Let's try that Korean BBQ place! 🥩": 'その韓国バーベキューのお店に行こう！🥩' },
+    'ko-ja': { '안녕': 'こんにちは', '감사합니다': 'ありがとう', '좋아요': 'いいね', '뭐해요?': '何してる？', '안녕하세요!': 'こんにちは！', '오늘 어땠어요?': '今日はどうでしたか？' },
+    'ja-ko': { 'こんにちは': '안녕', 'ありがとう': '감사합니다', 'いいね': '좋아요', '何してる？': '뭐해요？' },
   }
   const key = `${fromLang}-${toLang}`
   return simpleTranslations[key]?.[text] || `[${toLang.toUpperCase()}] ${text}`
@@ -3150,6 +3212,7 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
           onClose={() => setShowDatePlanning(false)}
           matchName={match.name}
           userPlan={userPlan}
+          onShare={(text) => { onSendMessage(text); setShowDatePlanning(false) }}
         />
       )}
       {showConversationStarters && (
@@ -3656,6 +3719,8 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
   const [showLanguageSettings, setShowLanguageSettings] = useState(false)
   const [showSubscription, setShowSubscription] = useState(false)
   const [showDiscovery, setShowDiscovery] = useState(false)
+  const [showTermsModal, setShowTermsModal] = useState(false)
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false)
   const [editData, setEditData] = useState({ ...user })
   const [discoveryData, setDiscoveryData] = useState({
     distance: 50,
@@ -4145,8 +4210,18 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
           <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('helpSupport')}</span>
           <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
-        <button className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
+        <button
+          onClick={() => setShowPrivacyModal(true)}
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+        >
           <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('privacyPolicy')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+        </button>
+        <button
+          onClick={() => setShowTermsModal(true)}
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+        >
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('termsOfServiceTitle')}</span>
           <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
         <button className={`w-full p-4 text-red-500 font-medium ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
@@ -4161,6 +4236,8 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
           currentPoints={userPoints}
         />
       )}
+      {showTermsModal && <LegalModal title={t('termsOfServiceTitle')} content={t('termsContent')} onClose={() => setShowTermsModal(false)} />}
+      {showPrivacyModal && <LegalModal title={t('privacyPolicyTitle')} content={t('privacyContent')} onClose={() => setShowPrivacyModal(false)} />}
     </div>
   )
 }
@@ -4169,23 +4246,27 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
 // EMPTY STATE
 // ============================================
 
-function EmptyState({ userPlan }) {
+function EmptyState({ userPlan, onExpandSearch }) {
   const t = useTranslation()
+  const { dark } = useTheme()
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-8">
-      <div className="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+      <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-4 ${dark ? 'bg-pink-900/30' : 'bg-pink-100'}`}>
         <HeartIcon filled className="w-12 h-12 text-pink-500" />
       </div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">
+      <h2 className={`text-2xl font-bold mb-2 ${dark ? 'text-white' : 'text-gray-800'}`}>
         {userPlan === 'free' ? t('dailyLimitReached') : t('noMoreProfiles')}
       </h2>
-      <p className="text-gray-500 mb-6">
+      <p className={`mb-6 ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
         {userPlan === 'free'
           ? t('upgradeUnlimited')
           : t('checkBackLater')
         }
       </p>
-      <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold hover:shadow-lg transition">
+      <button
+        onClick={onExpandSearch}
+        className="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold hover:shadow-lg transition"
+      >
         {userPlan === 'free' ? t('upgradeNow') : t('expandSearch')}
       </button>
     </div>
@@ -4879,7 +4960,7 @@ function AppContent() {
             </div>
           </div>
         ) : (
-          <EmptyState userPlan={userPlan} />
+          <EmptyState userPlan={userPlan} onExpandSearch={() => { setProfiles(sampleProfiles.filter(p => !blockedUsers.includes(p.id))); setCurrentIndex(0); }} />
         )
       case 'messages':
         return <MessagesList matches={matches} onSelectChat={setSelectedChat} />
@@ -4927,7 +5008,10 @@ function AppContent() {
             KONJA
           </span>
         </div>
-        <button className={`relative ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}>
+        <button
+          onClick={() => { setCurrentTab('messages'); setSelectedChat(null); }}
+          className={`relative ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}
+        >
           <ChatIcon />
           {matches.some(m => m.unread) && (
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-pink-500 rounded-full" />
