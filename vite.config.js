@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: 'KONJA',
         short_name: 'KONJA',
-        description: 'Finding connection and your love language',
+        description: 'Friends and Love Match',
         theme_color: '#ec4899',
         background_color: '#ffffff',
         display: 'standalone',
