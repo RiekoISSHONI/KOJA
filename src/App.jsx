@@ -361,6 +361,14 @@ const TRANSLATIONS = {
     viewPrivacy: 'View Privacy Policy',
     close: 'Close',
     mustBe18: 'You must be at least 18 years old to use KONJA',
+    lookingForLabel: 'Looking for',
+    learningLanguage: 'Learning',
+    wantsToLearn: 'Language to Learn',
+    selectLanguageToLearn: 'What language do you want to learn?',
+    korean: 'Korean',
+    japanese: 'Japanese',
+    english: 'English',
+    chooseGameLanguage: 'Choose language to practice',
     // Subscription Settings
     currentPlan: 'Current Plan',
     changePlan: 'Change Plan',
@@ -617,6 +625,14 @@ const TRANSLATIONS = {
     viewPrivacy: '개인정보처리방침 보기',
     close: '닫기',
     mustBe18: 'KONJA를 사용하려면 만 18세 이상이어야 합니다',
+    lookingForLabel: '목적',
+    learningLanguage: '학습 중',
+    wantsToLearn: '배우고 싶은 언어',
+    selectLanguageToLearn: '어떤 언어를 배우고 싶나요?',
+    korean: '한국어',
+    japanese: '일본어',
+    english: '영어',
+    chooseGameLanguage: '연습할 언어를 선택하세요',
     currentPlan: '현재 플랜',
     changePlan: '플랜 변경',
     planFeatures: '플랜 기능',
@@ -870,6 +886,14 @@ const TRANSLATIONS = {
     viewPrivacy: 'プライバシーポリシーを見る',
     close: '閉じる',
     mustBe18: 'KONJAを利用するには18歳以上である必要があります',
+    lookingForLabel: '目的',
+    learningLanguage: '学習中',
+    wantsToLearn: '学びたい言語',
+    selectLanguageToLearn: 'どの言語を学びたいですか？',
+    korean: '韓国語',
+    japanese: '日本語',
+    english: '英語',
+    chooseGameLanguage: '練習する言語を選択',
     currentPlan: '現在のプラン',
     changePlan: 'プランを変更',
     planFeatures: 'プランの機能',
@@ -1258,6 +1282,7 @@ const sampleProfiles = [
     video: null,
     verified: true,
     interests: ['kpop', 'cooking', 'kdrama', 'coffee'],
+    learningLanguage: 'ko',
   },
   {
     id: 2,
@@ -1274,6 +1299,7 @@ const sampleProfiles = [
     video: null,
     verified: false,
     interests: ['cooking', 'language', 'gaming', 'fitness'],
+    learningLanguage: 'ko',
   },
   {
     id: 3,
@@ -1291,6 +1317,7 @@ const sampleProfiles = [
     video: null,
     verified: true,
     interests: ['kpop', 'art', 'dancing', 'photography'],
+    learningLanguage: 'ja',
   },
   {
     id: 4,
@@ -1307,6 +1334,7 @@ const sampleProfiles = [
     video: null,
     verified: true,
     interests: ['kdrama', 'yoga', 'food', 'outdoors'],
+    learningLanguage: 'ko',
   },
   {
     id: 5,
@@ -1323,6 +1351,7 @@ const sampleProfiles = [
     video: null,
     verified: false,
     interests: ['kpop', 'reading', 'movies', 'pets'],
+    learningLanguage: 'en',
   },
 ]
 
@@ -1734,6 +1763,31 @@ function SignUpStep1({ data, onUpdate, onNext }) {
               ))}
             </div>
             {errors.lookingFor && <p className="text-red-500 text-sm mt-1">{errors.lookingFor}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('wantsToLearn')}</label>
+            <p className="text-xs text-gray-500 mb-2">{t('selectLanguageToLearn')}</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'ko', flag: '🇰🇷', label: t('korean') },
+                { id: 'ja', flag: '🇯🇵', label: t('japanese') },
+                { id: 'en', flag: '🇬🇧', label: t('english') },
+              ].map((lang) => (
+                <button
+                  key={lang.id}
+                  onClick={() => onUpdate({ learningLanguage: lang.id })}
+                  className={`py-3 px-2 rounded-xl border-2 font-medium transition flex flex-col items-center gap-1 ${
+                    data.learningLanguage === lang.id
+                      ? 'border-pink-500 bg-pink-50 text-pink-600'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="text-xl">{lang.flag}</span>
+                  <span className="text-xs">{lang.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           <div>
@@ -2397,14 +2451,49 @@ function SubscriptionScreen({ onSelectPlan }) {
 function LanguageGame({ onClose, onEarnPoints, currentPoints }) {
   const { language } = useLanguage()
   const t = useTranslation()
+  const [targetLang, setTargetLang] = useState(null)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [gameComplete, setGameComplete] = useState(false)
 
-  // Get questions for the language being learned (learn Korean if user speaks English/Japanese, etc.)
-  const targetLang = language === 'en' ? 'ko' : language === 'ko' ? 'ja' : 'ko'
+  const langOptions = [
+    { id: 'ko', flag: '🇰🇷', label: t('korean') },
+    { id: 'ja', flag: '🇯🇵', label: t('japanese') },
+    { id: 'en', flag: '🇬🇧', label: t('english') },
+  ].filter(l => l.id !== language)
+
+  if (!targetLang) {
+    return (
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center">
+          <div className="text-5xl mb-4">🎮</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('chooseGameLanguage')}</h2>
+          <p className="text-gray-500 mb-6">{t('selectLanguageToLearn')}</p>
+          <div className="space-y-3">
+            {langOptions.map((lang) => (
+              <button
+                key={lang.id}
+                onClick={() => setTargetLang(lang.id)}
+                className="w-full py-4 px-6 rounded-xl border-2 border-gray-200 hover:border-pink-500 hover:bg-pink-50 transition flex items-center gap-4 text-left"
+              >
+                <span className="text-3xl">{lang.flag}</span>
+                <span className="text-lg font-semibold text-gray-800">{lang.label}</span>
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={onClose}
+            className="w-full mt-6 py-3 text-gray-400 hover:text-gray-600 font-medium"
+          >
+            {t('cancel')}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   const questions = LANGUAGE_GAME_QUESTIONS[targetLang] || LANGUAGE_GAME_QUESTIONS.ko
   const currentQuestion = questions[questionIndex]
 
@@ -3414,6 +3503,20 @@ function ProfileCard({ profile, onLike, onPass, onSuperLike, onReport, onBlock, 
                 <LocationIcon className="w-4 h-4" />
                 <span className="text-sm">{profile.distance}</span>
               </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {profile.lookingFor && (
+                  <span className="px-2.5 py-1 bg-white/25 backdrop-blur-sm rounded-full text-xs font-medium">
+                    {profile.lookingFor === 'friendship' ? '🤝' : profile.lookingFor === 'love' ? '💕' : '✨'}{' '}
+                    {t(profile.lookingFor)}
+                  </span>
+                )}
+                {profile.learningLanguage && (
+                  <span className="px-2.5 py-1 bg-white/25 backdrop-blur-sm rounded-full text-xs font-medium">
+                    {profile.learningLanguage === 'ko' ? '🇰🇷' : profile.learningLanguage === 'ja' ? '🇯🇵' : '🇬🇧'}{' '}
+                    {t('learningLanguage')} {t(profile.learningLanguage === 'ko' ? 'korean' : profile.learningLanguage === 'ja' ? 'japanese' : 'english')}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
           <p className="mt-3 text-gray-100">{profile.bio}</p>
@@ -4031,6 +4134,31 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
                     <p className={`font-medium ${editData.lookingFor === option.key ? 'text-pink-600' : 'text-gray-700'}`}>{option.label}</p>
                     <p className="text-xs text-gray-500">{option.desc}</p>
                   </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Learning Language */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('wantsToLearn')}</label>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'ko', flag: '🇰🇷', label: t('korean') },
+                { id: 'ja', flag: '🇯🇵', label: t('japanese') },
+                { id: 'en', flag: '🇬🇧', label: t('english') },
+              ].map((lang) => (
+                <button
+                  key={lang.id}
+                  onClick={() => setEditData({ ...editData, learningLanguage: lang.id })}
+                  className={`py-3 px-2 rounded-xl border-2 font-medium transition flex flex-col items-center gap-1 ${
+                    editData.learningLanguage === lang.id
+                      ? 'border-pink-500 bg-pink-50 text-pink-600'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="text-xl">{lang.flag}</span>
+                  <span className="text-xs">{lang.label}</span>
                 </button>
               ))}
             </div>
