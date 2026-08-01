@@ -261,6 +261,20 @@ const TRANSLATIONS = {
     helpSupport: 'Help & Support',
     privacyPolicy: 'Privacy Policy',
     logOut: 'Log Out',
+    deleteAccount: 'Delete Account',
+    deleteAccountConfirm: 'Are you sure you want to delete your account? This action cannot be undone. All your data, matches, and messages will be permanently deleted within 30 days.',
+    deleteAccountSuccess: 'Your account has been scheduled for deletion.',
+    exportData: 'Export My Data',
+    exportDataDesc: 'Download a copy of your personal data',
+    dataPrivacy: 'Data & Privacy',
+    manageConsent: 'Manage Consent',
+    analyticsConsent: 'Analytics & Improvement',
+    analyticsConsentDesc: 'Help us improve KONJA by sharing usage analytics',
+    marketingConsent: 'Marketing Communications',
+    marketingConsentDesc: 'Receive updates about new features and promotions',
+    locationConsent: 'Location Services',
+    locationConsentDesc: 'Allow KONJA to use your location for nearby matches',
+    consentSaved: 'Preferences saved',
     languageGame: 'Language Game',
     learnAndEarn: 'Learn languages & earn points',
     likes: 'Likes',
@@ -541,6 +555,20 @@ const TRANSLATIONS = {
     helpSupport: '도움말 및 지원',
     privacyPolicy: '개인정보처리방침',
     logOut: '로그아웃',
+    deleteAccount: '계정 삭제',
+    deleteAccountConfirm: '계정을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다. 모든 데이터, 매치, 메시지가 30일 이내에 영구적으로 삭제됩니다.',
+    deleteAccountSuccess: '계정 삭제가 예약되었습니다.',
+    exportData: '내 데이터 내보내기',
+    exportDataDesc: '개인 데이터 사본 다운로드',
+    dataPrivacy: '데이터 및 개인정보',
+    manageConsent: '동의 관리',
+    analyticsConsent: '분석 및 개선',
+    analyticsConsentDesc: '사용 분석을 공유하여 KONJA 개선에 도움',
+    marketingConsent: '마케팅 커뮤니케이션',
+    marketingConsentDesc: '새로운 기능 및 프로모션에 대한 업데이트 수신',
+    locationConsent: '위치 서비스',
+    locationConsentDesc: '근처 매치를 위해 위치 사용 허용',
+    consentSaved: '설정이 저장되었습니다',
     languageGame: '언어 게임',
     learnAndEarn: '언어를 배우고 포인트를 얻으세요',
     likes: '좋아요',
@@ -806,6 +834,20 @@ const TRANSLATIONS = {
     helpSupport: 'ヘルプ＆サポート',
     privacyPolicy: 'プライバシーポリシー',
     logOut: 'ログアウト',
+    deleteAccount: 'アカウント削除',
+    deleteAccountConfirm: 'アカウントを削除しますか？この操作は取り消せません。すべてのデータ、マッチ、メッセージが30日以内に完全に削除されます。',
+    deleteAccountSuccess: 'アカウントの削除が予約されました。',
+    exportData: 'データのエクスポート',
+    exportDataDesc: '個人データのコピーをダウンロード',
+    dataPrivacy: 'データとプライバシー',
+    manageConsent: '同意の管理',
+    analyticsConsent: '分析と改善',
+    analyticsConsentDesc: '利用状況の分析を共有してKONJAの改善にご協力ください',
+    marketingConsent: 'マーケティング通知',
+    marketingConsentDesc: '新機能やプロモーションの最新情報を受け取る',
+    locationConsent: '位置情報サービス',
+    locationConsentDesc: '近くのマッチのために位置情報の使用を許可',
+    consentSaved: '設定が保存されました',
     languageGame: '言語ゲーム',
     learnAndEarn: '言語を学んでポイントを獲得',
     likes: 'いいね',
@@ -3856,6 +3898,15 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
   const [showDiscovery, setShowDiscovery] = useState(false)
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showPrivacyModal, setShowPrivacyModal] = useState(false)
+  const [showDataPrivacy, setShowDataPrivacy] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteToast, setDeleteToast] = useState(false)
+  const [consentToast, setConsentToast] = useState(false)
+  const [consentSettings, setConsentSettings] = useState({
+    analytics: true,
+    marketing: false,
+    location: true,
+  })
   const [editData, setEditData] = useState({ ...user })
   const [discoveryData, setDiscoveryData] = useState({
     distance: 50,
@@ -4016,6 +4067,119 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
             </div>
           </div>
         </div>
+      </div>
+    )
+  }
+
+  if (showDataPrivacy) {
+    return (
+      <div className={`h-full overflow-y-auto ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className={`shadow-sm px-4 py-3 flex items-center gap-3 ${dark ? 'bg-gray-800' : 'bg-white'}`}>
+          <button onClick={() => setShowDataPrivacy(false)} className={dark ? 'text-gray-400' : 'text-gray-600'}>
+            <BackIcon />
+          </button>
+          <h2 className={`font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>{t('dataPrivacy')}</h2>
+        </div>
+
+        <div className="p-4 space-y-4">
+          <div className={`rounded-2xl p-4 ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <h3 className={`font-semibold mb-3 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('manageConsent')}</h3>
+
+            {[
+              { key: 'analytics', label: t('analyticsConsent'), desc: t('analyticsConsentDesc') },
+              { key: 'marketing', label: t('marketingConsent'), desc: t('marketingConsentDesc') },
+              { key: 'location', label: t('locationConsent'), desc: t('locationConsentDesc') },
+            ].map(item => (
+              <div key={item.key} className={`flex items-center justify-between py-3 ${dark ? 'border-gray-700' : 'border-gray-100'} border-b last:border-0`}>
+                <div className="flex-1 mr-4">
+                  <p className={`font-medium text-sm ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{item.label}</p>
+                  <p className={`text-xs mt-0.5 ${dark ? 'text-gray-500' : 'text-gray-400'}`}>{item.desc}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setConsentSettings(prev => ({ ...prev, [item.key]: !prev[item.key] }))
+                    setConsentToast(true)
+                    setTimeout(() => setConsentToast(false), 2000)
+                  }}
+                  className={`relative w-12 h-7 rounded-full transition-colors flex-shrink-0 ${consentSettings[item.key] ? 'bg-pink-500' : dark ? 'bg-gray-600' : 'bg-gray-300'}`}
+                >
+                  <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${consentSettings[item.key] ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className={`rounded-2xl overflow-hidden ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <button
+              onClick={() => {
+                const data = JSON.stringify(user, null, 2)
+                const blob = new Blob([data], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = 'konja-my-data.json'
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+            >
+              <div>
+                <p className={`font-medium text-sm ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('exportData')}</p>
+                <p className={`text-xs mt-0.5 ${dark ? 'text-gray-500' : 'text-gray-400'}`}>{t('exportDataDesc')}</p>
+              </div>
+              <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+            </button>
+          </div>
+
+          <div className={`rounded-2xl overflow-hidden ${dark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className={`w-full p-4 text-left ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+            >
+              <p className="font-medium text-sm text-red-500">{t('deleteAccount')}</p>
+            </button>
+          </div>
+        </div>
+
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowDeleteConfirm(false)}>
+            <div className={`w-full max-w-sm rounded-2xl p-6 text-center ${dark ? 'bg-gray-800' : 'bg-white'}`} onClick={e => e.stopPropagation()}>
+              <div className="text-4xl mb-3">⚠️</div>
+              <h3 className={`font-bold text-lg mb-2 ${dark ? 'text-white' : 'text-gray-900'}`}>{t('deleteAccount')}</h3>
+              <p className={`text-sm mb-6 ${dark ? 'text-gray-400' : 'text-gray-600'}`}>{t('deleteAccountConfirm')}</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className={`flex-1 py-3 rounded-xl font-medium ${dark ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}
+                >
+                  {t('cancel')}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(false)
+                    setDeleteToast(true)
+                    setTimeout(() => setDeleteToast(false), 3000)
+                  }}
+                  className="flex-1 py-3 bg-red-500 text-white rounded-xl font-medium"
+                >
+                  {t('deleteAccount')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {consentToast && (
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-green-500 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg z-50">
+            ✓ {t('consentSaved')}
+          </div>
+        )}
+
+        {deleteToast && (
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-red-500 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg z-50">
+            {t('deleteAccountSuccess')}
+          </div>
+        )}
       </div>
     )
   }
@@ -4382,6 +4546,13 @@ function EnhancedProfileSettings({ user, onUpdateUser, userPlan, userPoints, onE
           className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
         >
           <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('termsOfServiceTitle')}</span>
+          <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+        </button>
+        <button
+          onClick={() => setShowDataPrivacy(true)}
+          className={`w-full p-4 flex items-center justify-between ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
+        >
+          <span className={`font-medium ${dark ? 'text-gray-200' : 'text-gray-700'}`}>{t('dataPrivacy')}</span>
           <ChevronRightIcon className={`w-5 h-5 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
         </button>
         <button className={`w-full p-4 text-red-500 font-medium ${dark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
