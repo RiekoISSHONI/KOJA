@@ -4547,7 +4547,7 @@ function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment, onCon
                   </div>
                   {post.author.name !== (user?.name || 'You') && (
                     connectedUsers?.has(post.author.name) ? (
-                      <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${dark ? 'bg-gray-700 text-green-400' : 'bg-green-50 text-green-600'}`}>
+                      <span className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium ${dark ? 'bg-gray-700 text-green-400' : 'bg-green-50 text-green-600'}`}>
                         ✓ {t('connected')}
                       </span>
                     ) : (
@@ -4557,7 +4557,7 @@ function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment, onCon
                           setConnectToast(post.author.name)
                           setTimeout(() => setConnectToast(null), 2500)
                         }}
-                        className="px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full text-xs font-semibold hover:shadow-md transition active:scale-95"
+                        className="flex-shrink-0 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full text-xs font-semibold hover:shadow-md transition active:scale-95"
                       >
                         {t('connect')}
                       </button>
