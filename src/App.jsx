@@ -403,6 +403,10 @@ const TRANSLATIONS = {
     communityGuidelines: 'Be respectful and kind to everyone',
     noPostsYet: 'No posts yet',
     beFirstToPost: 'Be the first to share something!',
+    connect: 'Connect',
+    connected: 'Connected',
+    connectSuccess: 'You are now connected!',
+    connectMessage: 'Hey! I saw your post in the community and wanted to connect!',
     justNow: 'just now',
     minutesAgo: 'm ago',
     hoursAgo: 'h ago',
@@ -664,6 +668,10 @@ const TRANSLATIONS = {
     communityGuidelines: '모두에게 존중과 친절을 베풀어주세요',
     noPostsYet: '아직 게시글이 없습니다',
     beFirstToPost: '첫 번째 게시글을 작성해보세요!',
+    connect: '연결하기',
+    connected: '연결됨',
+    connectSuccess: '연결되었습니다!',
+    connectMessage: '안녕하세요! 커뮤니티에서 게시글을 보고 연결하고 싶었어요!',
     justNow: '방금',
     minutesAgo: '분 전',
     hoursAgo: '시간 전',
@@ -925,6 +933,10 @@ const TRANSLATIONS = {
     communityGuidelines: '皆に敬意と優しさを持ちましょう',
     noPostsYet: 'まだ投稿がありません',
     beFirstToPost: '最初の投稿をしましょう！',
+    connect: 'つながる',
+    connected: 'つながり済み',
+    connectSuccess: 'つながりました！',
+    connectMessage: 'こんにちは！コミュニティの投稿を見て、つながりたいと思いました！',
     justNow: 'たった今',
     minutesAgo: '分前',
     hoursAgo: '時間前',
@@ -4425,7 +4437,7 @@ function EmptyState({ userPlan, onExpandSearch }) {
 // COMMUNITY FEED
 // ============================================
 
-function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment }) {
+function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment, onConnectUser, connectedUsers }) {
   const t = useTranslation()
   const { dark } = useTheme()
   const [selectedTopic, setSelectedTopic] = useState('all')
@@ -4434,6 +4446,7 @@ function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment }) {
   const [newPostTopic, setNewPostTopic] = useState('culture')
   const [expandedComments, setExpandedComments] = useState({})
   const [commentText, setCommentText] = useState({})
+  const [connectToast, setConnectToast] = useState(null)
 
   const filteredPosts = selectedTopic === 'all'
     ? posts
@@ -4532,6 +4545,24 @@ function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment }) {
                       <span className={`text-xs ${dark ? 'text-gray-500' : 'text-gray-400'}`}>{t(COMMUNITY_TOPICS.find(tp => tp.id === post.topic)?.labelKey || 'allTopics')}</span>
                     </div>
                   </div>
+                  {post.author.name !== (user?.name || 'You') && (
+                    connectedUsers?.has(post.author.name) ? (
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${dark ? 'bg-gray-700 text-green-400' : 'bg-green-50 text-green-600'}`}>
+                        ✓ {t('connected')}
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          onConnectUser(post.author)
+                          setConnectToast(post.author.name)
+                          setTimeout(() => setConnectToast(null), 2500)
+                        }}
+                        className="px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full text-xs font-semibold hover:shadow-md transition active:scale-95"
+                      >
+                        {t('connect')}
+                      </button>
+                    )
+                  )}
                 </div>
 
                 {/* Post Text */}
@@ -4686,6 +4717,13 @@ function CommunityFeed({ user, posts, onAddPost, onLikePost, onAddComment }) {
           </div>
         </div>
       )}
+
+      {/* Connect toast */}
+      {connectToast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-green-500 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg z-50 animate-bounce-in">
+          ✓ {t('connectSuccess')}
+        </div>
+      )}
     </div>
   )
 }
@@ -4804,6 +4842,7 @@ function AppContent() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
   const [blockedUsers, setBlockedUsers] = useState([])
   const [communityPosts, setCommunityPosts] = useState(SAMPLE_COMMUNITY_POSTS)
+  const [connectedUsers, setConnectedUsers] = useState(new Set())
 
   // Request notification permission on app load
   useEffect(() => {
@@ -4945,6 +4984,24 @@ function AppContent() {
           }
         : p
     ))
+  }
+
+  const handleConnectUser = (author) => {
+    setConnectedUsers(prev => new Set([...prev, author.name]))
+    const newMatchId = Date.now()
+    const newMatch = {
+      id: newMatchId,
+      name: author.name,
+      image: author.image,
+      lastMessage: t('connectMessage'),
+      time: t('justNow'),
+      unread: true,
+    }
+    setMatches(prev => [newMatch, ...prev])
+    setChatMessages(prev => ({
+      ...prev,
+      [newMatchId]: [{ text: t('connectMessage'), sent: true, time: t('justNow'), type: 'text' }],
+    }))
   }
 
   const handleLike = () => {
@@ -5120,6 +5177,8 @@ function AppContent() {
             onAddPost={handleAddPost}
             onLikePost={handleLikePost}
             onAddComment={handleAddComment}
+            onConnectUser={handleConnectUser}
+            connectedUsers={connectedUsers}
           />
         )
       case 'profile':
