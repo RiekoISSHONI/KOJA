@@ -218,6 +218,23 @@ const TRANSLATIONS = {
     game: 'Game',
     gift: 'Gift',
     ideas: 'Ideas',
+    // Voice/Video Call
+    voiceCall: 'Voice Call',
+    videoCall: 'Video Call',
+    calling: 'Calling...',
+    ringing: 'Ringing...',
+    inCall: 'Connected',
+    endCall: 'End Call',
+    mute: 'Mute',
+    unmute: 'Unmute',
+    speaker: 'Speaker',
+    speakerOff: 'Speaker Off',
+    cameraOn: 'Camera On',
+    cameraOff: 'Camera Off',
+    callEnded: 'Call Ended',
+    callDeclined: 'Call Declined',
+    callFeature: 'Call Feature',
+    callRequiresPremium: 'Upgrade to Premium to make voice and video calls',
     sendGift: 'Send a Gift',
     yourPoints: 'Your Points',
     send: 'Send',
@@ -515,6 +532,22 @@ const TRANSLATIONS = {
     game: '게임',
     gift: '선물',
     ideas: '아이디어',
+    voiceCall: '음성 통화',
+    videoCall: '영상 통화',
+    calling: '전화 거는 중...',
+    ringing: '벨이 울리는 중...',
+    inCall: '통화 중',
+    endCall: '통화 종료',
+    mute: '음소거',
+    unmute: '음소거 해제',
+    speaker: '스피커',
+    speakerOff: '스피커 끄기',
+    cameraOn: '카메라 켜기',
+    cameraOff: '카메라 끄기',
+    callEnded: '통화 종료됨',
+    callDeclined: '통화 거절됨',
+    callFeature: '통화 기능',
+    callRequiresPremium: '프리미엄으로 업그레이드하여 음성 및 영상 통화를 이용하세요',
     sendGift: '선물 보내기',
     yourPoints: '내 포인트',
     send: '보내기',
@@ -794,6 +827,22 @@ const TRANSLATIONS = {
     game: 'ゲーム',
     gift: 'ギフト',
     ideas: 'アイデア',
+    voiceCall: '音声通話',
+    videoCall: 'ビデオ通話',
+    calling: '発信中...',
+    ringing: '呼び出し中...',
+    inCall: '通話中',
+    endCall: '通話終了',
+    mute: 'ミュート',
+    unmute: 'ミュート解除',
+    speaker: 'スピーカー',
+    speakerOff: 'スピーカーオフ',
+    cameraOn: 'カメラオン',
+    cameraOff: 'カメラオフ',
+    callEnded: '通話が終了しました',
+    callDeclined: '通話が拒否されました',
+    callFeature: '通話機能',
+    callRequiresPremium: 'プレミアムにアップグレードして音声・ビデオ通話を利用',
     sendGift: 'ギフトを送る',
     yourPoints: 'ポイント',
     send: '送る',
@@ -1609,6 +1658,44 @@ const PlusIcon = ({ className = "w-6 h-6" }) => (
 const MessageBubbleIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+  </svg>
+)
+
+const PhoneIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+  </svg>
+)
+
+const PhoneOffIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.49 8.69 7.49 7 12 7s8.51 1.69 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" />
+  </svg>
+)
+
+const MicIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+  </svg>
+)
+
+const MicOffIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+  </svg>
+)
+
+const SpeakerIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+  </svg>
+)
+
+const VideoCamOffIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1l22 22" />
   </svg>
 )
 
@@ -3144,6 +3231,64 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
   const [autoTranslate, setAutoTranslate] = useState(false)
   const [translatedMessages, setTranslatedMessages] = useState({})
   const [showStarterPrompt, setShowStarterPrompt] = useState(false)
+  // Call states: null | 'calling' | 'ringing' | 'connected' | 'ended'
+  const [callState, setCallState] = useState(null)
+  const [callType, setCallType] = useState(null) // 'voice' | 'video'
+  const [callDuration, setCallDuration] = useState(0)
+  const [isMuted, setIsMuted] = useState(false)
+  const [isSpeaker, setIsSpeaker] = useState(false)
+  const [isCameraOff, setIsCameraOff] = useState(false)
+  const [showCallPremiumPrompt, setShowCallPremiumPrompt] = useState(false)
+  const callTimerRef = useRef(null)
+
+  const startCall = (type) => {
+    if (userPlan === 'free') {
+      setShowCallPremiumPrompt(true)
+      return
+    }
+    setCallType(type)
+    setCallState('calling')
+    setCallDuration(0)
+    setIsMuted(false)
+    setIsSpeaker(false)
+    setIsCameraOff(false)
+    // Simulate ringing after 1s, connected after 3s
+    setTimeout(() => setCallState(prev => prev === 'calling' ? 'ringing' : prev), 1000)
+    setTimeout(() => {
+      setCallState(prev => {
+        if (prev === 'ringing' || prev === 'calling') return 'connected'
+        return prev
+      })
+    }, 3500)
+  }
+
+  const endCall = () => {
+    setCallState('ended')
+    if (callTimerRef.current) clearInterval(callTimerRef.current)
+    setTimeout(() => {
+      setCallState(null)
+      setCallType(null)
+      setCallDuration(0)
+    }, 1500)
+  }
+
+  // Call duration timer
+  useEffect(() => {
+    if (callState === 'connected') {
+      callTimerRef.current = setInterval(() => {
+        setCallDuration(prev => prev + 1)
+      }, 1000)
+    } else {
+      if (callTimerRef.current) clearInterval(callTimerRef.current)
+    }
+    return () => { if (callTimerRef.current) clearInterval(callTimerRef.current) }
+  }, [callState])
+
+  const formatCallTime = (seconds) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0')
+    const s = (seconds % 60).toString().padStart(2, '0')
+    return `${m}:${s}`
+  }
 
   // Show conversation starter prompt after inactivity
   useEffect(() => {
@@ -3204,8 +3349,22 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
         <img src={match.image} alt={match.name} className="w-10 h-10 rounded-full object-cover" />
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900">{match.name}</h3>
-          <p className="text-xs text-green-500">Online</p>
+          <p className="text-xs text-green-500">{t('online')}</p>
         </div>
+        <button
+          onClick={() => startCall('voice')}
+          className="p-2 text-gray-500 hover:text-pink-500 hover:bg-pink-50 rounded-full transition"
+          title={t('voiceCall')}
+        >
+          <PhoneIcon className="w-5 h-5" />
+        </button>
+        <button
+          onClick={() => startCall('video')}
+          className="p-2 text-gray-500 hover:text-pink-500 hover:bg-pink-50 rounded-full transition"
+          title={t('videoCall')}
+        >
+          <VideoIcon className="w-5 h-5" />
+        </button>
         <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-full">
           <CoinIcon className="w-4 h-4" />
           <span className="text-sm font-bold text-yellow-600">{userPoints}</span>
@@ -3359,6 +3518,185 @@ function EnhancedChat({ match, messages, onSendMessage, onBack, userPlan, userPo
           </button>
         </div>
       </div>
+
+      {/* Call Screen Overlay */}
+      {callState && (
+        <div className="fixed inset-0 z-50 flex flex-col">
+          {/* Background */}
+          <div className={`absolute inset-0 ${
+            callType === 'video' && callState === 'connected'
+              ? 'bg-gray-900'
+              : 'bg-gradient-to-b from-pink-600 via-rose-600 to-purple-700'
+          }`} />
+
+          {/* Video preview (simulated) */}
+          {callType === 'video' && callState === 'connected' && !isCameraOff && (
+            <>
+              {/* Remote video (full screen placeholder) */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img src={match.image} alt={match.name} className="w-full h-full object-cover opacity-60" />
+              </div>
+              {/* Local video (small pip) */}
+              <div className="absolute top-20 right-4 w-28 h-40 rounded-2xl bg-gray-800 border-2 border-white/30 overflow-hidden shadow-lg z-10">
+                <div className="w-full h-full flex items-center justify-center text-white/50">
+                  <CameraIcon className="w-8 h-8" />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Call Info */}
+          <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-white">
+            {/* Avatar (show when not in connected video call) */}
+            {!(callType === 'video' && callState === 'connected' && !isCameraOff) && (
+              <div className="mb-6">
+                <div className={`w-32 h-32 rounded-full border-4 border-white/30 overflow-hidden mx-auto ${
+                  callState === 'ringing' ? 'animate-pulse' : ''
+                }`}>
+                  <img src={match.image} alt={match.name} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            )}
+
+            <h2 className="text-2xl font-bold mb-1">{match.name}</h2>
+
+            {/* Call status */}
+            <div className="flex items-center gap-2 mb-2">
+              {callType === 'video' ? (
+                <VideoIcon className="w-4 h-4 text-white/70" />
+              ) : (
+                <PhoneIcon className="w-4 h-4 text-white/70" />
+              )}
+              <p className="text-white/80 text-sm">
+                {callType === 'video' ? t('videoCall') : t('voiceCall')}
+              </p>
+            </div>
+
+            {/* Status text / timer */}
+            {callState === 'calling' && (
+              <p className="text-white/70 text-lg animate-pulse">{t('calling')}</p>
+            )}
+            {callState === 'ringing' && (
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+                <p className="text-white/70 text-lg">{t('ringing')}</p>
+              </div>
+            )}
+            {callState === 'connected' && (
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <p className="text-green-300 text-lg font-mono">{formatCallTime(callDuration)}</p>
+              </div>
+            )}
+            {callState === 'ended' && (
+              <p className="text-white/70 text-lg">{t('callEnded')}</p>
+            )}
+          </div>
+
+          {/* Call Controls */}
+          {callState !== 'ended' && (
+            <div className="relative z-10 pb-12 px-6">
+              <div className="flex justify-center items-center gap-6">
+                {/* Mute */}
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className={`w-14 h-14 rounded-full flex items-center justify-center transition ${
+                    isMuted
+                      ? 'bg-white text-gray-800'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}
+                  title={isMuted ? t('unmute') : t('mute')}
+                >
+                  {isMuted ? <MicOffIcon className="w-6 h-6" /> : <MicIcon className="w-6 h-6" />}
+                </button>
+
+                {/* End Call */}
+                <button
+                  onClick={endCall}
+                  className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition shadow-lg"
+                  title={t('endCall')}
+                >
+                  <PhoneOffIcon className="w-7 h-7 rotate-135" />
+                </button>
+
+                {/* Speaker (voice) / Camera toggle (video) */}
+                {callType === 'voice' ? (
+                  <button
+                    onClick={() => setIsSpeaker(!isSpeaker)}
+                    className={`w-14 h-14 rounded-full flex items-center justify-center transition ${
+                      isSpeaker
+                        ? 'bg-white text-gray-800'
+                        : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                    title={isSpeaker ? t('speakerOff') : t('speaker')}
+                  >
+                    <SpeakerIcon className="w-6 h-6" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setIsCameraOff(!isCameraOff)}
+                    className={`w-14 h-14 rounded-full flex items-center justify-center transition ${
+                      isCameraOff
+                        ? 'bg-white text-gray-800'
+                        : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                    title={isCameraOff ? t('cameraOn') : t('cameraOff')}
+                  >
+                    {isCameraOff ? <VideoCamOffIcon className="w-6 h-6" /> : <VideoIcon className="w-6 h-6" />}
+                  </button>
+                )}
+              </div>
+
+              {/* Control labels */}
+              <div className="flex justify-center items-center gap-6 mt-2">
+                <span className="w-14 text-center text-xs text-white/60">
+                  {isMuted ? t('unmute') : t('mute')}
+                </span>
+                <span className="w-16 text-center text-xs text-white/60">
+                  {t('endCall')}
+                </span>
+                <span className="w-14 text-center text-xs text-white/60">
+                  {callType === 'voice'
+                    ? (isSpeaker ? t('speakerOff') : t('speaker'))
+                    : (isCameraOff ? t('cameraOn') : t('cameraOff'))
+                  }
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Call Premium Prompt */}
+      {showCallPremiumPrompt && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowCallPremiumPrompt(false)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center" onClick={e => e.stopPropagation()}>
+            <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <PhoneIcon className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{t('callFeature')}</h3>
+            <p className="text-gray-600 text-sm mb-6">{t('callRequiresPremium')}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowCallPremiumPrompt(false)}
+                className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-full font-medium hover:bg-gray-200 transition"
+              >
+                {t('maybeLater')}
+              </button>
+              <button
+                onClick={() => setShowCallPremiumPrompt(false)}
+                className="flex-1 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-medium hover:shadow-lg transition"
+              >
+                {t('upgradePremium')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modals */}
       {showGifts && (
