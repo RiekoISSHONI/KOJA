@@ -392,6 +392,30 @@ const TRANSLATIONS = {
     viewPrivacy: 'View Privacy Policy',
     close: 'Close',
     mustBe18: 'You must be at least 18 years old to use KONJA',
+    // Age Verification
+    ageVerification: 'Age Verification',
+    ageVerificationDesc: 'We are required by law to verify your age. Please submit one of the following documents.',
+    ageVerificationRequired: 'Age verification is required by the Internet Dating Site Regulation Act (Japan) and Youth Protection Act (Korea).',
+    selectDocument: 'Select Document Type',
+    driversLicense: "Driver's License",
+    passport: 'Passport',
+    healthInsuranceCard: 'Health Insurance Card',
+    mynumberCard: 'My Number Card (マイナンバーカード)',
+    nationalId: 'National ID Card',
+    residenceCard: 'Residence Card',
+    uploadDocument: 'Upload Document Photo',
+    tapToUpload: 'Tap to take a photo or upload',
+    documentUploaded: 'Document uploaded',
+    changeDocument: 'Change',
+    verifyingAge: 'Verifying your identity...',
+    ageVerified: 'Age verified successfully!',
+    ageVerificationFailed: 'Verification failed. Please try again with a valid document.',
+    ageVerificationNote: 'Your document is used only for age verification. We do not store the full document image — only the verification result is recorded.',
+    skipForNow: 'Skip for now',
+    ageVerificationSkipped: 'You can verify later in Settings. Some features may be limited until verified.',
+    verificationPending: 'Verification Pending',
+    verificationPendingDesc: 'Your age verification is being reviewed. This usually takes a few minutes.',
+    verified: 'Verified',
     lookingForLabel: 'Looking for',
     learningLanguage: 'Learning',
     wantsToLearn: 'Language to Learn',
@@ -690,6 +714,29 @@ const TRANSLATIONS = {
     viewPrivacy: '개인정보처리방침 보기',
     close: '닫기',
     mustBe18: 'KONJA를 사용하려면 만 18세 이상이어야 합니다',
+    ageVerification: '연령 인증',
+    ageVerificationDesc: '법률에 따라 연령 확인이 필요합니다. 아래 서류 중 하나를 제출해 주세요.',
+    ageVerificationRequired: '인터넷 이성소개사업 규제법(일본) 및 청소년보호법(한국)에 따라 연령 인증이 필요합니다.',
+    selectDocument: '서류 종류 선택',
+    driversLicense: '운전면허증',
+    passport: '여권',
+    healthInsuranceCard: '건강보험증',
+    mynumberCard: '마이넘버 카드',
+    nationalId: '주민등록증',
+    residenceCard: '외국인등록증',
+    uploadDocument: '서류 사진 업로드',
+    tapToUpload: '사진을 찍거나 업로드하세요',
+    documentUploaded: '서류가 업로드되었습니다',
+    changeDocument: '변경',
+    verifyingAge: '신원 확인 중...',
+    ageVerified: '연령 인증이 완료되었습니다!',
+    ageVerificationFailed: '인증에 실패했습니다. 유효한 서류로 다시 시도해 주세요.',
+    ageVerificationNote: '서류는 연령 확인 목적으로만 사용됩니다. 서류 이미지 전체를 저장하지 않으며, 인증 결과만 기록됩니다.',
+    skipForNow: '나중에 하기',
+    ageVerificationSkipped: '설정에서 나중에 인증할 수 있습니다. 인증 전까지 일부 기능이 제한될 수 있습니다.',
+    verificationPending: '인증 대기 중',
+    verificationPendingDesc: '연령 인증이 검토 중입니다. 보통 몇 분 정도 소요됩니다.',
+    verified: '인증 완료',
     lookingForLabel: '목적',
     learningLanguage: '학습 중',
     wantsToLearn: '배우고 싶은 언어',
@@ -985,6 +1032,29 @@ const TRANSLATIONS = {
     viewPrivacy: 'プライバシーポリシーを見る',
     close: '閉じる',
     mustBe18: 'KONJAを利用するには18歳以上である必要があります',
+    ageVerification: '年齢確認',
+    ageVerificationDesc: '法律により年齢確認が必要です。以下の書類のいずれかをご提出ください。',
+    ageVerificationRequired: '出会い系サイト規制法（日本）および青少年保護法（韓国）により年齢確認が義務付けられています。',
+    selectDocument: '書類の種類を選択',
+    driversLicense: '運転免許証',
+    passport: 'パスポート',
+    healthInsuranceCard: '健康保険証',
+    mynumberCard: 'マイナンバーカード',
+    nationalId: '国民身分証明書',
+    residenceCard: '在留カード',
+    uploadDocument: '書類の写真をアップロード',
+    tapToUpload: '写真を撮影またはアップロード',
+    documentUploaded: '書類がアップロードされました',
+    changeDocument: '変更',
+    verifyingAge: '本人確認中...',
+    ageVerified: '年齢確認が完了しました！',
+    ageVerificationFailed: '確認に失敗しました。有効な書類で再度お試しください。',
+    ageVerificationNote: '書類は年齢確認の目的にのみ使用されます。書類画像全体は保存せず、確認結果のみ記録されます。',
+    skipForNow: '後で行う',
+    ageVerificationSkipped: '設定から後で認証できます。認証完了まで一部の機能が制限される場合があります。',
+    verificationPending: '確認待ち',
+    verificationPendingDesc: '年齢確認を審査中です。通常数分で完了します。',
+    verified: '確認済み',
     lookingForLabel: '目的',
     learningLanguage: '学習中',
     wantsToLearn: '学びたい言語',
@@ -2351,6 +2421,244 @@ function SignUpStep3({ data, onUpdate, onNext, onBack }) {
   )
 }
 
+function AgeVerificationStep({ data, onUpdate, onNext, onBack, onSkip }) {
+  const t = useTranslation()
+  const { language } = useLanguage()
+  const [selectedDocType, setSelectedDocType] = useState(data.ageVerDocType || null)
+  const [documentImage, setDocumentImage] = useState(data.ageVerDocImage || null)
+  const [verificationStatus, setVerificationStatus] = useState(data.ageVerified ? 'verified' : null) // null | 'uploading' | 'verifying' | 'verified' | 'failed'
+  const [showSkipConfirm, setShowSkipConfirm] = useState(false)
+  const fileInputRef = useRef(null)
+
+  const documentTypes = [
+    { id: 'drivers_license', label: t('driversLicense'), icon: '🪪', regions: ['all'] },
+    { id: 'passport', label: t('passport'), icon: '📘', regions: ['all'] },
+    { id: 'health_insurance', label: t('healthInsuranceCard'), icon: '💳', regions: ['ja'] },
+    { id: 'mynumber', label: t('mynumberCard'), icon: '🏷️', regions: ['ja'] },
+    { id: 'national_id', label: t('nationalId'), icon: '🪪', regions: ['ko', 'en'] },
+    { id: 'residence_card', label: t('residenceCard'), icon: '📄', regions: ['ja'] },
+  ]
+
+  // Filter document types by language/region
+  const filteredDocTypes = documentTypes.filter(d =>
+    d.regions.includes('all') || d.regions.includes(language)
+  )
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (ev) => {
+        setDocumentImage(ev.target.result)
+        onUpdate({ ageVerDocImage: ev.target.result })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleVerify = () => {
+    if (!selectedDocType || !documentImage) return
+    setVerificationStatus('verifying')
+    onUpdate({ ageVerDocType: selectedDocType })
+
+    // Simulate verification process (in production, this would call a backend API)
+    setTimeout(() => {
+      setVerificationStatus('verified')
+      onUpdate({ ageVerified: true, ageVerDocType: selectedDocType })
+    }, 2500)
+  }
+
+  const handleSkip = () => {
+    setShowSkipConfirm(true)
+  }
+
+  const confirmSkip = () => {
+    onUpdate({ ageVerified: false, ageVerSkipped: true })
+    onNext()
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-md mx-auto">
+        <button onClick={onBack} className="mb-4 text-gray-600 hover:text-gray-800">
+          <BackIcon />
+        </button>
+
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">4</div>
+            <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-4/5 bg-pink-500 rounded"></div></div>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">{t('ageVerification')}</h1>
+          <p className="text-gray-500 mt-1">{t('ageVerificationDesc')}</p>
+        </div>
+
+        {/* Legal requirement notice */}
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <div className="flex items-start gap-3">
+            <ShieldIcon className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <p className="text-sm text-amber-800">{t('ageVerificationRequired')}</p>
+          </div>
+        </div>
+
+        {verificationStatus === 'verified' ? (
+          /* Verified state */
+          <div className="text-center py-8">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckIcon className="w-10 h-10 text-green-600" />
+            </div>
+            <h3 className="text-xl font-bold text-green-700 mb-2">{t('ageVerified')}</h3>
+            <p className="text-gray-500 text-sm mb-8">{t('ageVerificationNote')}</p>
+            <button
+              onClick={onNext}
+              className="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-bold text-lg hover:shadow-lg transition"
+            >
+              {t('continue')}
+            </button>
+          </div>
+        ) : verificationStatus === 'verifying' ? (
+          /* Verifying state */
+          <div className="text-center py-12">
+            <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mx-auto mb-6" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('verifyingAge')}</h3>
+            <p className="text-gray-500 text-sm">{t('verificationPendingDesc')}</p>
+          </div>
+        ) : (
+          /* Selection & Upload state */
+          <div className="space-y-6">
+            {/* Document type selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">{t('selectDocument')}</label>
+              <div className="space-y-2">
+                {filteredDocTypes.map((doc) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => {
+                      setSelectedDocType(doc.id)
+                      onUpdate({ ageVerDocType: doc.id })
+                    }}
+                    className={`w-full p-3 rounded-xl border-2 flex items-center gap-3 text-left transition ${
+                      selectedDocType === doc.id
+                        ? 'border-pink-500 bg-pink-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <span className="text-2xl">{doc.icon}</span>
+                    <span className={`font-medium ${selectedDocType === doc.id ? 'text-pink-600' : 'text-gray-700'}`}>
+                      {doc.label}
+                    </span>
+                    {selectedDocType === doc.id && (
+                      <CheckIcon className="w-5 h-5 text-pink-500 ml-auto" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Document upload */}
+            {selectedDocType && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">{t('uploadDocument')}</label>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  capture="environment"
+                  className="hidden"
+                  onChange={handleFileSelect}
+                />
+                {documentImage ? (
+                  <div className="relative">
+                    <div className="w-full h-48 rounded-xl overflow-hidden border-2 border-green-300 bg-gray-100">
+                      <img src={documentImage} alt="Document" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center gap-2 text-green-600">
+                        <CheckIcon className="w-4 h-4" />
+                        <span className="text-sm font-medium">{t('documentUploaded')}</span>
+                      </div>
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-sm text-pink-500 font-medium"
+                      >
+                        {t('changeDocument')}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-3 text-gray-400 hover:border-pink-300 hover:text-pink-400 transition"
+                  >
+                    <CameraIcon className="w-10 h-10" />
+                    <span className="text-sm font-medium">{t('tapToUpload')}</span>
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Privacy note */}
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
+              <div className="flex items-start gap-2">
+                <ShieldIcon className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-blue-700">{t('ageVerificationNote')}</p>
+              </div>
+            </div>
+
+            {/* Verify button */}
+            <button
+              onClick={handleVerify}
+              disabled={!selectedDocType || !documentImage}
+              className={`w-full py-4 rounded-full font-bold text-lg transition ${
+                selectedDocType && documentImage
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-lg'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              {t('verifyToComplete')}
+            </button>
+
+            {/* Skip option */}
+            <button
+              onClick={handleSkip}
+              className="w-full py-3 text-gray-500 text-sm font-medium hover:text-gray-700 transition"
+            >
+              {t('skipForNow')}
+            </button>
+          </div>
+        )}
+
+        {/* Skip confirmation modal */}
+        {showSkipConfirm && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowSkipConfirm(false)}>
+            <div className="bg-white rounded-2xl p-6 max-w-sm w-full" onClick={e => e.stopPropagation()}>
+              <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ShieldIcon className="w-7 h-7 text-amber-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 text-center mb-2">{t('ageVerification')}</h3>
+              <p className="text-gray-600 text-sm text-center mb-6">{t('ageVerificationSkipped')}</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowSkipConfirm(false)}
+                  className="flex-1 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-medium"
+                >
+                  {t('verifyToComplete')}
+                </button>
+                <button
+                  onClick={confirmSkip}
+                  className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-full font-medium hover:bg-gray-200 transition"
+                >
+                  {t('skipForNow')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function LegalModal({ title, content, onClose }) {
   const t = useTranslation()
   return (
@@ -2389,7 +2697,7 @@ function SignUpStep4({ data, onUpdate, onComplete, onBack }) {
 
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">4</div>
+            <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm font-bold">5</div>
             <div className="flex-1 h-1 bg-gray-200 rounded"><div className="h-full w-full bg-pink-500 rounded"></div></div>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">{t('termsPreferences')}</h1>
@@ -5427,6 +5735,7 @@ function AppContent() {
       image: signUpData.profileImage,
       profileVideo: signUpData.profileVideo || null,
       verified: signUpData.faceVerified || false,
+      ageVerified: signUpData.ageVerified || false,
       age: signUpData.dateOfBirth ? new Date().getFullYear() - new Date(signUpData.dateOfBirth).getFullYear() : 25,
       likes: 0,
       matches: 0,
@@ -5617,11 +5926,21 @@ function AppContent() {
         )
       case 4:
         return (
+          <AgeVerificationStep
+            data={signUpData}
+            onUpdate={handleSignUpUpdate}
+            onNext={() => setSignUpStep(5)}
+            onBack={() => setSignUpStep(3)}
+            onSkip={() => setSignUpStep(5)}
+          />
+        )
+      case 5:
+        return (
           <SignUpStep4
             data={signUpData}
             onUpdate={handleSignUpUpdate}
             onComplete={handleSignUpComplete}
-            onBack={() => setSignUpStep(3)}
+            onBack={() => setSignUpStep(4)}
           />
         )
       default:
